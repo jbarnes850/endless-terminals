@@ -1,0 +1,1120 @@
+{
+  "source_tasks_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220",
+  "harbor_tasks_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks",
+  "prime_env_dir": "/Users/jarrodbarnes/endless-terminals/environments/endless_behavior_trace",
+  "num_tasks": 27,
+  "num_skipped": 184,
+  "rows": [
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_005b2336",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_005b2336",
+      "task_name": "endless-terminals/task_000000_005b2336",
+      "behavior_card_id": "old_state_new_state_confusion",
+      "capability": "stateful_migration_verification"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_051e87a8",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_051e87a8",
+      "task_name": "endless-terminals/task_000000_051e87a8",
+      "behavior_card_id": "exit_code_false_success",
+      "capability": "verification_directed_action"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0b878d30",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_0b878d30",
+      "task_name": "endless-terminals/task_000000_0b878d30",
+      "behavior_card_id": "old_state_new_state_confusion",
+      "capability": "stateful_migration_verification"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0d935e4c",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_0d935e4c",
+      "task_name": "endless-terminals/task_000000_0d935e4c",
+      "behavior_card_id": "old_state_new_state_confusion",
+      "capability": "stateful_migration_verification"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_15f45ffc",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_15f45ffc",
+      "task_name": "endless-terminals/task_000000_15f45ffc",
+      "behavior_card_id": "premature_stop_on_sparse_feedback",
+      "capability": "stop_continue_calibration"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_188f711d",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_188f711d",
+      "task_name": "endless-terminals/task_000000_188f711d",
+      "behavior_card_id": "premature_stop_on_sparse_feedback",
+      "capability": "stop_continue_calibration"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1a5db8a0",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_1a5db8a0",
+      "task_name": "endless-terminals/task_000000_1a5db8a0",
+      "behavior_card_id": "wander_loop_without_convergence",
+      "capability": "bounded_search_discipline"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_298a8c6c",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_298a8c6c",
+      "task_name": "endless-terminals/task_000000_298a8c6c",
+      "behavior_card_id": "repeat_loop_after_dead_end",
+      "capability": "recognition_to_action_coupling"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_29c27adb",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_29c27adb",
+      "task_name": "endless-terminals/task_000000_29c27adb",
+      "behavior_card_id": "exit_code_false_success",
+      "capability": "verification_directed_action"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2f981dfe",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_2f981dfe",
+      "task_name": "endless-terminals/task_000000_2f981dfe",
+      "behavior_card_id": "repeat_loop_after_dead_end",
+      "capability": "recognition_to_action_coupling"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_31683e92",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_31683e92",
+      "task_name": "endless-terminals/task_000000_31683e92",
+      "behavior_card_id": "wander_loop_without_convergence",
+      "capability": "bounded_search_discipline"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_32f525da",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_32f525da",
+      "task_name": "endless-terminals/task_000000_32f525da",
+      "behavior_card_id": "partial_progress_stall",
+      "capability": "long_horizon_progress_ledger"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_34c8c26c",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_34c8c26c",
+      "task_name": "endless-terminals/task_000000_34c8c26c",
+      "behavior_card_id": "premature_stop_on_sparse_feedback",
+      "capability": "stop_continue_calibration"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_34de63db",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_34de63db",
+      "task_name": "endless-terminals/task_000000_34de63db",
+      "behavior_card_id": "wander_loop_without_convergence",
+      "capability": "bounded_search_discipline"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_350705a9",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_350705a9",
+      "task_name": "endless-terminals/task_000000_350705a9",
+      "behavior_card_id": "partial_progress_stall",
+      "capability": "long_horizon_progress_ledger"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_452af247",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_452af247",
+      "task_name": "endless-terminals/task_000000_452af247",
+      "behavior_card_id": "exit_code_false_success",
+      "capability": "verification_directed_action"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_46480af3",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_46480af3",
+      "task_name": "endless-terminals/task_000000_46480af3",
+      "behavior_card_id": "partial_progress_stall",
+      "capability": "long_horizon_progress_ledger"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4a672562",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_4a672562",
+      "task_name": "endless-terminals/task_000000_4a672562",
+      "behavior_card_id": "repeat_loop_after_dead_end",
+      "capability": "recognition_to_action_coupling"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4bfbc7c1",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_4bfbc7c1",
+      "task_name": "endless-terminals/task_000000_4bfbc7c1",
+      "behavior_card_id": "old_state_new_state_confusion",
+      "capability": "stateful_migration_verification"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4d4b4d96",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_4d4b4d96",
+      "task_name": "endless-terminals/task_000000_4d4b4d96",
+      "behavior_card_id": "partial_progress_stall",
+      "capability": "long_horizon_progress_ledger"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_554491e1",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_554491e1",
+      "task_name": "endless-terminals/task_000000_554491e1",
+      "behavior_card_id": "exit_code_false_success",
+      "capability": "verification_directed_action"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_57449925",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_57449925",
+      "task_name": "endless-terminals/task_000000_57449925",
+      "behavior_card_id": "premature_stop_on_sparse_feedback",
+      "capability": "stop_continue_calibration"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_64cbca3a",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_64cbca3a",
+      "task_name": "endless-terminals/task_000000_64cbca3a",
+      "behavior_card_id": "wander_loop_without_convergence",
+      "capability": "bounded_search_discipline"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_671d7ed0",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_671d7ed0",
+      "task_name": "endless-terminals/task_000000_671d7ed0",
+      "behavior_card_id": "old_state_new_state_confusion",
+      "capability": "stateful_migration_verification"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6a7f56a9",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_6a7f56a9",
+      "task_name": "endless-terminals/task_000000_6a7f56a9",
+      "behavior_card_id": "exit_code_false_success",
+      "capability": "verification_directed_action"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6cdd0caf",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_6cdd0caf",
+      "task_name": "endless-terminals/task_000000_6cdd0caf",
+      "behavior_card_id": "premature_stop_on_sparse_feedback",
+      "capability": "stop_continue_calibration"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_71d8c699",
+      "harbor_task_dir": "/Users/jarrodbarnes/endless-terminals/exports/behavior_trace_20260529_220/harbor_tasks/task_000000_71d8c699",
+      "task_name": "endless-terminals/task_000000_71d8c699",
+      "behavior_card_id": "exit_code_false_success",
+      "capability": "verification_directed_action"
+    }
+  ],
+  "skipped": [
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_00d84b31",
+      "task": "task_000000_00d84b31",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_04fa55ed",
+      "task": "task_000000_04fa55ed",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_04fbe02e",
+      "task": "task_000000_04fbe02e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_06e7e6da",
+      "task": "task_000000_06e7e6da",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0b8e4cfc",
+      "task": "task_000000_0b8e4cfc",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0bf8068f",
+      "task": "task_000000_0bf8068f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0c6d51b2",
+      "task": "task_000000_0c6d51b2",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0c82de86",
+      "task": "task_000000_0c82de86",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0ca8ca33",
+      "task": "task_000000_0ca8ca33",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0d003e76",
+      "task": "task_000000_0d003e76",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_109513ea",
+      "task": "task_000000_109513ea",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1204477f",
+      "task": "task_000000_1204477f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_14eeb2f3",
+      "task": "task_000000_14eeb2f3",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1727d6aa",
+      "task": "task_000000_1727d6aa",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1a36dbe3",
+      "task": "task_000000_1a36dbe3",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1bc83c53",
+      "task": "task_000000_1bc83c53",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1c344846",
+      "task": "task_000000_1c344846",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1c6160cc",
+      "task": "task_000000_1c6160cc",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1ec7b86b",
+      "task": "task_000000_1ec7b86b",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_23e293f4",
+      "task": "task_000000_23e293f4",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_24f4d533",
+      "task": "task_000000_24f4d533",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_25d011ed",
+      "task": "task_000000_25d011ed",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_25fdf42d",
+      "task": "task_000000_25fdf42d",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_26a745ef",
+      "task": "task_000000_26a745ef",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_28a063f2",
+      "task": "task_000000_28a063f2",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2ce208c5",
+      "task": "task_000000_2ce208c5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2d8f7eba",
+      "task": "task_000000_2d8f7eba",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2dae79c0",
+      "task": "task_000000_2dae79c0",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2ed06439",
+      "task": "task_000000_2ed06439",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2f832631",
+      "task": "task_000000_2f832631",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_31c4df2c",
+      "task": "task_000000_31c4df2c",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_324ca89d",
+      "task": "task_000000_324ca89d",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_32ec5d7e",
+      "task": "task_000000_32ec5d7e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_338da4ff",
+      "task": "task_000000_338da4ff",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_364b45f5",
+      "task": "task_000000_364b45f5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_36fd139c",
+      "task": "task_000000_36fd139c",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_38b4ab1c",
+      "task": "task_000000_38b4ab1c",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_39d8d520",
+      "task": "task_000000_39d8d520",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_3a586b6e",
+      "task": "task_000000_3a586b6e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_3cddf5f3",
+      "task": "task_000000_3cddf5f3",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_3ee84ebf",
+      "task": "task_000000_3ee84ebf",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_3ffec157",
+      "task": "task_000000_3ffec157",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_40cce804",
+      "task": "task_000000_40cce804",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_41252c43",
+      "task": "task_000000_41252c43",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_418dbc71",
+      "task": "task_000000_418dbc71",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_44c1b8e1",
+      "task": "task_000000_44c1b8e1",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4621cb64",
+      "task": "task_000000_4621cb64",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4b16e54f",
+      "task": "task_000000_4b16e54f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4d5f432c",
+      "task": "task_000000_4d5f432c",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4ebec2f5",
+      "task": "task_000000_4ebec2f5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_52bc6441",
+      "task": "task_000000_52bc6441",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_5329d40b",
+      "task": "task_000000_5329d40b",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_54b75342",
+      "task": "task_000000_54b75342",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_554f90d5",
+      "task": "task_000000_554f90d5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_5560492f",
+      "task": "task_000000_5560492f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_592b7753",
+      "task": "task_000000_592b7753",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_5944da0e",
+      "task": "task_000000_5944da0e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_59fd427e",
+      "task": "task_000000_59fd427e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_60798420",
+      "task": "task_000000_60798420",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_62abe1d9",
+      "task": "task_000000_62abe1d9",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_63fb87a7",
+      "task": "task_000000_63fb87a7",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_661fbb60",
+      "task": "task_000000_661fbb60",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_66f9e0b3",
+      "task": "task_000000_66f9e0b3",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6aa11471",
+      "task": "task_000000_6aa11471",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6ae9cdc5",
+      "task": "task_000000_6ae9cdc5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6c778e5c",
+      "task": "task_000000_6c778e5c",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6d4ea2cf",
+      "task": "task_000000_6d4ea2cf",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6d7417f0",
+      "task": "task_000000_6d7417f0",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6f3e2994",
+      "task": "task_000000_6f3e2994",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6f67274e",
+      "task": "task_000000_6f67274e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7155fab9",
+      "task": "task_000000_7155fab9",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_734ea684",
+      "task": "task_000000_734ea684",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_75299fb3",
+      "task": "task_000000_75299fb3",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_76cf5761",
+      "task": "task_000000_76cf5761",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_76e224a9",
+      "task": "task_000000_76e224a9",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_78845435",
+      "task": "task_000000_78845435",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_79db7b27",
+      "task": "task_000000_79db7b27",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7a2277d5",
+      "task": "task_000000_7a2277d5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7b1833a3",
+      "task": "task_000000_7b1833a3",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7c8d0454",
+      "task": "task_000000_7c8d0454",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7ca55cbd",
+      "task": "task_000000_7ca55cbd",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7f854949",
+      "task": "task_000000_7f854949",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7f9c6265",
+      "task": "task_000000_7f9c6265",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_82725f10",
+      "task": "task_000000_82725f10",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_83c0037f",
+      "task": "task_000000_83c0037f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_83d7fcf2",
+      "task": "task_000000_83d7fcf2",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_83ee3141",
+      "task": "task_000000_83ee3141",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_846f1173",
+      "task": "task_000000_846f1173",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_84febbe5",
+      "task": "task_000000_84febbe5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_850e46fc",
+      "task": "task_000000_850e46fc",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_86569e52",
+      "task": "task_000000_86569e52",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_86cd9340",
+      "task": "task_000000_86cd9340",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_893b1954",
+      "task": "task_000000_893b1954",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_8f54a42a",
+      "task": "task_000000_8f54a42a",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_91423cc4",
+      "task": "task_000000_91423cc4",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_92be8534",
+      "task": "task_000000_92be8534",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_93bd9349",
+      "task": "task_000000_93bd9349",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_960e6afb",
+      "task": "task_000000_960e6afb",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_989f961f",
+      "task": "task_000000_989f961f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_99b3a58d",
+      "task": "task_000000_99b3a58d",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9b519f6e",
+      "task": "task_000000_9b519f6e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9c5803ad",
+      "task": "task_000000_9c5803ad",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9d8cffc0",
+      "task": "task_000000_9d8cffc0",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9da6503e",
+      "task": "task_000000_9da6503e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9dcd1056",
+      "task": "task_000000_9dcd1056",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9fb817d5",
+      "task": "task_000000_9fb817d5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9feaaa5a",
+      "task": "task_000000_9feaaa5a",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a0a10eb4",
+      "task": "task_000000_a0a10eb4",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a0db107b",
+      "task": "task_000000_a0db107b",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a102ed6e",
+      "task": "task_000000_a102ed6e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a625ca90",
+      "task": "task_000000_a625ca90",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a6711cc3",
+      "task": "task_000000_a6711cc3",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a849406a",
+      "task": "task_000000_a849406a",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a8fe201f",
+      "task": "task_000000_a8fe201f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ac89ceb5",
+      "task": "task_000000_ac89ceb5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_adf68965",
+      "task": "task_000000_adf68965",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ae564bc2",
+      "task": "task_000000_ae564bc2",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_b3456819",
+      "task": "task_000000_b3456819",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_b673d297",
+      "task": "task_000000_b673d297",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_b8632363",
+      "task": "task_000000_b8632363",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ba123473",
+      "task": "task_000000_ba123473",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bac70f03",
+      "task": "task_000000_bac70f03",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bb124e67",
+      "task": "task_000000_bb124e67",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bb5dd230",
+      "task": "task_000000_bb5dd230",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bcc6c86b",
+      "task": "task_000000_bcc6c86b",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bcee2bc8",
+      "task": "task_000000_bcee2bc8",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bcf756be",
+      "task": "task_000000_bcf756be",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_be93c106",
+      "task": "task_000000_be93c106",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_c446b8d7",
+      "task": "task_000000_c446b8d7",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_c5fbd55d",
+      "task": "task_000000_c5fbd55d",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_c72481a6",
+      "task": "task_000000_c72481a6",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_c9e762df",
+      "task": "task_000000_c9e762df",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_cb380b9f",
+      "task": "task_000000_cb380b9f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ccf7c09b",
+      "task": "task_000000_ccf7c09b",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_cd6c175f",
+      "task": "task_000000_cd6c175f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_cd7732bb",
+      "task": "task_000000_cd7732bb",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_cde4f19f",
+      "task": "task_000000_cde4f19f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ce46042f",
+      "task": "task_000000_ce46042f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d1ac82ca",
+      "task": "task_000000_d1ac82ca",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d224e858",
+      "task": "task_000000_d224e858",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d2cba211",
+      "task": "task_000000_d2cba211",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d3dcd6f9",
+      "task": "task_000000_d3dcd6f9",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d43988c8",
+      "task": "task_000000_d43988c8",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d4c7ad97",
+      "task": "task_000000_d4c7ad97",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d4cd58fc",
+      "task": "task_000000_d4cd58fc",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d59f056f",
+      "task": "task_000000_d59f056f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d7708cd5",
+      "task": "task_000000_d7708cd5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d826b1cf",
+      "task": "task_000000_d826b1cf",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d86e29b8",
+      "task": "task_000000_d86e29b8",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d937d2d1",
+      "task": "task_000000_d937d2d1",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d93b2abe",
+      "task": "task_000000_d93b2abe",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d9860f90",
+      "task": "task_000000_d9860f90",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d9a32e8f",
+      "task": "task_000000_d9a32e8f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_dbe3df21",
+      "task": "task_000000_dbe3df21",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_dc9a8391",
+      "task": "task_000000_dc9a8391",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_dd27ce78",
+      "task": "task_000000_dd27ce78",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_defbccf8",
+      "task": "task_000000_defbccf8",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_df88b26b",
+      "task": "task_000000_df88b26b",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_dfaed52c",
+      "task": "task_000000_dfaed52c",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e178396d",
+      "task": "task_000000_e178396d",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e3efafcd",
+      "task": "task_000000_e3efafcd",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e56f2c99",
+      "task": "task_000000_e56f2c99",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e5b91d2e",
+      "task": "task_000000_e5b91d2e",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e5f66a87",
+      "task": "task_000000_e5f66a87",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e67375b9",
+      "task": "task_000000_e67375b9",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e69612dc",
+      "task": "task_000000_e69612dc",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e69ed00c",
+      "task": "task_000000_e69ed00c",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e78001e5",
+      "task": "task_000000_e78001e5",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e8d33282",
+      "task": "task_000000_e8d33282",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ec9e3257",
+      "task": "task_000000_ec9e3257",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f18387c2",
+      "task": "task_000000_f18387c2",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f1c86268",
+      "task": "task_000000_f1c86268",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f315df68",
+      "task": "task_000000_f315df68",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f378f48b",
+      "task": "task_000000_f378f48b",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f39ed43d",
+      "task": "task_000000_f39ed43d",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f3c8f023",
+      "task": "task_000000_f3c8f023",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f4767e2c",
+      "task": "task_000000_f4767e2c",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f632bb3f",
+      "task": "task_000000_f632bb3f",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f6cd7cf7",
+      "task": "task_000000_f6cd7cf7",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f9ce86ec",
+      "task": "task_000000_f9ce86ec",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_fa8dc807",
+      "task": "task_000000_fa8dc807",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_fd337682",
+      "task": "task_000000_fd337682",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_fe346838",
+      "task": "task_000000_fe346838",
+      "reason": "not_build_initial_pass_eligible"
+    },
+    {
+      "source_task_dir": "/Users/jarrodbarnes/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ff471875",
+      "task": "task_000000_ff471875",
+      "reason": "not_build_initial_pass_eligible"
+    }
+  ]
+}
