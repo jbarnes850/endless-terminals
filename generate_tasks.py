@@ -7,9 +7,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 import uuid
-from pathlib import Path
-from typing import Optional, Tuple, Dict, Any, List
-import asyncio
 
 from tqdm import tqdm
 
@@ -36,6 +33,9 @@ class PipelineConfig:
     solution_temperature: float = 1.0
     parallel_jobs: int = 1
     verbose: bool = False
+    behavior_conditioned: bool = False
+    behavior_seed: Optional[int] = None
+    skip_def_build_test: bool = False
 
 
 def _safe_write_text(path: Path, content: str) -> None:
@@ -103,6 +103,8 @@ def _generate_batch(cfg: AsyncBatchConfig, batch_count: int) -> List[Optional[Pa
         temperature=cfg.task_temperature,
         max_tokens=cfg.max_tokens,
         max_concurrency=cfg.max_concurrency,
+        behavior_conditioned=cfg.behavior_conditioned,
+        behavior_seed=cfg.behavior_seed,
     )
 
     if not task_templates:
@@ -111,6 +113,13 @@ def _generate_batch(cfg: AsyncBatchConfig, batch_count: int) -> List[Optional[Pa
 
     descriptions: List[str] = [t.get("description", "").strip() for t in task_templates]
     truths: List[str] = [t.get("truth", "").strip() for t in task_templates]
+    template_metadata: List[Dict[str, Any]] = [
+        {
+            "generation_mode": t.get("generation_mode", "llm_funnel"),
+            "behavior_card": t.get("behavior_card"),
+        }
+        for t in task_templates
+    ]
 
 
     # Filter out invalid entries early
@@ -122,6 +131,7 @@ def _generate_batch(cfg: AsyncBatchConfig, batch_count: int) -> List[Optional[Pa
 
     descriptions = [descriptions[i] for i in valid_indices]
     truths = [truths[i] for i in valid_indices]
+    template_metadata = [template_metadata[i] for i in valid_indices]
 
     print(f"Task templates generated: {len(descriptions)}")
 
@@ -139,6 +149,7 @@ def _generate_batch(cfg: AsyncBatchConfig, batch_count: int) -> List[Optional[Pa
     valid_indices = [i for i, test in enumerate(init_tests) if test]
     descriptions = [descriptions[i] for i in valid_indices]
     truths = [truths[i] for i in valid_indices]
+    template_metadata = [template_metadata[i] for i in valid_indices]
     init_tests = [init_tests[i] for i in valid_indices]
 
     print(f"Generated {len(init_tests)} initial tests")
@@ -157,6 +168,7 @@ def _generate_batch(cfg: AsyncBatchConfig, batch_count: int) -> List[Optional[Pa
     valid_indices = [i for i, test in enumerate(final_tests) if test]
     descriptions = [descriptions[i] for i in valid_indices]
     truths = [truths[i] for i in valid_indices]
+    template_metadata = [template_metadata[i] for i in valid_indices]
     init_tests = [init_tests[i] for i in valid_indices]
     final_tests = [final_tests[i] for i in valid_indices]
 
@@ -169,11 +181,13 @@ def _generate_batch(cfg: AsyncBatchConfig, batch_count: int) -> List[Optional[Pa
         temperature=cfg.test_temperature,
         max_tokens=cfg.max_tokens,
         max_concurrency=min(64, cfg.max_concurrency),
+        build_test=not cfg.skip_def_build_test,
     )
 
     valid_indices = [i for i, def_text in enumerate(def_candidates) if def_text]
     descriptions = [descriptions[i] for i in valid_indices]
     truths = [truths[i] for i in valid_indices]
+    template_metadata = [template_metadata[i] for i in valid_indices]
     init_tests = [init_tests[i] for i in valid_indices]
     final_tests = [final_tests[i] for i in valid_indices]
     def_candidates = [def_candidates[i] for i in valid_indices]
@@ -188,13 +202,23 @@ def _generate_batch(cfg: AsyncBatchConfig, batch_count: int) -> List[Optional[Pa
         init_py = init_tests[i]
         def_text = def_candidates[i]
         final_py = final_tests[i]
+        metadata = template_metadata[i]
 
         if not desc or not tr or not init_py or not def_text or not final_py:
             saved_paths.append(None)
             continue
 
         task_dir = _format_task_dir(cfg.out_dir, idx=0)  # idx unused in async; name is unique
-        task_obj = {"description": desc, "truth": tr, "name": task_dir.name}
+        task_obj = {
+            "description": desc,
+            "truth": tr,
+            "name": task_dir.name,
+            "metadata": {
+                **metadata,
+                "source_pipeline": "generate_tasks.py",
+                "def_build_test": not cfg.skip_def_build_test,
+            },
+        }
 
         # Save artifacts
         task_json, init_path, final_path, def_path, sif_path = _save_task_bundle(
@@ -250,11 +274,18 @@ def parse_args(argv: Optional[List[str]] = None) -> AsyncBatchConfig:
     ap.add_argument("--num-tasks", type=int, default=100, help="How many tasks to request")
     ap.add_argument("--out-dir", type=Path, default=Path("tasks"), help="Output directory")
     ap.add_argument("--model", type=str, default="gpt-4o")
+    ap.add_argument("--max-tokens", type=int, default=1024)
     ap.add_argument("--task-temperature", type=float, default=1.0)
     ap.add_argument("--test-temperature", type=float, default=0.6)
     ap.add_argument("--solution-temperature", type=float, default=1.0)
     ap.add_argument("--batch-size", type=int, default=100)
     ap.add_argument("--max-concurrency", type=int, default=128)
+    ap.add_argument("--behavior-conditioned", action="store_true",
+                    help="Insert deterministic TRACE/TBLite behavior cards into the existing LLM task funnel")
+    ap.add_argument("--behavior-seed", type=int, default=None,
+                    help="Seed for deterministic behavior-card assignment")
+    ap.add_argument("--skip-def-build-test", action="store_true",
+                    help="Generate container.def files without local Apptainer build/test validation")
     ap.add_argument("--verbose", action="store_true")
     ap.add_argument("--quiet", action="store_true")
 
@@ -266,11 +297,15 @@ def parse_args(argv: Optional[List[str]] = None) -> AsyncBatchConfig:
         num_tasks=args.num_tasks,
         out_dir=args.out_dir,
         model=args.model,
+        max_tokens=args.max_tokens,
         task_temperature=args.task_temperature,
         test_temperature=args.test_temperature,
         solution_temperature=args.solution_temperature,
         parallel_jobs=1,
         verbose=verbose,
+        behavior_conditioned=args.behavior_conditioned,
+        behavior_seed=args.behavior_seed,
+        skip_def_build_test=args.skip_def_build_test,
         batch_size=max(1, args.batch_size),
         max_concurrency=max(1, args.max_concurrency),
     )
@@ -280,5 +315,3 @@ if __name__ == "__main__":
     cfg = parse_args()
     summary = run_pipeline(cfg)
     print(json.dumps(summary, indent=4))
-
-

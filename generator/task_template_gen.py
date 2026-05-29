@@ -11,6 +11,7 @@ import sys
 sys.path.insert(0, str(Path().resolve()))
 
 from generator import chat_completion_batch
+from generator.behavior_cards import format_behavior_prompt, sample_behavior_cards
 
 SYSTEM_MSG = """You are creating realistic Linux-terminal tasks for training an AI agent.
 
@@ -40,6 +41,10 @@ Respond in xml format.
 
 Guidelines:
 * Place any secret, ground-truth verification data exclusively under the <truth> element.
+* Make tasks capability-targeted: they should train a general terminal-agent capability inferred from observed failures, not a narrow domain trick.
+* Preserve a realistic Terminal-Bench / OpenThoughts-style terminal interface: concrete files, commands, services, tests, logs, or data artifacts inside a Linux container.
+* Include a progress-legible structure in the privileged truth: ordered checkpoints, the intended dead-end or misleading partial-success signal, the required pivot, the final deliverable invariant, and the condition under which the agent should stop.
+* The public task may tell the agent to verify before finishing, but must not reveal hidden answers, checksums, exact expected outputs, or the verifier implementation.
 * The agent should be able to write to the file and directory that are mentioned in the task description.
 * The agent will not have root access. So make sure that the right permissions are set for the files and directories.
 * When you mention a file or directory, write the full path to the file or directory, not just relative path.
@@ -194,13 +199,13 @@ SCENARIO_CONTEXTS = [
     "artifact manager curating binary repositories",
 ]
 
-def random_user_msg() -> str:
+def random_user_msg(behavior_prompt: str | None = None) -> str:
     """Generate a user instruction by randomly selecting inspiration elements."""
     category = random.choice(TASK_CATEGORIES)
     complexity = random.choice(COMPLEXITY_LEVELS)
     context = random.choice(SCENARIO_CONTEXTS)
-    
-    return (
+
+    base = (
         f"Write a new task focusing on {category}. "
         f"Complexity: {complexity}. "
         f"Scenario: {context}. "
@@ -208,6 +213,9 @@ def random_user_msg() -> str:
         "Write the task description in a way that a user might ask an AI assistant. "
         "The task should be a realistic end-to-end scenario that an AI agent could perform in a Linux terminal."
     )
+    if not behavior_prompt:
+        return base
+    return f"{base}\n\n{behavior_prompt}"
 
 
 def generate_templates_batch(
@@ -217,6 +225,8 @@ def generate_templates_batch(
     temperature: float = 1.0,
     max_tokens: int = 2048,
     max_concurrency: int = 128,
+    behavior_conditioned: bool = False,
+    behavior_seed: int | None = None,
 ) -> list[dict]:
     """Generate multiple task templates in one batched LLM call set.
 
@@ -225,8 +235,10 @@ def generate_templates_batch(
     """
 
     messages: list[list[dict[str, str]]] = []
-    for _ in range(batch_size):
-        user_msg = random_user_msg()
+    behavior_cards = sample_behavior_cards(batch_size, behavior_seed) if behavior_conditioned else [None] * batch_size
+    for card in behavior_cards:
+        behavior_prompt = format_behavior_prompt(card) if card else None
+        user_msg = random_user_msg(behavior_prompt)
         messages.append([
             {"role": "system", "content": SYSTEM_MSG},
             {"role": "user", "content": user_msg},
@@ -242,12 +254,16 @@ def generate_templates_batch(
     )
 
     results: list[dict] = []
-    for resp in responses:
+    for resp, card in zip(responses, behavior_cards):
         if resp is None:
             continue
         try:
             content = resp.choices[0].message.content.strip()
-            results.append(parse_template(content))
+            parsed = parse_template(content)
+            if card:
+                parsed["behavior_card"] = card
+                parsed["generation_mode"] = "behavior_conditioned_llm_funnel"
+            results.append(parsed)
         except Exception:
             # Skip malformed entries
             continue

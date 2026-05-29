@@ -2,8 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import json
-import os
 import shutil
 import subprocess
 import tempfile
@@ -161,6 +159,7 @@ def iterate_def_template_batch(
     temperature: float = 0.6,
     max_tokens: int = 2048,
     max_concurrency: int = 64,
+    build_test: bool = True,
 ) -> List[Optional[str]]:
     """Batched single-shot def generation followed by parallel build/test.
 
@@ -199,6 +198,8 @@ def iterate_def_template_batch(
                 return index, None
             content = resp_obj.choices[0].message.content
             def_text = parse_def_template(content)
+            if not build_test:
+                return index, def_text
             _task_description, _truth, test_py = item
             ok, _ = build_and_test(def_text, test_py)
             return index, (def_text if ok else None)
