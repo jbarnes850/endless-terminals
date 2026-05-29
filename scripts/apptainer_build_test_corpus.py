@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -15,7 +16,78 @@ def iter_tasks(root: Path) -> list[Path]:
     return sorted(p for p in root.iterdir() if p.is_dir() and p.name.startswith("task_"))
 
 
-def write_normalized_def(task_dir: Path, base_sif: Path | None, inject_pytest: bool) -> Path:
+MODE_SENSITIVE_PATTERNS = (
+    "mode_octal",
+    "mode_of(",
+    "expected_mode",
+    "stat.S_IMODE",
+    "0o",
+    "0644",
+    "0755",
+    "0775",
+    "0700",
+    "0664",
+    "0666",
+    "0o644",
+    "0o755",
+    "0o775",
+    "0o700",
+    "0o664",
+    "0o666",
+)
+
+
+def wants_writable_compat(task_dir: Path) -> bool:
+    test_path = task_dir / "test_initial_state.py"
+    if not test_path.exists():
+        return False
+    text = test_path.read_text(encoding="utf-8", errors="ignore")
+    if "os.access" not in text or "W_OK" not in text:
+        return False
+    return not any(pattern in text for pattern in MODE_SENSITIVE_PATTERNS)
+
+
+def append_to_post(text: str, block: str) -> str:
+    match = re.search(r"(?ms)^%post[^\n]*\n.*?(?=^%[A-Za-z]|\Z)", text)
+    if not match:
+        return text.rstrip() + "\n" + block
+    return text[: match.end()] + "\n" + block + text[match.end() :]
+
+
+def runtime_user_alias_command(pytest_path: str) -> str:
+    return f"""python3 - <<'PY'
+from pathlib import Path
+import os
+
+passwd = Path("/etc/passwd")
+lines = passwd.read_text().splitlines()
+uid = os.getuid()
+gid = os.getgid()
+out = []
+seen = False
+for line in lines:
+    if line.startswith("user:") or line.startswith("ubuntu:"):
+        if not seen:
+            out.append(f"user:x:{{uid}}:{{gid}}:Agent User:/home/user:/bin/bash")
+            seen = True
+    else:
+        out.append(line)
+if not seen:
+    out.append(f"user:x:{{uid}}:{{gid}}:Agent User:/home/user:/bin/bash")
+passwd.write_text("\\n".join(out) + "\\n")
+PY
+python3 -m pytest -q {pytest_path}
+"""
+
+
+def write_normalized_def(
+    task_dir: Path,
+    base_sif: Path | None,
+    inject_pytest: bool,
+    writable_compat: str,
+    agent_uid: int | None,
+    agent_gid: int | None,
+) -> Path:
     src = task_dir / "container.def"
     dst = task_dir / "container.build.def"
     text = src.read_text(encoding="utf-8")
@@ -37,10 +109,22 @@ def write_normalized_def(task_dir: Path, base_sif: Path | None, inject_pytest: b
         DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3 python3-pytest
     fi
 """
-        if "\n%runscript" in text:
-            text = text.replace("\n%runscript", "\n" + pytest_block + "\n%runscript")
-        else:
-            text = text.rstrip() + "\n" + pytest_block
+        text = append_to_post(text, pytest_block)
+
+    apply_writable_compat = writable_compat == "always" or (
+        writable_compat == "auto" and wants_writable_compat(task_dir)
+    )
+    if apply_writable_compat and "ENDLESS_TERMINALS_WRITABLE_COMPAT" not in text:
+        compat_block = """\
+    # ENDLESS_TERMINALS_WRITABLE_COMPAT: Apptainer/FUSE can report W_OK=false
+    # for owner-writable paths in unprivileged shells. Keep exact-mode tasks
+    # untouched; for non-mode-sensitive tasks, make the agent workspace writable.
+    if id user >/dev/null 2>&1; then
+        chown -R user:user /home/user 2>/dev/null || true
+    fi
+    chmod -R a+rwX /home/user
+"""
+        text = append_to_post(text, compat_block)
     dst.write_text(text, encoding="utf-8")
     return dst
 
@@ -73,6 +157,9 @@ def build_and_test(
     test_timeout: int,
     base_sif: Path | None,
     inject_pytest: bool,
+    writable_compat: str,
+    agent_uid: int | None,
+    agent_gid: int | None,
     tmp_root: Path | None,
     cache_root: Path | None,
 ) -> dict[str, Any]:
@@ -84,7 +171,14 @@ def build_and_test(
         "error_stage": None,
     }
     try:
-        def_path = write_normalized_def(task_dir, base_sif, inject_pytest)
+        def_path = write_normalized_def(
+            task_dir,
+            base_sif,
+            inject_pytest,
+            writable_compat,
+            agent_uid,
+            agent_gid,
+        )
     except Exception as exc:
         row["error_stage"] = "normalize_def"
         row["normalize_error"] = f"{type(exc).__name__}: {exc}"
@@ -113,19 +207,15 @@ def build_and_test(
         [
             "apptainer",
             "exec",
-            "--fakeroot",
-            "--userns",
             "--containall",
             "--writable-tmpfs",
             "--cleanenv",
             "--bind",
             f"{task_dir}:/mnt",
             str(sif_path),
-            "python3",
-            "-m",
-            "pytest",
-            "-q",
-            "/mnt/test_initial_state.py",
+            "bash",
+            "-lc",
+            runtime_user_alias_command("/mnt/test_initial_state.py"),
         ],
         test_timeout,
         env=env,
@@ -148,6 +238,9 @@ def main() -> None:
     parser.add_argument("--test-timeout", type=int, default=300)
     parser.add_argument("--base-sif", default=None)
     parser.add_argument("--no-inject-pytest", action="store_true")
+    parser.add_argument("--writable-compat", choices=("none", "auto", "always"), default="none")
+    parser.add_argument("--agent-uid", type=int, default=None)
+    parser.add_argument("--agent-gid", type=int, default=None)
     parser.add_argument("--tmp-root", default=None)
     parser.add_argument("--cache-root", default=None)
     args = parser.parse_args()
@@ -170,6 +263,9 @@ def main() -> None:
                 args.test_timeout,
                 base_sif,
                 not args.no_inject_pytest,
+                args.writable_compat,
+                args.agent_uid,
+                args.agent_gid,
                 tmp_root,
                 cache_root,
             ): task_dir

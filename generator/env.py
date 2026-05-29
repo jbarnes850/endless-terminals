@@ -336,6 +336,8 @@ class InteractiveContainerEnvironment:
             if self.verbose:
                 print("✅ Interactive shell started")
 
+        self._alias_runtime_user()
+
         # Run initial tests if requested
         if run_initial_tests:
             if not self.run_initial_tests():
@@ -349,6 +351,32 @@ class InteractiveContainerEnvironment:
             print("✅ Container environment ready")
         self.exec("cd /home/user")
         return True
+
+    def _alias_runtime_user(self) -> None:
+        """Make passwd's 'user' entry match the unprivileged Apptainer uid."""
+        self.exec(
+            """python3 - <<'PY'
+from pathlib import Path
+import os
+
+passwd = Path("/etc/passwd")
+lines = passwd.read_text().splitlines()
+uid = os.getuid()
+gid = os.getgid()
+out = []
+seen = False
+for line in lines:
+    if line.startswith("user:") or line.startswith("ubuntu:"):
+        if not seen:
+            out.append(f"user:x:{uid}:{gid}:Agent User:/home/user:/bin/bash")
+            seen = True
+    else:
+        out.append(line)
+if not seen:
+    out.append(f"user:x:{uid}:{gid}:Agent User:/home/user:/bin/bash")
+passwd.write_text("\\n".join(out) + "\\n")
+PY"""
+        )
 
     def exec(self, command: str, timeout: Optional[float] = None) -> Tuple[bool, str]:
         """
