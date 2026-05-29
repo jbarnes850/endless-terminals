@@ -13,7 +13,9 @@ from pathlib import Path
 sys.path.insert(0, str(pathlib.Path().resolve()))
 from generator.env import InteractiveContainerEnvironment
 
-from generator.sample_solutions import _extract_action, SYSTEM_MESSAGE, USER_TEMPLATE
+from generator.sample_solutions import SYSTEM_MESSAGE, USER_TEMPLATE
+from generator import POLICY_MODEL, REFERENCE_MODEL
+from generator.task_filters import select_task_dirs
 
 
 def build_container_for_task(task_dir_name, task_dir, verbose=True):
@@ -54,15 +56,35 @@ if __name__ == "__main__":
     parser.add_argument("--build-sif", action="store_true")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--max-workers", type=int, default=20, help="Number of parallel workers for building containers")
+    parser.add_argument("--gate", choices=["band", "reference"], default="band",
+                        help="Task selection gate: 'band' = policy (Laguna) pass@k in (0,1) for "
+                             "non-zero RL reward variance (default); 'reference' = frontier "
+                             "validity gate (reference pass@k > 0).")
+    parser.add_argument("--policy-model", default=POLICY_MODEL)
+    parser.add_argument("--reference-model", default=REFERENCE_MODEL)
+    parser.add_argument("--pass-k", type=int, default=16)
+    parser.add_argument("--group-size", type=int, default=16,
+                        help="RL rollout group size, for the zero-std-group estimate")
+    parser.add_argument("--max-zero-std-group-frac", type=float, default=None,
+                        help="Drop band tasks whose expected zero-advantage group fraction "
+                             "exceeds this (e.g. 0.5 per the RLVR reward-variance HARD-STOP gate)")
 
     args = parser.parse_args()
     random.seed(args.seed)
-    task_dir_names = [f for f in os.listdir(args.task_dir) if "task" in f]
-    # check if task dir has o3 summary
-    task_dir_names = [f for f in task_dir_names if (Path(args.task_dir) / f / "solutions" / "o3_summary.json").exists()]
-    # check if o3 suummary pass @16 is greater than 0
-    task_dir_names = [f for f in task_dir_names if json.load(open(Path(args.task_dir) / f / "solutions" / "o3_summary.json"))["pass_at_k"]["16"] > 0]
-    task_dir_names = list(sorted(task_dir_names))
+    # Two-gate selection: default to the trainable band (policy pass@k in (0,1)),
+    # falling back to the legacy reference-solvable gate when --gate reference.
+    selected = select_task_dirs(
+        args.task_dir,
+        gate=args.gate,
+        policy_model=args.policy_model,
+        reference_model=args.reference_model,
+        k=args.pass_k,
+        max_zero_std_group_frac=args.max_zero_std_group_frac,
+        group_size=args.group_size,
+    )
+    task_dir_names = sorted(p.name for p in selected)
+    print(f"Selected {len(task_dir_names)} task dirs via '{args.gate}' gate "
+          f"(policy={args.policy_model}, reference={args.reference_model}, k={args.pass_k})")
     random.shuffle(task_dir_names)
     task_descriptions = [json.load(open(Path(args.task_dir) / f / "task.json"))["description"] for f in task_dir_names]
 

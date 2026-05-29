@@ -13,7 +13,7 @@ from concurrent.futures import ThreadPoolExecutor
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from generator import chat_completion_batch
+from generator import chat_completion_batch, POLICY_MODEL
 
 from generator.env import InteractiveContainerEnvironment as ContainerEnvironment  
 
@@ -65,7 +65,7 @@ def run_n_solutions(
     def_path: str,
     task_path: str,
     max_actions: int = 16,
-    model: str = "gpt-5_2025-08-07",
+    model: str = POLICY_MODEL,
     temperature: float = 0.2,
     max_tokens: int = 1024,
     save_dir: Optional[str] = None,
@@ -274,7 +274,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=64)
     ap.add_argument("--task-dir", type=str, default="tasks")
-    ap.add_argument("--model", type=str, default="o3")
+    ap.add_argument("--model", type=str, default=POLICY_MODEL)
     
     args = ap.parse_args()
     n = args.n

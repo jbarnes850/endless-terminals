@@ -24,8 +24,11 @@ try:
 except ImportError:
     ANTHROPIC_AVAILABLE = False
 
-# Ensure project root is importable
+# Ensure the generator package and the project root are importable
 sys.path.insert(0, str(Path(__file__).parent.parent.resolve()))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.resolve()))
+
+from generator import REFERENCE_MODEL, summary_filename
 
 # Initialize clients lazily
 _openai_client = None
@@ -633,10 +636,10 @@ def main():
     else:
         # Normal task selection logic
         task_dirs = [Path(args.task_dir) / f for f in os.listdir(args.task_dir) if "task" in f]
-        # check if task dir has o3 summary
-        task_dirs = [f for f in task_dirs if (f / "solutions" / "o3_summary.json").exists()]
-        # check if o3 suummary pass @16 is greater than 0
-        task_dirs = [f for f in task_dirs if json.load(open(f / "solutions" / "o3_summary.json"))["pass_at_k"]["16"] > 0]
+        # check if task dir has the reference validity-gate summary
+        task_dirs = [f for f in task_dirs if (f / "solutions" / summary_filename(REFERENCE_MODEL)).exists()]
+        # check if reference summary pass@16 is greater than 0
+        task_dirs = [f for f in task_dirs if json.load(open(f / "solutions" / summary_filename(REFERENCE_MODEL)))["pass_at_k"]["16"] > 0]
         task_dirs = list(sorted(task_dirs))
         task_dirs = task_dirs[args.start_at:args.start_at + args.num_tasks]
         print(f"Found {len(task_dirs)} task directories")
@@ -737,7 +740,7 @@ def main():
     print(f"✅ Successful: {successful} ({successful/total*100:.1f}%)")
     print(f"❌ Failed: {failed} ({failed/total*100:.1f}%)")
     
-    print(f"\nStage Breakdown:")
+    print("\nStage Breakdown:")
     print(f"  Dockerfile generated: {dockerfile_generated}/{total} ({dockerfile_generated/total*100:.1f}%)")
     if not args.skip_build:
         print(f"  Docker build succeeded: {docker_build_success}/{total} ({docker_build_success/total*100:.1f}%)")
@@ -745,7 +748,7 @@ def main():
         print(f"  Tests passed: {tests_passed}/{total} ({tests_passed/total*100:.1f}%)")
     
     if failed > 0:
-        print(f"\nErrors by Stage:")
+        print("\nErrors by Stage:")
         if errors_dockerfile > 0:
             print(f"  Dockerfile generation: {errors_dockerfile}")
         if errors_build > 0:

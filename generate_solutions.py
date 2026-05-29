@@ -16,6 +16,7 @@ from tqdm import tqdm
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from generate_tasks import _safe_write_text
+from generator import REFERENCE_MODEL, summary_filename
 from generator.sample_solutions import run_n_solutions
 
 
@@ -173,7 +174,9 @@ def parse_args(argv: Optional[List[str]] = None) -> SolutionConfig:
     )
     ap.add_argument("--force-build", action="store_true", help="Force build the SIF file")
     ap.add_argument(
-        "--filter-solved", action="store_true", help="Only solve tasks that have been solved by o3"
+        "--filter-solved",
+        action="store_true",
+        help=f"Only solve tasks the reference validity gate ({REFERENCE_MODEL}) solved (pass@16 > 0)",
     )
     ap.add_argument("--use-parquet", action="store_true", help="Use parquet file for tasks")
 
@@ -193,12 +196,12 @@ def main():
         ]
     if cfg.filter_solved:
 
-        print(f"Filtering to tasks with o3 pass@16 > 0, prefilter: {len(task_dirs)}")
+        print(f"Filtering to tasks with {REFERENCE_MODEL} pass@16 > 0, prefilter: {len(task_dirs)}")
 
-        def _o3_pass16_gt_zero(task_dir: str) -> bool:
+        def _reference_pass16_gt_zero(task_dir: str) -> bool:
             task_dir = Path(task_dir)
             try:
-                summary_path = task_dir / "solutions" / "o3_summary.json"
+                summary_path = task_dir / "solutions" / summary_filename(REFERENCE_MODEL)
                 if not summary_path.exists():
                     return False
                 model_name = cfg.model.replace("/", "_")
@@ -219,9 +222,9 @@ def main():
         from concurrent.futures import ThreadPoolExecutor, as_completed
 
         with ThreadPoolExecutor(max_workers=len(task_dirs)) as executor:
-            futures = {executor.submit(_o3_pass16_gt_zero, d): i for i, d in enumerate(task_dirs)}
+            futures = {executor.submit(_reference_pass16_gt_zero, d): i for i, d in enumerate(task_dirs)}
             mask = [False] * len(task_dirs)
-            with tqdm(total=len(task_dirs), desc="Reading o3 summaries") as pbar:
+            with tqdm(total=len(task_dirs), desc=f"Reading {REFERENCE_MODEL} summaries") as pbar:
                 for fut in as_completed(futures):
                     idx = futures[fut]
                     try:
@@ -232,7 +235,7 @@ def main():
                         pbar.update(1)
         task_dirs = [d for d, ok in zip(task_dirs, mask) if ok]
 
-        print(f"Filtering to tasks with o3 pass@16 > 0, postfilter: {len(task_dirs)}")
+        print(f"Filtering to tasks with {REFERENCE_MODEL} pass@16 > 0, postfilter: {len(task_dirs)}")
         time.sleep(30)
 
     if cfg.use_parquet:
