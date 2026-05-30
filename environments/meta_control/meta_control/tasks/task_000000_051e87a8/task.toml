@@ -8,7 +8,7 @@ keywords = ["agentic-rl", "endless-terminals", "exit_code_false_success", "termi
 
 [metadata]
 source = "endless-terminals"
-corpus = "behavior_trace_20260529_220"
+corpus = "meta_control_seed"
 generation_mode = "behavior_conditioned_llm_funnel"
 behavior_card_id = "exit_code_false_success"
 capability = "verification_directed_action"

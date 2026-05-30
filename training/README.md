@@ -95,7 +95,7 @@ Repo-local smoke checks:
 python3 scripts/smoke_training_contracts.py --json-out /tmp/laguna-meta-control-contracts.json
 python3 scripts/smoke_live_endpoint.py --out /tmp/laguna-live-endpoint-smoke.json
 python3 scripts/check_training_launch_gates.py \
-  --calibration tasks/behavior_trace_20260529_220/calibration/buckets_current.json \
+  --calibration /path/to/calibration/buckets_current.json \
   --manifest environments/meta_control/meta_control/manifest.json \
   --min-trainable-tasks 1 \
   --out /tmp/laguna-meta-control-launch-gates.json

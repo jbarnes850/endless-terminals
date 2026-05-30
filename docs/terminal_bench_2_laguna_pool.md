@@ -120,12 +120,6 @@ after Poolside returned a hard quota response from `/v1/chat/completions`:
 429 {'error': 'usage limit exceeded'}
 ```
 
-The primary artifact is:
-
-```text
-evals/tb2_laguna_pool/full/local-pool-native-laguna-xs2-tb2-full-n1-maxturn64-bash-tool-timeout120
-```
-
 That partial job completed 1 of 89 TB2 tasks and left the second task cancelled
 after the quota wall. Resume by rerunning the full command after quota reset or
 with an equivalent Poolside credential/project whose `/v1/chat/completions`

@@ -50,9 +50,7 @@ axes while preserving measurable control signals.
 - Laguna calibration runner: `scripts/run_eligible_calibration.py`
 - Harbor/Prime export: `scripts/export_harbor_prime.py`
 - Design rationale: `docs/task_family_v1.md`
-- Generated local corpus snapshot: `tasks/behavior_trace_20260529_220`
-- Shareable Harbor/Prime subset: `exports/behavior_trace_20260529_220`,
-  `environments/meta_control`
+- Trainable Harbor/Prime environment package: `environments/meta_control`
 
 The raw `tasks/` corpus may be ignored by git. Regenerate or copy it explicitly
 when a colleague needs the full local task tree.
@@ -323,10 +321,9 @@ selected subset:
 
 ```bash
 uv run python scripts/export_harbor_prime.py \
-  --tasks-dir tasks/behavior_trace_<slug> \
-  --eligible-file tasks/behavior_trace_<slug>/eligible.txt \
-  --admission-report tasks/behavior_trace_<slug>/apptainer_executable_gate.json \
-  --harbor-out exports/behavior_trace_<slug>/harbor_tasks \
+  --tasks-dir tasks/<corpus-slug> \
+  --eligible-file tasks/<corpus-slug>/eligible.txt \
+  --admission-report tasks/<corpus-slug>/apptainer_executable_gate.json \
   --prime-env-out environments/meta_control
 ```
 

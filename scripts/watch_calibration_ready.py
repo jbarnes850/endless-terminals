@@ -46,10 +46,15 @@ def discover_band_manifest(host: str, remote_root: str) -> str | None:
 
 def status(args: argparse.Namespace) -> dict:
     band = args.band_manifest or discover_band_manifest(args.host, args.remote_root)
-    pruned_count = remote_count(args.host, args.pruned_manifest)
-    reject_count = remote_count(args.host, args.reject_list)
-    too_hard_count = remote_count(args.host, args.too_hard_list)
-    needs_reference_count = remote_count(args.host, args.needs_reference)
+    calibration_dir = f"{args.remote_root.rstrip('/')}/tasks/calibration_combined"
+    pruned_manifest = args.pruned_manifest or f"{calibration_dir}/eligible_executable_pruned_current.txt"
+    reject_list = args.reject_list or f"{calibration_dir}/reject_unsolved_by_laguna_and_gpt55_current.txt"
+    too_hard_list = args.too_hard_list or f"{calibration_dir}/too_hard_valid_gpt55_current.txt"
+    needs_reference = args.needs_reference or f"{calibration_dir}/needs_reference_laguna_zero_current.txt"
+    pruned_count = remote_count(args.host, pruned_manifest)
+    reject_count = remote_count(args.host, reject_list)
+    too_hard_count = remote_count(args.host, too_hard_list)
+    needs_reference_count = remote_count(args.host, needs_reference)
     running = ssh(args.host, "pgrep -af 'run_eligible_calibration.py|task_filters.py|prepare_endless.py' || true").strip()
     ready = bool(band and remote_exists(args.host, band))
     if args.reward_groups and not Path(args.reward_groups).exists():
@@ -60,7 +65,7 @@ def status(args: argparse.Namespace) -> dict:
         "checked_at": datetime.now(timezone.utc).isoformat(),
         "ready": ready,
         "band_manifest": band,
-        "pruned_manifest": args.pruned_manifest,
+        "pruned_manifest": pruned_manifest,
         "pruned_count": pruned_count,
         "reject_count": reject_count,
         "too_hard_count": too_hard_count,
@@ -75,10 +80,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Watch remote calibration artifacts and report train readiness.")
     parser.add_argument("--host", default="ubuntu@64.247.206.243")
     parser.add_argument("--remote-root", default="/home/ubuntu/endless-terminals")
-    parser.add_argument("--pruned-manifest", default="/home/ubuntu/endless-terminals/tasks/calibration_combined/eligible_executable_pruned_current.txt")
-    parser.add_argument("--reject-list", default="/home/ubuntu/endless-terminals/tasks/calibration_combined/reject_unsolved_by_laguna_and_gpt55_current.txt")
-    parser.add_argument("--too-hard-list", default="/home/ubuntu/endless-terminals/tasks/calibration_combined/too_hard_valid_gpt55_current.txt")
-    parser.add_argument("--needs-reference", default="/home/ubuntu/endless-terminals/tasks/calibration_combined/needs_reference_laguna_zero_current.txt")
+    parser.add_argument("--pruned-manifest")
+    parser.add_argument("--reject-list")
+    parser.add_argument("--too-hard-list")
+    parser.add_argument("--needs-reference")
     parser.add_argument("--band-manifest")
     parser.add_argument("--reward-groups", type=Path)
     parser.add_argument("--escape-audit", type=Path)

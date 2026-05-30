@@ -1,1802 +1,400 @@
 {
-  "source_tasks_dirs": [
-    "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220",
-    "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1",
-    "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded"
-  ],
-  "harbor_tasks_dir": "/home/ubuntu/meta_control_export_trainable/harbor",
-  "prime_env_dir": "/home/ubuntu/meta_control_export_trainable/environments/meta_control",
+  "name": "meta_control",
+  "description": "Trainable Laguna meta-control terminal environments exported for Prime-RL and Verifiers.",
+  "tasks_dir": "tasks",
   "num_tasks": 56,
-  "num_skipped": 279,
   "rows": [
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_005b2336",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_005b2336",
+      "task_id": "task_000000_005b2336",
       "task_name": "endless-terminals/task_000000_005b2336",
+      "task_dir": "tasks/task_000000_005b2336",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_051e87a8",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_051e87a8",
+      "task_id": "task_000000_051e87a8",
       "task_name": "endless-terminals/task_000000_051e87a8",
+      "task_dir": "tasks/task_000000_051e87a8",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1a36dbe3",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_1a36dbe3",
+      "task_id": "task_000000_1a36dbe3",
       "task_name": "endless-terminals/task_000000_1a36dbe3",
+      "task_dir": "tasks/task_000000_1a36dbe3",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_29c27adb",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_29c27adb",
+      "task_id": "task_000000_29c27adb",
       "task_name": "endless-terminals/task_000000_29c27adb",
+      "task_dir": "tasks/task_000000_29c27adb",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2d8f7eba",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_2d8f7eba",
+      "task_id": "task_000000_2d8f7eba",
       "task_name": "endless-terminals/task_000000_2d8f7eba",
+      "task_dir": "tasks/task_000000_2d8f7eba",
       "behavior_card_id": "partial_progress_stall",
       "capability": "long_horizon_progress_ledger"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_31c4df2c",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_31c4df2c",
+      "task_id": "task_000000_31c4df2c",
       "task_name": "endless-terminals/task_000000_31c4df2c",
+      "task_dir": "tasks/task_000000_31c4df2c",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_32f525da",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_32f525da",
+      "task_id": "task_000000_32f525da",
       "task_name": "endless-terminals/task_000000_32f525da",
+      "task_dir": "tasks/task_000000_32f525da",
       "behavior_card_id": "partial_progress_stall",
       "capability": "long_horizon_progress_ledger"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_338da4ff",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_338da4ff",
+      "task_id": "task_000000_338da4ff",
       "task_name": "endless-terminals/task_000000_338da4ff",
+      "task_dir": "tasks/task_000000_338da4ff",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_34c8c26c",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_34c8c26c",
+      "task_id": "task_000000_34c8c26c",
       "task_name": "endless-terminals/task_000000_34c8c26c",
+      "task_dir": "tasks/task_000000_34c8c26c",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_34de63db",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_34de63db",
+      "task_id": "task_000000_34de63db",
       "task_name": "endless-terminals/task_000000_34de63db",
+      "task_dir": "tasks/task_000000_34de63db",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_364b45f5",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_364b45f5",
+      "task_id": "task_000000_364b45f5",
       "task_name": "endless-terminals/task_000000_364b45f5",
+      "task_dir": "tasks/task_000000_364b45f5",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_3cddf5f3",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_3cddf5f3",
+      "task_id": "task_000000_3cddf5f3",
       "task_name": "endless-terminals/task_000000_3cddf5f3",
+      "task_dir": "tasks/task_000000_3cddf5f3",
       "behavior_card_id": "partial_progress_stall",
       "capability": "long_horizon_progress_ledger"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_46480af3",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_46480af3",
+      "task_id": "task_000000_46480af3",
       "task_name": "endless-terminals/task_000000_46480af3",
+      "task_dir": "tasks/task_000000_46480af3",
       "behavior_card_id": "partial_progress_stall",
       "capability": "long_horizon_progress_ledger"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4d4b4d96",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_4d4b4d96",
+      "task_id": "task_000000_4d4b4d96",
       "task_name": "endless-terminals/task_000000_4d4b4d96",
+      "task_dir": "tasks/task_000000_4d4b4d96",
       "behavior_card_id": "partial_progress_stall",
       "capability": "long_horizon_progress_ledger"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_54b75342",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_54b75342",
+      "task_id": "task_000000_54b75342",
       "task_name": "endless-terminals/task_000000_54b75342",
+      "task_dir": "tasks/task_000000_54b75342",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_554491e1",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_554491e1",
+      "task_id": "task_000000_554491e1",
       "task_name": "endless-terminals/task_000000_554491e1",
+      "task_dir": "tasks/task_000000_554491e1",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_57449925",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_57449925",
+      "task_id": "task_000000_57449925",
       "task_name": "endless-terminals/task_000000_57449925",
+      "task_dir": "tasks/task_000000_57449925",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_592b7753",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_592b7753",
+      "task_id": "task_000000_592b7753",
       "task_name": "endless-terminals/task_000000_592b7753",
+      "task_dir": "tasks/task_000000_592b7753",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_63fb87a7",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_63fb87a7",
+      "task_id": "task_000000_63fb87a7",
       "task_name": "endless-terminals/task_000000_63fb87a7",
+      "task_dir": "tasks/task_000000_63fb87a7",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7c8d0454",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_7c8d0454",
+      "task_id": "task_000000_7c8d0454",
       "task_name": "endless-terminals/task_000000_7c8d0454",
+      "task_dir": "tasks/task_000000_7c8d0454",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_846f1173",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_846f1173",
+      "task_id": "task_000000_846f1173",
       "task_name": "endless-terminals/task_000000_846f1173",
+      "task_dir": "tasks/task_000000_846f1173",
       "behavior_card_id": "repeat_loop_after_dead_end",
       "capability": "recognition_to_action_coupling"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_989f961f",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_989f961f",
+      "task_id": "task_000000_989f961f",
       "task_name": "endless-terminals/task_000000_989f961f",
+      "task_dir": "tasks/task_000000_989f961f",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9d8cffc0",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_9d8cffc0",
+      "task_id": "task_000000_9d8cffc0",
       "task_name": "endless-terminals/task_000000_9d8cffc0",
+      "task_dir": "tasks/task_000000_9d8cffc0",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9dcd1056",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_9dcd1056",
+      "task_id": "task_000000_9dcd1056",
       "task_name": "endless-terminals/task_000000_9dcd1056",
+      "task_dir": "tasks/task_000000_9dcd1056",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9feaaa5a",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_9feaaa5a",
+      "task_id": "task_000000_9feaaa5a",
       "task_name": "endless-terminals/task_000000_9feaaa5a",
+      "task_dir": "tasks/task_000000_9feaaa5a",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a8fe201f",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_a8fe201f",
+      "task_id": "task_000000_a8fe201f",
       "task_name": "endless-terminals/task_000000_a8fe201f",
+      "task_dir": "tasks/task_000000_a8fe201f",
       "behavior_card_id": "partial_progress_stall",
       "capability": "long_horizon_progress_ledger"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ae564bc2",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_ae564bc2",
+      "task_id": "task_000000_ae564bc2",
       "task_name": "endless-terminals/task_000000_ae564bc2",
+      "task_dir": "tasks/task_000000_ae564bc2",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_b673d297",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_b673d297",
+      "task_id": "task_000000_b673d297",
       "task_name": "endless-terminals/task_000000_b673d297",
+      "task_dir": "tasks/task_000000_b673d297",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_c72481a6",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_c72481a6",
+      "task_id": "task_000000_c72481a6",
       "task_name": "endless-terminals/task_000000_c72481a6",
+      "task_dir": "tasks/task_000000_c72481a6",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_cd6c175f",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_cd6c175f",
+      "task_id": "task_000000_cd6c175f",
       "task_name": "endless-terminals/task_000000_cd6c175f",
+      "task_dir": "tasks/task_000000_cd6c175f",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d224e858",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_d224e858",
+      "task_id": "task_000000_d224e858",
       "task_name": "endless-terminals/task_000000_d224e858",
+      "task_dir": "tasks/task_000000_d224e858",
       "behavior_card_id": "repeat_loop_after_dead_end",
       "capability": "recognition_to_action_coupling"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d2cba211",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_d2cba211",
+      "task_id": "task_000000_d2cba211",
       "task_name": "endless-terminals/task_000000_d2cba211",
+      "task_dir": "tasks/task_000000_d2cba211",
       "behavior_card_id": "repeat_loop_after_dead_end",
       "capability": "recognition_to_action_coupling"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e5f66a87",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_e5f66a87",
+      "task_id": "task_000000_e5f66a87",
       "task_name": "endless-terminals/task_000000_e5f66a87",
+      "task_dir": "tasks/task_000000_e5f66a87",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e69ed00c",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_e69ed00c",
+      "task_id": "task_000000_e69ed00c",
       "task_name": "endless-terminals/task_000000_e69ed00c",
+      "task_dir": "tasks/task_000000_e69ed00c",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e78001e5",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_e78001e5",
+      "task_id": "task_000000_e78001e5",
       "task_name": "endless-terminals/task_000000_e78001e5",
+      "task_dir": "tasks/task_000000_e78001e5",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ec9e3257",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_ec9e3257",
+      "task_id": "task_000000_ec9e3257",
       "task_name": "endless-terminals/task_000000_ec9e3257",
+      "task_dir": "tasks/task_000000_ec9e3257",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f39ed43d",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_f39ed43d",
+      "task_id": "task_000000_f39ed43d",
       "task_name": "endless-terminals/task_000000_f39ed43d",
+      "task_dir": "tasks/task_000000_f39ed43d",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f3c8f023",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_f3c8f023",
+      "task_id": "task_000000_f3c8f023",
       "task_name": "endless-terminals/task_000000_f3c8f023",
+      "task_dir": "tasks/task_000000_f3c8f023",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_014b6c9e",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_014b6c9e",
+      "task_id": "task_000000_014b6c9e",
       "task_name": "endless-terminals/task_000000_014b6c9e",
+      "task_dir": "tasks/task_000000_014b6c9e",
       "behavior_card_id": "premature_stop_on_sparse_feedback",
       "capability": "stop_continue_calibration"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_45e24a98",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_45e24a98",
+      "task_id": "task_000000_45e24a98",
       "task_name": "endless-terminals/task_000000_45e24a98",
+      "task_dir": "tasks/task_000000_45e24a98",
       "behavior_card_id": "partial_progress_stall",
       "capability": "long_horizon_progress_ledger"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_764fc045",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_764fc045",
+      "task_id": "task_000000_764fc045",
       "task_name": "endless-terminals/task_000000_764fc045",
+      "task_dir": "tasks/task_000000_764fc045",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_77cd4878",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_77cd4878",
+      "task_id": "task_000000_77cd4878",
       "task_name": "endless-terminals/task_000000_77cd4878",
+      "task_dir": "tasks/task_000000_77cd4878",
       "behavior_card_id": "old_state_new_state_confusion",
       "capability": "stateful_migration_verification"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_0b9a50d1",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_0b9a50d1",
+      "task_id": "task_000000_0b9a50d1",
       "task_name": "endless-terminals/task_000000_0b9a50d1",
+      "task_dir": "tasks/task_000000_0b9a50d1",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_15d76abd",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_15d76abd",
+      "task_id": "task_000000_15d76abd",
       "task_name": "endless-terminals/task_000000_15d76abd",
+      "task_dir": "tasks/task_000000_15d76abd",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_2f084179",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_2f084179",
+      "task_id": "task_000000_2f084179",
       "task_name": "endless-terminals/task_000000_2f084179",
+      "task_dir": "tasks/task_000000_2f084179",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_40439125",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_40439125",
+      "task_id": "task_000000_40439125",
       "task_name": "endless-terminals/task_000000_40439125",
+      "task_dir": "tasks/task_000000_40439125",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_40602aa8",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_40602aa8",
+      "task_id": "task_000000_40602aa8",
       "task_name": "endless-terminals/task_000000_40602aa8",
+      "task_dir": "tasks/task_000000_40602aa8",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_5671858a",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_5671858a",
+      "task_id": "task_000000_5671858a",
       "task_name": "endless-terminals/task_000000_5671858a",
+      "task_dir": "tasks/task_000000_5671858a",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_66375363",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_66375363",
+      "task_id": "task_000000_66375363",
       "task_name": "endless-terminals/task_000000_66375363",
+      "task_dir": "tasks/task_000000_66375363",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_8fb0fb2c",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_8fb0fb2c",
+      "task_id": "task_000000_8fb0fb2c",
       "task_name": "endless-terminals/task_000000_8fb0fb2c",
+      "task_dir": "tasks/task_000000_8fb0fb2c",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_934164e7",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_934164e7",
+      "task_id": "task_000000_934164e7",
       "task_name": "endless-terminals/task_000000_934164e7",
+      "task_dir": "tasks/task_000000_934164e7",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_9412f631",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_9412f631",
+      "task_id": "task_000000_9412f631",
       "task_name": "endless-terminals/task_000000_9412f631",
+      "task_dir": "tasks/task_000000_9412f631",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_9921f97b",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_9921f97b",
+      "task_id": "task_000000_9921f97b",
       "task_name": "endless-terminals/task_000000_9921f97b",
+      "task_dir": "tasks/task_000000_9921f97b",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_bb88df07",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_bb88df07",
+      "task_id": "task_000000_bb88df07",
       "task_name": "endless-terminals/task_000000_bb88df07",
+      "task_dir": "tasks/task_000000_bb88df07",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_c51b1127",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_c51b1127",
+      "task_id": "task_000000_c51b1127",
       "task_name": "endless-terminals/task_000000_c51b1127",
+      "task_dir": "tasks/task_000000_c51b1127",
       "behavior_card_id": "wander_loop_without_convergence",
       "capability": "bounded_search_discipline"
     },
     {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_dfada145",
-      "harbor_task_dir": "/home/ubuntu/meta_control_export_trainable/harbor/task_000000_dfada145",
+      "task_id": "task_000000_dfada145",
       "task_name": "endless-terminals/task_000000_dfada145",
+      "task_dir": "tasks/task_000000_dfada145",
       "behavior_card_id": "exit_code_false_success",
       "capability": "verification_directed_action"
-    }
-  ],
-  "skipped": [
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_00d84b31",
-      "task": "task_000000_00d84b31",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_04fa55ed",
-      "task": "task_000000_04fa55ed",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_04fbe02e",
-      "task": "task_000000_04fbe02e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_06e7e6da",
-      "task": "task_000000_06e7e6da",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0b878d30",
-      "task": "task_000000_0b878d30",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0b8e4cfc",
-      "task": "task_000000_0b8e4cfc",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0bf8068f",
-      "task": "task_000000_0bf8068f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0c6d51b2",
-      "task": "task_000000_0c6d51b2",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0c82de86",
-      "task": "task_000000_0c82de86",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0ca8ca33",
-      "task": "task_000000_0ca8ca33",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0d003e76",
-      "task": "task_000000_0d003e76",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_0d935e4c",
-      "task": "task_000000_0d935e4c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_109513ea",
-      "task": "task_000000_109513ea",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1204477f",
-      "task": "task_000000_1204477f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_14eeb2f3",
-      "task": "task_000000_14eeb2f3",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_15f45ffc",
-      "task": "task_000000_15f45ffc",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1727d6aa",
-      "task": "task_000000_1727d6aa",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_188f711d",
-      "task": "task_000000_188f711d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1a5db8a0",
-      "task": "task_000000_1a5db8a0",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1bc83c53",
-      "task": "task_000000_1bc83c53",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1c344846",
-      "task": "task_000000_1c344846",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1c6160cc",
-      "task": "task_000000_1c6160cc",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_1ec7b86b",
-      "task": "task_000000_1ec7b86b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_23e293f4",
-      "task": "task_000000_23e293f4",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_24f4d533",
-      "task": "task_000000_24f4d533",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_25d011ed",
-      "task": "task_000000_25d011ed",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_25fdf42d",
-      "task": "task_000000_25fdf42d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_26a745ef",
-      "task": "task_000000_26a745ef",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_28a063f2",
-      "task": "task_000000_28a063f2",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_298a8c6c",
-      "task": "task_000000_298a8c6c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2ce208c5",
-      "task": "task_000000_2ce208c5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2dae79c0",
-      "task": "task_000000_2dae79c0",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2ed06439",
-      "task": "task_000000_2ed06439",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2f832631",
-      "task": "task_000000_2f832631",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_2f981dfe",
-      "task": "task_000000_2f981dfe",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_31683e92",
-      "task": "task_000000_31683e92",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_324ca89d",
-      "task": "task_000000_324ca89d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_32ec5d7e",
-      "task": "task_000000_32ec5d7e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_350705a9",
-      "task": "task_000000_350705a9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_36fd139c",
-      "task": "task_000000_36fd139c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_38b4ab1c",
-      "task": "task_000000_38b4ab1c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_39d8d520",
-      "task": "task_000000_39d8d520",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_3a586b6e",
-      "task": "task_000000_3a586b6e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_3ee84ebf",
-      "task": "task_000000_3ee84ebf",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_3ffec157",
-      "task": "task_000000_3ffec157",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_40cce804",
-      "task": "task_000000_40cce804",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_41252c43",
-      "task": "task_000000_41252c43",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_418dbc71",
-      "task": "task_000000_418dbc71",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_44c1b8e1",
-      "task": "task_000000_44c1b8e1",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_452af247",
-      "task": "task_000000_452af247",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4621cb64",
-      "task": "task_000000_4621cb64",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4a672562",
-      "task": "task_000000_4a672562",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4b16e54f",
-      "task": "task_000000_4b16e54f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4bfbc7c1",
-      "task": "task_000000_4bfbc7c1",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4d5f432c",
-      "task": "task_000000_4d5f432c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_4ebec2f5",
-      "task": "task_000000_4ebec2f5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_52bc6441",
-      "task": "task_000000_52bc6441",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_5329d40b",
-      "task": "task_000000_5329d40b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_554f90d5",
-      "task": "task_000000_554f90d5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_5560492f",
-      "task": "task_000000_5560492f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_5944da0e",
-      "task": "task_000000_5944da0e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_59fd427e",
-      "task": "task_000000_59fd427e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_60798420",
-      "task": "task_000000_60798420",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_62abe1d9",
-      "task": "task_000000_62abe1d9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_64cbca3a",
-      "task": "task_000000_64cbca3a",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_661fbb60",
-      "task": "task_000000_661fbb60",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_66f9e0b3",
-      "task": "task_000000_66f9e0b3",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_671d7ed0",
-      "task": "task_000000_671d7ed0",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6a7f56a9",
-      "task": "task_000000_6a7f56a9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6aa11471",
-      "task": "task_000000_6aa11471",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6ae9cdc5",
-      "task": "task_000000_6ae9cdc5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6c778e5c",
-      "task": "task_000000_6c778e5c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6cdd0caf",
-      "task": "task_000000_6cdd0caf",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6d4ea2cf",
-      "task": "task_000000_6d4ea2cf",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6d7417f0",
-      "task": "task_000000_6d7417f0",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6f3e2994",
-      "task": "task_000000_6f3e2994",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_6f67274e",
-      "task": "task_000000_6f67274e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7155fab9",
-      "task": "task_000000_7155fab9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_71d8c699",
-      "task": "task_000000_71d8c699",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_734ea684",
-      "task": "task_000000_734ea684",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_75299fb3",
-      "task": "task_000000_75299fb3",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_76cf5761",
-      "task": "task_000000_76cf5761",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_76e224a9",
-      "task": "task_000000_76e224a9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_78845435",
-      "task": "task_000000_78845435",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_79db7b27",
-      "task": "task_000000_79db7b27",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7a2277d5",
-      "task": "task_000000_7a2277d5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7b1833a3",
-      "task": "task_000000_7b1833a3",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7ca55cbd",
-      "task": "task_000000_7ca55cbd",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7f854949",
-      "task": "task_000000_7f854949",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_7f9c6265",
-      "task": "task_000000_7f9c6265",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_82725f10",
-      "task": "task_000000_82725f10",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_83c0037f",
-      "task": "task_000000_83c0037f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_83d7fcf2",
-      "task": "task_000000_83d7fcf2",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_83ee3141",
-      "task": "task_000000_83ee3141",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_84febbe5",
-      "task": "task_000000_84febbe5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_850e46fc",
-      "task": "task_000000_850e46fc",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_86569e52",
-      "task": "task_000000_86569e52",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_86cd9340",
-      "task": "task_000000_86cd9340",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_893b1954",
-      "task": "task_000000_893b1954",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_8f54a42a",
-      "task": "task_000000_8f54a42a",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_91423cc4",
-      "task": "task_000000_91423cc4",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_92be8534",
-      "task": "task_000000_92be8534",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_93bd9349",
-      "task": "task_000000_93bd9349",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_960e6afb",
-      "task": "task_000000_960e6afb",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_99b3a58d",
-      "task": "task_000000_99b3a58d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9b519f6e",
-      "task": "task_000000_9b519f6e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9c5803ad",
-      "task": "task_000000_9c5803ad",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9da6503e",
-      "task": "task_000000_9da6503e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_9fb817d5",
-      "task": "task_000000_9fb817d5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a0a10eb4",
-      "task": "task_000000_a0a10eb4",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a0db107b",
-      "task": "task_000000_a0db107b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a102ed6e",
-      "task": "task_000000_a102ed6e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a625ca90",
-      "task": "task_000000_a625ca90",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a6711cc3",
-      "task": "task_000000_a6711cc3",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_a849406a",
-      "task": "task_000000_a849406a",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ac89ceb5",
-      "task": "task_000000_ac89ceb5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_adf68965",
-      "task": "task_000000_adf68965",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_b3456819",
-      "task": "task_000000_b3456819",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_b8632363",
-      "task": "task_000000_b8632363",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ba123473",
-      "task": "task_000000_ba123473",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bac70f03",
-      "task": "task_000000_bac70f03",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bb124e67",
-      "task": "task_000000_bb124e67",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bb5dd230",
-      "task": "task_000000_bb5dd230",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bcc6c86b",
-      "task": "task_000000_bcc6c86b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bcee2bc8",
-      "task": "task_000000_bcee2bc8",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_bcf756be",
-      "task": "task_000000_bcf756be",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_be93c106",
-      "task": "task_000000_be93c106",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_c446b8d7",
-      "task": "task_000000_c446b8d7",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_c5fbd55d",
-      "task": "task_000000_c5fbd55d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_c9e762df",
-      "task": "task_000000_c9e762df",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_cb380b9f",
-      "task": "task_000000_cb380b9f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ccf7c09b",
-      "task": "task_000000_ccf7c09b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_cd7732bb",
-      "task": "task_000000_cd7732bb",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_cde4f19f",
-      "task": "task_000000_cde4f19f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ce46042f",
-      "task": "task_000000_ce46042f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d1ac82ca",
-      "task": "task_000000_d1ac82ca",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d3dcd6f9",
-      "task": "task_000000_d3dcd6f9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d43988c8",
-      "task": "task_000000_d43988c8",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d4c7ad97",
-      "task": "task_000000_d4c7ad97",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d4cd58fc",
-      "task": "task_000000_d4cd58fc",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d59f056f",
-      "task": "task_000000_d59f056f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d7708cd5",
-      "task": "task_000000_d7708cd5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d826b1cf",
-      "task": "task_000000_d826b1cf",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d86e29b8",
-      "task": "task_000000_d86e29b8",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d937d2d1",
-      "task": "task_000000_d937d2d1",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d93b2abe",
-      "task": "task_000000_d93b2abe",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d9860f90",
-      "task": "task_000000_d9860f90",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_d9a32e8f",
-      "task": "task_000000_d9a32e8f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_dbe3df21",
-      "task": "task_000000_dbe3df21",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_dc9a8391",
-      "task": "task_000000_dc9a8391",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_dd27ce78",
-      "task": "task_000000_dd27ce78",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_defbccf8",
-      "task": "task_000000_defbccf8",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_df88b26b",
-      "task": "task_000000_df88b26b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_dfaed52c",
-      "task": "task_000000_dfaed52c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e178396d",
-      "task": "task_000000_e178396d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e3efafcd",
-      "task": "task_000000_e3efafcd",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e56f2c99",
-      "task": "task_000000_e56f2c99",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e5b91d2e",
-      "task": "task_000000_e5b91d2e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e67375b9",
-      "task": "task_000000_e67375b9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e69612dc",
-      "task": "task_000000_e69612dc",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_e8d33282",
-      "task": "task_000000_e8d33282",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f18387c2",
-      "task": "task_000000_f18387c2",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f1c86268",
-      "task": "task_000000_f1c86268",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f315df68",
-      "task": "task_000000_f315df68",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f378f48b",
-      "task": "task_000000_f378f48b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f4767e2c",
-      "task": "task_000000_f4767e2c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f632bb3f",
-      "task": "task_000000_f632bb3f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f6cd7cf7",
-      "task": "task_000000_f6cd7cf7",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_f9ce86ec",
-      "task": "task_000000_f9ce86ec",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_fa8dc807",
-      "task": "task_000000_fa8dc807",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_fd337682",
-      "task": "task_000000_fd337682",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_fe346838",
-      "task": "task_000000_fe346838",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260529_220/task_000000_ff471875",
-      "task": "task_000000_ff471875",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_07582d25",
-      "task": "task_000000_07582d25",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_0ddcad43",
-      "task": "task_000000_0ddcad43",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_2609fcb2",
-      "task": "task_000000_2609fcb2",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_38b0efbb",
-      "task": "task_000000_38b0efbb",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_58718bf9",
-      "task": "task_000000_58718bf9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_5db4f237",
-      "task": "task_000000_5db4f237",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_7c4589b5",
-      "task": "task_000000_7c4589b5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_7eeb05d7",
-      "task": "task_000000_7eeb05d7",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_a0ceb047",
-      "task": "task_000000_a0ceb047",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_a0df3429",
-      "task": "task_000000_a0df3429",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_a0e70871",
-      "task": "task_000000_a0e70871",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_a42b1e77",
-      "task": "task_000000_a42b1e77",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_c25eac77",
-      "task": "task_000000_c25eac77",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_da41d52b",
-      "task": "task_000000_da41d52b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_ed731a21",
-      "task": "task_000000_ed731a21",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_fb27ad45",
-      "task": "task_000000_fb27ad45",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_chunk1/task_000000_fe122402",
-      "task": "task_000000_fe122402",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_00bb133d",
-      "task": "task_000000_00bb133d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_017446f1",
-      "task": "task_000000_017446f1",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_0b18018e",
-      "task": "task_000000_0b18018e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_0bc18e97",
-      "task": "task_000000_0bc18e97",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_0be64252",
-      "task": "task_000000_0be64252",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_12b82319",
-      "task": "task_000000_12b82319",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_14c239a6",
-      "task": "task_000000_14c239a6",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_151ee3eb",
-      "task": "task_000000_151ee3eb",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_162b3182",
-      "task": "task_000000_162b3182",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_16a1eb31",
-      "task": "task_000000_16a1eb31",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_1864358d",
-      "task": "task_000000_1864358d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_18d897a4",
-      "task": "task_000000_18d897a4",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_190656f4",
-      "task": "task_000000_190656f4",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_19fe84b1",
-      "task": "task_000000_19fe84b1",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_1b22e93e",
-      "task": "task_000000_1b22e93e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_1b6dca64",
-      "task": "task_000000_1b6dca64",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_1bf71ca1",
-      "task": "task_000000_1bf71ca1",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_1c7c621f",
-      "task": "task_000000_1c7c621f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_1f6b2e13",
-      "task": "task_000000_1f6b2e13",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_2773417e",
-      "task": "task_000000_2773417e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_27ad32da",
-      "task": "task_000000_27ad32da",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_29ee72d9",
-      "task": "task_000000_29ee72d9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_2b59c0a2",
-      "task": "task_000000_2b59c0a2",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_2cdfe7ef",
-      "task": "task_000000_2cdfe7ef",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_2fcfa894",
-      "task": "task_000000_2fcfa894",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_30ba10a3",
-      "task": "task_000000_30ba10a3",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_30c4236e",
-      "task": "task_000000_30c4236e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_3318f13b",
-      "task": "task_000000_3318f13b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_3522adaf",
-      "task": "task_000000_3522adaf",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_381ab2a8",
-      "task": "task_000000_381ab2a8",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_3b9b178c",
-      "task": "task_000000_3b9b178c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_4166912c",
-      "task": "task_000000_4166912c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_45cc9360",
-      "task": "task_000000_45cc9360",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_4e3f83be",
-      "task": "task_000000_4e3f83be",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_51f51d1e",
-      "task": "task_000000_51f51d1e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_547945c7",
-      "task": "task_000000_547945c7",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_5589cadc",
-      "task": "task_000000_5589cadc",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_60273df7",
-      "task": "task_000000_60273df7",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_66a3e973",
-      "task": "task_000000_66a3e973",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_69b0b06a",
-      "task": "task_000000_69b0b06a",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_6d870d76",
-      "task": "task_000000_6d870d76",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_752c0d73",
-      "task": "task_000000_752c0d73",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_758292f3",
-      "task": "task_000000_758292f3",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_76a10f32",
-      "task": "task_000000_76a10f32",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_791ab0b2",
-      "task": "task_000000_791ab0b2",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_7adeac5f",
-      "task": "task_000000_7adeac5f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_80d310a0",
-      "task": "task_000000_80d310a0",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_81f3fc83",
-      "task": "task_000000_81f3fc83",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_8747b398",
-      "task": "task_000000_8747b398",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_905cb90e",
-      "task": "task_000000_905cb90e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_933da237",
-      "task": "task_000000_933da237",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_95615b1c",
-      "task": "task_000000_95615b1c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_9688421a",
-      "task": "task_000000_9688421a",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_99603652",
-      "task": "task_000000_99603652",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_9b3045e0",
-      "task": "task_000000_9b3045e0",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_9c95df32",
-      "task": "task_000000_9c95df32",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_9d41b014",
-      "task": "task_000000_9d41b014",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_a5bccd95",
-      "task": "task_000000_a5bccd95",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_a6fbf52c",
-      "task": "task_000000_a6fbf52c",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_a7b787cb",
-      "task": "task_000000_a7b787cb",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_a7d12af5",
-      "task": "task_000000_a7d12af5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_a98a847d",
-      "task": "task_000000_a98a847d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_af0ba7d2",
-      "task": "task_000000_af0ba7d2",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_af2aa97f",
-      "task": "task_000000_af2aa97f",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_afdd3c6a",
-      "task": "task_000000_afdd3c6a",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_b9f0f7f6",
-      "task": "task_000000_b9f0f7f6",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_c3490cd5",
-      "task": "task_000000_c3490cd5",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_c52c534e",
-      "task": "task_000000_c52c534e",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_c5466378",
-      "task": "task_000000_c5466378",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_c5ca693b",
-      "task": "task_000000_c5ca693b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_c6eb3fa9",
-      "task": "task_000000_c6eb3fa9",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_ced2caa7",
-      "task": "task_000000_ced2caa7",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_d708152d",
-      "task": "task_000000_d708152d",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_db4802fa",
-      "task": "task_000000_db4802fa",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_db9e13bd",
-      "task": "task_000000_db9e13bd",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_dce73eb3",
-      "task": "task_000000_dce73eb3",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_dfbe7128",
-      "task": "task_000000_dfbe7128",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_e2776275",
-      "task": "task_000000_e2776275",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_e7abbdfa",
-      "task": "task_000000_e7abbdfa",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_e98c9336",
-      "task": "task_000000_e98c9336",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_ed027da1",
-      "task": "task_000000_ed027da1",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_eea14c37",
-      "task": "task_000000_eea14c37",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_eedaab53",
-      "task": "task_000000_eedaab53",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_f242430b",
-      "task": "task_000000_f242430b",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_f3162692",
-      "task": "task_000000_f3162692",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_f9c80443",
-      "task": "task_000000_f9c80443",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_fcd53522",
-      "task": "task_000000_fcd53522",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_fea57556",
-      "task": "task_000000_fea57556",
-      "reason": "not_executable_environment_admitted"
-    },
-    {
-      "source_task_dir": "/home/ubuntu/endless-terminals/tasks/behavior_trace_20260530_targeted_exit_bounded/task_000000_feeb525e",
-      "task": "task_000000_feeb525e",
-      "reason": "not_executable_environment_admitted"
     }
   ]
 }

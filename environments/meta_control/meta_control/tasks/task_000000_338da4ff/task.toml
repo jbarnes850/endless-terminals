@@ -8,7 +8,7 @@ keywords = ["agentic-rl", "endless-terminals", "premature_stop_on_sparse_feedbac
 
 [metadata]
 source = "endless-terminals"
-corpus = "behavior_trace_20260529_220"
+corpus = "meta_control_seed"
 generation_mode = "behavior_conditioned_llm_funnel"
 behavior_card_id = "premature_stop_on_sparse_feedback"
 capability = "stop_continue_calibration"

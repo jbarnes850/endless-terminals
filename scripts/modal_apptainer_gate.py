@@ -9,7 +9,7 @@ import modal
 
 
 APP_NAME = "endless-apptainer-gate"
-REMOTE_CORPUS = Path("/root/behavior_trace_20260529_220")
+REMOTE_CORPUS = Path("/root/meta_control_seed")
 BASE_SIF = Path("/root/ubuntu_22.04.sif")
 
 
@@ -28,7 +28,7 @@ image = (
         "python3 -m pip install --no-cache-dir pytest",
     )
     .add_local_dir(
-        "tasks/behavior_trace_20260529_220",
+        "tasks/meta_control_seed",
         remote_path=str(REMOTE_CORPUS),
         copy=True,
     )

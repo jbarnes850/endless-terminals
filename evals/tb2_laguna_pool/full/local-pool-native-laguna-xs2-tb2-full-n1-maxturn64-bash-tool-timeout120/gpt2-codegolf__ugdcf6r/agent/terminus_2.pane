@@ -1,758 +1,0 @@
-[?2004hroot@a15876150c20:/app# asciinema rec --stdin /logs/agent/recording.cast
-[?2004l[0;32masciinema: recording asciicast to /logs/agent/recording.cast[0m
-[0;32masciinema: press <ctrl-d> or type "exit" when you're done[0m
-[?2004hroot@a15876150c20:/app# clear
-[?2004l[H[J[3J[?2004hroot@a15876150c20:/app# ls -la /app
-[?2004ltotal 486552
-drwxr-xr-x 1 root root      4096 Oct 28  2025 [0m[01;34m.[0m
-drwxr-xr-x 1 root root      4096 May 30 03:31 [01;34m..[0m
--rw-r--r-- 1 root root 497759232 Oct 28  2025 gpt2-124M.ckpt
--rw-r--r-- 1 root root    456318 Oct 28  2025 vocab.bpe
-[?2004hroot@a15876150c20:/app# head -c 500 /app/gpt2-124M.ckpt | xxd
-[?2004lbash: xxd: command not found
-[?2004hroot@a15876150c20:/app# head -c 500 /app/gpt2-124M.ckpt | od -A x -t x1z
-[?2004l000000 03 ef f5 3e c0 82 06 bf 90 c8 db be 36 e5 52 be  >...>........6.R.<
-000010 a6 cc 02 be 6b 6f c3 bd 2b aa b4 be ba 98 9c bd  >....ko..+.......<
-000020 ef 04 3c bd 7d b7 19 bd 73 84 61 bc b6 37 3d be  >..<.}...s.a..7=.<
-000030 f6 70 f5 bd 63 12 34 3d f1 9d 2d 3d a9 44 a0 be  >.p..c.4=..-=.D..<
-000040 5c 1f 88 3c 26 bc b2 3e e8 db c7 be fa d8 f4 bc  >\..<&..>........<
-000050 7e 40 a8 3e 3d 59 ed 3d 47 d4 1f 3d b6 ce 06 3e  >~@.>=Y.=G..=...><
-000060 3e b9 42 3d a0 75 fe bd 31 f2 b7 bb a5 4b 11 be  >>.B=.u..1....K..<
-000070 77 25 95 3d 43 31 05 3e b1 b0 ed 3e d1 36 03 3e  >w%.=C1.>...>.6.><
-000080 f0 7f 13 3f 9d 03 a1 bd f6 a8 11 bf a0 d1 cd 3c  >...?...........<<
-000090 d7 87 37 be f8 c7 53 be 32 e2 f3 3b 51 92 f3 3c  >..7...S.2..;Q..<<
-0000a0 0a 8f 8c 3c dd 0f 5c be fb 17 80 bd 8c 74 9e be  >...<..\......t..<
-0000b0 7c b5 fc 3d 96 3a 5f 3e b5 9a 4e be d2 9e 82 3e  >|..=.:_>..N....><
-0000c0 c9 75 9a 3e 99 6f 94 be 95 d2 93 bd d8 5e 1c 3e  >.u.>.o.......^.><
-0000d0 9f 3a e1 be b4 59 b8 bc 2c e2 fe bb 2e 56 02 bf  >.:...Y..,....V..<
-0000e0 54 2e 09 3d 74 a1 f3 bd f7 ab 37 be 6e fb ad be  >T..=t.....7.n...<
-0000f0 a8 f8 b6 3e f0 9f 72 bc d1 1f 02 3f 03 74 be be  >...>..r....?.t..<
-000100 74 30 0f be 64 7a 03 3f 30 6b a9 3e 0e ee 1c 3e  >t0..dz.?0k.>...><
-000110 33 c7 18 be ad f6 a9 be 8b 79 3e be 23 62 b0 bd  >3........y>.#b..<
-000120 04 fe d9 bd 66 de a1 3d b6 7d 17 3d bc b0 20 bf  >....f..=.}.=.. .<
-000130 71 1e 0f 3f 0d 70 c5 bc be b8 be 3c 1b 5d 52 be  >q..?.p.....<.]R.<
-000140 57 8f 9b 3d 62 3f 20 bf 8b 1e 70 3e 49 0c c3 3e  >W..=b? ...p>I..><
-000150 bf 40 6d be ab 21 9c 3e 1b 96 0a bf e2 36 12 3f  >.@m..!.>.....6.?<
-000160 44 3c 56 3e 60 3b 28 be fc 51 25 3f 25 6a e7 be  >D<V>`;(..Q%?%j..<
-000170 68 c0 ae be 7c b8 1b 3f 81 8a c2 3e 3c 94 12 3f  >h...|..?...><..?<
-000180 fd 24 52 3e 22 c0 30 be b6 a1 9f be 2a f4 fb 3e  >.$R>".0.....*..><
-000190 09 4b cb be 5b e4 d3 be ca 8c 8b bc 07 a5 b2 bd  >.K..[...........<
-0001a0 cd 60 8e be 2d df e7 3e e9 25 9f be 0a f3 8a be  >.`..-..>.%......<
-0001b0 dc 04 54 3e 58 2a 02 3f c6 d4 71 bd fb fd 38 be  >..T>X*.?..q...8.<
-0001c0 01 24 b6 be ce 82 66 be e8 b6 6f bd 59 3b 27 be  >.$....f...o.Y;'.<
-0001d0 e4 20 3b bf 13 a1 63 3e a4 72 11 bf b6 4d 19 3f  >. ;...c>.r...M.?<
-0001e0 59 61 2e 3e 20 74 67 be 58 4e 81 3d f0 90 9c 3e  >Ya.> tg.XN.=...><
-0001f0 db 1b 7a be                                      >..z.<
-0001f4
-[?2004hroot@a15876150c20:/app# which python3 || which python
-[?2004l/usr/bin/python3
-[?2004hroot@a15876150c20:/app# python3 -c "import tensorflow as tf; print(tf.__version__)" 2>/dev/null || echo "No TF"
-[?2004lNo TF
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# python3 << 'EOF'
-[?2004l[?2004h> import struct
-[?2004l[?2004h> 
-[?2004l[?2004h> # Read the checkpoint file header
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     # Try to read as TF checkpoint
-[?2004l[?2004h>     data = f.read(100)
-[?2004l[?2004h>     print("First 100 bytes (hex):", data.hex())
-[?2004l[?2004h>     
-[?2004l[?2004h> # Check if it's a TensorFlow checkpoint
-[?2004l[?2004h> # TF checkpoints start with a magic number or have specific format
-[?2004l[?2004h> # Let's try to read the whole file and look for patterns
-[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
-[?2004l[?2004h>     content = f.read()
-[?2004l[?2004h>     print(f"\nFile size: {len(content)}")
-[?2004l[?2004h>     # Look for common TF checkpoint markers
-[?2004l[?2004h>     if b'magic' in content[:1000]:
-[?2004l[?2004h>         print("Found 'magic' in header")
-[?2004l[?2004h>     else:
-[?2004l[?2004h>         print("No 'magic' found in first 1000 bytes")
-[?2004l[?2004h> EOF
-[?2004lFirst 100 bytes (hex): 03eff53ec08206bf90c8dbbe36e552bea6cc02be6b6fc3bd2baab4beba989cbdef043cbd7db719bd738461bcb6373dbef670f5bd6312343df19d2d3da944a0be5c1f883c26bcb23ee8dbc7befad8f4bc7e40a83e3d59ed3d47d41f3db6ce063e3eb9423d
-
-File size: 497759232
-No 'magic' found in first 1000 bytes
-[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# sleep 1
-[?2004l[?2004hroot@a15876150c20:/app# 

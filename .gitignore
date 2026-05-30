@@ -3,6 +3,8 @@
 tasks/
 !environments/meta_control/meta_control/tasks/
 !environments/meta_control/meta_control/tasks/**
+exports/
+evals/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

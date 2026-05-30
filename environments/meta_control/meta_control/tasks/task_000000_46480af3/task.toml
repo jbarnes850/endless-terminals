@@ -8,7 +8,7 @@ keywords = ["agentic-rl", "endless-terminals", "long_horizon_progress_ledger", "
 
 [metadata]
 source = "endless-terminals"
-corpus = "behavior_trace_20260529_220"
+corpus = "meta_control_seed"
 generation_mode = "behavior_conditioned_llm_funnel"
 behavior_card_id = "partial_progress_stall"
 capability = "long_horizon_progress_ledger"

@@ -30,7 +30,7 @@ The first full Prime/Ubuntu report was polluted and should not be treated as fin
 184 failed
 ```
 
-From `tasks/behavior_trace_20260529_220/calibration/apptainer_build_test_full.json`:
+From `tasks/meta_control_seed/calibration/apptainer_build_test_full.json`:
 
 - 138 build failures.
 - 109 build failures were Docker Hub unauthenticated pull rate limits:
@@ -79,9 +79,9 @@ On the Prime A6000 worker:
 ```bash
 cd ~/endless-terminals
 python3 scripts/apptainer_build_test_corpus.py \
-  --tasks-dir tasks/behavior_trace_20260529_220 \
-  --out tasks/behavior_trace_20260529_220/calibration/apptainer_executable_gate_clean.json \
-  --eligible-out tasks/behavior_trace_20260529_220/eligible.txt \
+  --tasks-dir tasks/meta_control_seed \
+  --out tasks/meta_control_seed/calibration/apptainer_executable_gate_clean.json \
+  --eligible-out tasks/meta_control_seed/eligible.txt \
   --base-sif base/ubuntu_22.04.sif \
   --workers 4 \
   --build-timeout 900 \

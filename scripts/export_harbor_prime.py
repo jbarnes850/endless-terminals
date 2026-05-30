@@ -57,7 +57,7 @@ def write_task_toml(task: dict[str, Any], task_name: str, behavior: dict[str, An
     description = str(task.get("description", "")).splitlines()[0][:240]
     metadata_lines = [
         'source = "endless-terminals"',
-        'corpus = "behavior_trace_20260529_220"',
+        'corpus = "meta_control_seed"',
         'generation_mode = "behavior_conditioned_llm_funnel"',
     ]
     if behavior:

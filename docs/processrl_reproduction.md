@@ -28,7 +28,7 @@ measured before generating more raw candidates.
 ```bash
 uv run python generate_tasks.py \
   --num-tasks 220 \
-  --out-dir tasks/behavior_trace_20260529_220 \
+  --out-dir tasks/meta_control_seed \
   --model gpt-5.5 \
   --behavior-conditioned \
   --behavior-seed 20260529 \
@@ -181,7 +181,7 @@ The release should be regenerated from the manifest if calibration is rerun.
 
 ```bash
 uv run python scripts/export_harbor_prime.py \
-  --tasks-dir tasks/behavior_trace_20260529_220 \
+  --tasks-dir tasks/meta_control_seed \
   --tasks-dir tasks/behavior_trace_20260530_chunk1 \
   --tasks-dir tasks/behavior_trace_20260530_targeted_exit_bounded \
   --tasks-dir tasks/behavior_trace_20260530_chunk2_balanced \
@@ -191,7 +191,7 @@ uv run python scripts/export_harbor_prime.py \
   --prime-env-out environments/processrl_core_train
 
 uv run python scripts/export_harbor_prime.py \
-  --tasks-dir tasks/behavior_trace_20260529_220 \
+  --tasks-dir tasks/meta_control_seed \
   --tasks-dir tasks/behavior_trace_20260530_chunk1 \
   --tasks-dir tasks/behavior_trace_20260530_targeted_exit_bounded \
   --tasks-dir tasks/behavior_trace_20260530_chunk2_balanced \

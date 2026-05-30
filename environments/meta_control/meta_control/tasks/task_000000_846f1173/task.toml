@@ -8,7 +8,7 @@ keywords = ["agentic-rl", "endless-terminals", "recognition_to_action_coupling",
 
 [metadata]
 source = "endless-terminals"
-corpus = "behavior_trace_20260529_220"
+corpus = "meta_control_seed"
 generation_mode = "behavior_conditioned_llm_funnel"
 behavior_card_id = "repeat_loop_after_dead_end"
 capability = "recognition_to_action_coupling"
