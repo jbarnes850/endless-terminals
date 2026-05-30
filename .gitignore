@@ -197,6 +197,9 @@ cython_debug/
 # Ruff stuff:
 .ruff_cache/
 
+# Repo-local external checkouts used for compatibility probes.
+third_party/prime-rl/
+
 # PyPI configuration file
 .pypirc
 
