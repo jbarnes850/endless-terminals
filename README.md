@@ -10,6 +10,11 @@ Endless Terminals is a fully autonomous pipeline that procedurally generates
 terminal-use tasks without human annotation for training terminal agents with
 reinforcement learning.
 
+ProcessRL is a concrete release built on this pipeline. See the
+[ProcessRL reproduction runbook](docs/processrl_reproduction.md), the
+[released environments](https://huggingface.co/datasets/Jarrodbarnes/processrl-terminal-environments),
+and the [rollout analysis site](https://process-rl-site.vercel.app).
+
 ## Installation
 
 **Prerequisites:** Python 3.12+, [uv](https://github.com/astral-sh/uv)
@@ -131,9 +136,6 @@ uv run python scripts/export_harbor_prime.py \
   --harbor-out ./exports/tasks/harbor_tasks \
   --prime-env-out ./environments/meta_control
 ```
-
-For the concrete ProcessRL release runbook, see
-[`docs/processrl_reproduction.md`](docs/processrl_reproduction.md).
 
 ## Training
 

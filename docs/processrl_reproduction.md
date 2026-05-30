@@ -4,9 +4,17 @@ This runbook records the public, reproducible path for the ProcessRL terminal
 environment release. It intentionally excludes private endpoint URLs, API keys,
 prebuilt container images, rollout scratch logs, and local worker paths.
 
+> **Public artifacts.** The released environments are available on Hugging Face
+> at
+> [`Jarrodbarnes/processrl-terminal-environments`](https://huggingface.co/datasets/Jarrodbarnes/processrl-terminal-environments).
+> The rollout analysis that motivated the ProcessRL generation and calibration
+> pipeline is available at
+> [`process-rl-site.vercel.app`](https://process-rl-site.vercel.app).
+
 The release artifact is:
 
-- Hugging Face dataset: `Jarrodbarnes/processrl-terminal-environments`
+- Hugging Face dataset:
+  [`Jarrodbarnes/processrl-terminal-environments`](https://huggingface.co/datasets/Jarrodbarnes/processrl-terminal-environments)
 - Public split: `53` train environments and `14` heldout environments
 - Packaging boundary: executable environment source definitions, not prebuilt
   Docker images or Apptainer SIFs
