@@ -341,3 +341,28 @@ Latest monitor sample at `2026-05-30 11:40:45Z`:
   `uv run ruff check endless_harbor/rate_limited_terminus.py scripts/run_tb2_laguna_terminus_xml.py scripts/launch_tb2_openrouter_key2_timeoutx20.py`
   and
   `uv run python -m py_compile endless_harbor/rate_limited_terminus.py scripts/run_tb2_laguna_terminus_xml.py scripts/launch_tb2_openrouter_key2_timeoutx20.py`.
+
+Latest monitor sample at `2026-05-30 11:44:38Z`:
+
+- To reduce wall-clock under OpenRouter's free-route throttling, the older
+  discovered OpenRouter key was probed successfully and launched as a separate
+  tail-half shard.
+- Active tmux sessions:
+  - `tb2_laguna_key2_full`: original full run from the front of TB2.
+  - `tb2_laguna_key1_tail`: 44-task tail shard using
+    `evals/tb2_laguna_terminus_xml/shards/tb2_tail_half_tasks.txt`.
+- Tail shard job:
+  `evals/tb2_laguna_terminus_xml/full/laguna-xs2-openrouter-key1-native-toolcall-timeoutx20-tail-half`.
+- Tail shard first task is `install-windows-3.11__8pCnQLe`; Harbor has 0
+  completed, 0 errors, 1 running, 43 pending.
+- Tail shard log already shows parsed terminal execution:
+  `ls -la /app/`, `ls -la /app/isos/`,
+  `qemu-system-i386 --version`, `which nginx`, and
+  `apt-get update && apt-get install -y nginx`.
+- Original key2 full run remains alive: 2 completed, 0 errors, 1 running,
+  86 pending. The running task `break-filter-js-from-html__XyLvKwM` has
+  40 trajectory entries.
+- Static validation after generalizing the launcher remains clean:
+  `uv run ruff check endless_harbor/rate_limited_terminus.py scripts/run_tb2_laguna_terminus_xml.py scripts/launch_tb2_openrouter_key2_timeoutx20.py`
+  and
+  `uv run python -m py_compile endless_harbor/rate_limited_terminus.py scripts/run_tb2_laguna_terminus_xml.py scripts/launch_tb2_openrouter_key2_timeoutx20.py`.

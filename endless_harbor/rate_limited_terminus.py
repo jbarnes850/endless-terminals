@@ -21,9 +21,23 @@ from harbor.llms.chat import Chat
 class LagunaToolCallXMLParser(TerminusXMLPlainParser):
     """Accept Terminus XML plus Laguna's native XML-ish shell tool calls."""
 
+    _CONTROL_KEYSTROKES = {
+        "",
+        "Enter",
+        "C-c",
+        "C-d",
+        "C-l",
+        "C-z",
+        "Escape",
+        "Esc",
+        "Tab",
+    }
+
     def parse_response(self, response: str) -> ParseResult:
         result = super().parse_response(response)
-        if result.commands or result.is_task_complete:
+        if result.commands:
+            return self._with_normalized_commands(result)
+        if result.is_task_complete:
             return result
 
         commands = self._extract_laguna_tool_calls(response)
@@ -43,6 +57,41 @@ class LagunaToolCallXMLParser(TerminusXMLPlainParser):
             plan=result.plan,
         )
 
+    def _with_normalized_commands(self, result: ParseResult) -> ParseResult:
+        normalized = [self._normalize_command(command) for command in result.commands]
+        if normalized == result.commands:
+            return result
+
+        warning = self._combine_warnings(
+            "Normalized parsed shell keystrokes with trailing newlines",
+            result.warning,
+        )
+        return ParseResult(
+            commands=normalized,
+            is_task_complete=result.is_task_complete,
+            error=result.error,
+            warning=warning,
+            analysis=result.analysis,
+            plan=result.plan,
+        )
+
+    def _normalize_command(self, command: ParsedCommand) -> ParsedCommand:
+        keystrokes = command.keystrokes
+        if self._should_append_enter(keystrokes):
+            return ParsedCommand(
+                keystrokes=f"{keystrokes}\n",
+                duration=command.duration,
+            )
+        return command
+
+    def _should_append_enter(self, keystrokes: str) -> bool:
+        stripped = keystrokes.strip()
+        if keystrokes.endswith("\n") or stripped in self._CONTROL_KEYSTROKES:
+            return False
+        if re.fullmatch(r"C-[A-Za-z]", stripped):
+            return False
+        return True
+
     def _extract_laguna_tool_calls(self, response: str) -> list[ParsedCommand]:
         commands: list[ParsedCommand] = []
         for match in re.finditer(
@@ -53,7 +102,11 @@ class LagunaToolCallXMLParser(TerminusXMLPlainParser):
             block = match.group(1)
             command = self._extract_command_value(block)
             if command:
-                commands.append(ParsedCommand(keystrokes=command, duration=0.1))
+                commands.append(
+                    self._normalize_command(
+                        ParsedCommand(keystrokes=command, duration=0.1)
+                    )
+                )
         return commands
 
     def _extract_command_value(self, block: str) -> str:

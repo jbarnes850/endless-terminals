@@ -101,6 +101,7 @@ class MetaControlHarness(vf.Harness[MetaControlHarnessConfig]):
             lease = self.runtime.active_program_sandbox_lease(state)
             if lease is None:
                 raise RuntimeError("Laguna XML sandbox program has no active sandbox lease.")
+            state["sandbox_id"] = lease.id
             output = json.loads(
                 await read_sandbox_artifact(
                     lease.client,
