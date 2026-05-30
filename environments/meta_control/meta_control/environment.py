@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Mapping, MutableMapping
 import json
+from pathlib import Path
 import re
 import statistics
 from typing import Any
@@ -27,6 +28,7 @@ LAGUNA_XML_STATE_INPUT_PATH = "/tmp/meta_control_laguna_state_in.json"
 LAGUNA_XML_STATE_OUTPUT_PATH = "/tmp/meta_control_laguna_state_out.json"
 LAGUNA_XML_RUNNER_PATH = "/tmp/meta_control_laguna_xml_runner.py"
 LAGUNA_XML_TOOL_DEFS_PATH = "/tmp/meta_control_laguna_tool_defs.json"
+META_CONTROL_TASK_SETUP_PATH = "/tmp/meta_control_task_setup.sh"
 
 
 class MetaControlTasksetConfig(HarborTasksetConfig):
@@ -77,6 +79,7 @@ class MetaControlHarness(vf.Harness[MetaControlHarnessConfig]):
     def sandbox_base_program(self, program: dict[str, Any], sandbox_config: vf.SandboxConfig):
         async def run(task: vf.Task, state: vf.State) -> vf.State:
             merged_program = merge_task_program(program, task, kind="base")
+            merged_program = with_task_environment_setup(merged_program, task)
             prepared_program = self.prepare_sandbox_program(merged_program, state)
             prepared_sandbox = self.prepare_sandbox_config(
                 merge_task_sandbox(sandbox_config, task),
@@ -302,6 +305,87 @@ def laguna_xml_runner_program(
     merged["command"] = python_runtime_command(LAGUNA_XML_RUNNER_PATH)
     merged[VF_STATE_INPUT_PATH_KEY] = LAGUNA_XML_STATE_INPUT_PATH
     return merged
+
+
+def with_task_environment_setup(program: Mapping[str, Any], task: Mapping[str, Any]) -> dict[str, Any]:
+    setup_script = task_environment_setup_script(task)
+    if setup_script is None:
+        return dict(program)
+    files = program_option_mapping(program.get("files"), "program.files")
+    files[META_CONTROL_TASK_SETUP_PATH] = setup_script
+    env = program_option_mapping(program.get("env"), "program.env")
+    if env.get("AGENT_WORKDIR") in (None, "", "/app"):
+        env["AGENT_WORKDIR"] = "/home/user"
+    setup = []
+    raw_setup = program.get("setup")
+    if isinstance(raw_setup, list):
+        setup.extend(raw_setup)
+    elif raw_setup:
+        setup.append(raw_setup)
+    setup.append(f"bash {META_CONTROL_TASK_SETUP_PATH}")
+    merged = dict(program)
+    merged["files"] = files
+    merged["env"] = env
+    merged["setup"] = setup
+    merged["setup_timeout"] = int(task_setup_timeout(task))
+    return merged
+
+
+def task_setup_timeout(task: Mapping[str, Any]) -> float:
+    harbor = task.get("harbor")
+    config = harbor.get("config") if isinstance(harbor, Mapping) else None
+    environment = config.get("environment") if isinstance(config, Mapping) else None
+    if isinstance(environment, Mapping):
+        value = environment.get("build_timeout_sec")
+        if isinstance(value, int | float):
+            return float(value)
+        if isinstance(value, str):
+            try:
+                return float(value)
+            except ValueError:
+                pass
+    return 900.0
+
+
+def task_environment_setup_script(task: Mapping[str, Any]) -> str | None:
+    task_dir_value = task.get("task_dir")
+    if not isinstance(task_dir_value, str) or not task_dir_value:
+        return None
+    dockerfile = Path(task_dir_value) / "environment" / "Dockerfile"
+    if not dockerfile.exists():
+        return None
+    setup_body = extract_endless_docker_post(dockerfile.read_text(encoding="utf-8"))
+    if setup_body is None:
+        return None
+    return "\n".join(
+        [
+            "#!/usr/bin/env bash",
+            "set -euo pipefail",
+            "export DEBIAN_FRONTEND=noninteractive",
+            "if [ -f /tmp/meta_control_task_setup.done ]; then exit 0; fi",
+            setup_body,
+            "",
+            "# Some generated tasks install local service starters instead of Docker CMDs.",
+            "for starter in /usr/local/bin/start_*; do",
+            "  if [ -x \"$starter\" ]; then",
+            "    \"$starter\" || { echo \"meta-control setup starter failed: $starter\" >&2; exit 1; }",
+            "  fi",
+            "done",
+            "touch /tmp/meta_control_task_setup.done",
+            "",
+        ]
+    )
+
+
+def extract_endless_docker_post(dockerfile_text: str) -> str | None:
+    match = re.search(
+        r"RUN <<'__ENDLESS_DOCKER_POST__'\n(?P<body>.*?)\n__ENDLESS_DOCKER_POST__",
+        dockerfile_text,
+        re.DOTALL,
+    )
+    if not match:
+        return None
+    return match.group("body").strip("\n")
 
 
 def ensure_top_level_sampling_args(state: MutableMapping[str, Any]) -> None:

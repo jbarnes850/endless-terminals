@@ -14,12 +14,16 @@ from meta_control.environment import (
     LAGUNA_XML_STATE_INPUT_PATH,
     LAGUNA_XML_STATE_OUTPUT_PATH,
     LAGUNA_XML_TOOL_DEFS_PATH,
+    META_CONTROL_TASK_SETUP_PATH,
     MetaControlHarness,
     MetaControlHarnessConfig,
     action_fingerprints,
     action_observation_fingerprints,
     ensure_top_level_sampling_args,
+    extract_endless_docker_post,
     parse_laguna_xml_tool_calls,
+    task_environment_setup_script,
+    with_task_environment_setup,
 )
 
 
@@ -225,3 +229,37 @@ def test_parent_harness_promotes_runtime_sampling_args_for_prime_rl_state_column
         "max_completion_tokens": 4096,
         "extra_body": {"return_token_ids": True, "cache_salt": "abc"},
     }
+
+
+def test_harbor_dockerfile_setup_is_injected_before_laguna_runner() -> None:
+    task_dir = Path(__file__).parents[1] / "meta_control" / "tasks" / "task_000000_f3c8f023"
+    dockerfile = task_dir / "environment" / "Dockerfile"
+    body = extract_endless_docker_post(dockerfile.read_text(encoding="utf-8"))
+
+    assert body is not None
+    assert "mkdir -p /home/user/sre-uptime-check" in body
+    assert "catalog_api_server.py" in body
+
+    task = {
+        "task_dir": str(task_dir),
+        "harbor": {"config": {"environment": {"build_timeout_sec": 123}}},
+    }
+    setup_script = task_environment_setup_script(task)
+    assert setup_script is not None
+    assert "mkdir -p /home/user/sre-uptime-check" in setup_script
+    assert "/usr/local/bin/start_*" in setup_script
+
+    program = {
+        "base": True,
+        "sandbox": True,
+        "files": {"/tmp/existing": "ok"},
+        "env": {"AGENT_WORKDIR": "/app", "KEEP": "1"},
+    }
+    patched = with_task_environment_setup(program, task)
+
+    assert patched["files"]["/tmp/existing"] == "ok"
+    assert patched["files"][META_CONTROL_TASK_SETUP_PATH] == setup_script
+    assert patched["env"]["AGENT_WORKDIR"] == "/home/user"
+    assert patched["env"]["KEEP"] == "1"
+    assert patched["setup"] == [f"bash {META_CONTROL_TASK_SETUP_PATH}"]
+    assert patched["setup_timeout"] == 123
