@@ -85,6 +85,17 @@ def pass_at_k(summary: Optional[Dict[str, Any]], k: int) -> Optional[float]:
     val = pak.get(str(k))
     if val is None:
         val = pak.get(k)
+    if val is None:
+        # Reference validity may use fewer samples than policy calibration. In
+        # that case pass@requested_k is undefined, but the largest available
+        # pass@k still answers the intended "solvable at all?" question.
+        numeric_keys = sorted(int(key) for key in pak if str(key).isdigit())
+        fallback_keys = [key for key in numeric_keys if key <= k] or numeric_keys
+        if fallback_keys:
+            fallback = fallback_keys[-1]
+            val = pak.get(str(fallback))
+            if val is None:
+                val = pak.get(fallback)
     return None if val is None else float(val)
 
 
