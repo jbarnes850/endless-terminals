@@ -1,0 +1,49 @@
+{
+    "id": "f2dc7f7a-d046-449b-9169-f9ae0468c344",
+    "started_at": "2026-05-30T03:55:09.411452",
+    "updated_at": "2026-05-30T03:03:41.806526Z",
+    "finished_at": null,
+    "n_total_trials": 89,
+    "stats": {
+        "n_completed_trials": 9,
+        "n_errored_trials": 9,
+        "n_running_trials": 2,
+        "n_pending_trials": 78,
+        "n_cancelled_trials": 2,
+        "n_retries": 8,
+        "evals": {
+            "pool-laguna-terminus-2__poolside/laguna-xs.2__terminal-bench": {
+                "n_trials": 0,
+                "n_errors": 9,
+                "metrics": [
+                    {
+                        "mean": 0.0
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {},
+                "exception_stats": {
+                    "AddTestsDirError": [
+                        "gpt2-codegolf__hrAEnuk",
+                        "llm-inference-batching-scheduler__NNyPaNm"
+                    ],
+                    "RuntimeError": [
+                        "break-filter-js-from-html__SzukNSS",
+                        "merge-diff-arc-agi-task__xSSjVbP",
+                        "write-compressor__XLE6zqu",
+                        "reshard-c4-data__NE6fxdr",
+                        "winning-avg-corewars__ApxdAzU"
+                    ],
+                    "CancelledError": [
+                        "password-recovery__V3ZfMq3",
+                        "largest-eigenval__8iteZM3"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 210792,
+        "n_cache_tokens": 104144,
+        "n_output_tokens": 10826,
+        "cost_usd": null
+    }
+}

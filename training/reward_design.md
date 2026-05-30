@@ -22,7 +22,7 @@ Keep weights conservative. Final hidden-verifier success stays dominant; process
 
 Use Prime-RL's native async trainer for the overnight run. The scientific claim is Laguna meta-control and generalized terminal-agent capability, not faithful reproduction of a trainer objective. Keep the Dr. GRPO-informed hygiene that matters for this reward shape:
 
-- `rollouts_per_example = 16` for stable group comparisons.
+- `group_size = 8` for the first compatibility run; raise toward 16 only after XML execution, reward variance, and rollout throughput are stable.
 - Default group mean-baseline advantage.
 - No per-group reward-std normalization.
 - No length shaping / GR3 rescaling.

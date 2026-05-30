@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/verifier/verifier.py", line 144, in verify
+    await self.environment.upload_dir(
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker.py", line 599, in upload_dir
+    await self._platform.upload_dir(source_dir, target_dir)
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker_unix.py", line 26, in upload_dir
+    await self._env._run_docker_compose_command(
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker.py", line 417, in _run_docker_compose_command
+    raise RuntimeError(
+RuntimeError: Docker compose command failed for environment gpt2-codegolf. Command: docker compose --project-name gpt2-codegolf__hraenuk --project-directory /Users/jarrodbarnes/.cache/harbor/tasks/CGqXnFmcaVcQCTbCZMpg2T/gpt2-codegolf/environment -f /private/var/folders/jf/cvplhbnj6435rjy9crnhgjh00000gn/T/tmpe_x8_0gc/gpt2-codegolf__hrAEnuk-docker-compose-resources.json -f /Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /private/var/folders/jf/cvplhbnj6435rjy9crnhgjh00000gn/T/tmp3swtpsc2/docker-compose-mounts.json cp /Users/jarrodbarnes/.cache/harbor/tasks/CGqXnFmcaVcQCTbCZMpg2T/gpt2-codegolf/tests/. main:/tests. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 161, in run
+    await self._run()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/single_step.py", line 40, in _run
+    await self._run_verifier()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/single_step.py", line 91, in _run_verifier
+    self.result.verifier_result = await self._run_shared_verifier(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 304, in _run_shared_verifier
+    return await asyncio.wait_for(verifier.verify(), timeout=timeout_sec)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/verifier/verifier.py", line 149, in verify
+    raise AddTestsDirError(
+harbor.verifier.verifier.AddTestsDirError: Failed to add tests directory to environment.

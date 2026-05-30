@@ -11,11 +11,14 @@ import argparse
 import json
 import os
 import subprocess
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 from pathlib import Path
 
 
 DEFAULT_MODEL_ID = "poolside/laguna-xs.2"
 DEFAULT_DATASET = "terminal-bench@2.0"
+DEFAULT_AGENT_IMPORT_PATH = "endless_harbor.pool_laguna_agent:PoolLagunaTerminus2"
 
 
 def load_pool_credential(api_url: str | None) -> tuple[str, str]:
@@ -56,8 +59,8 @@ def build_command(args: argparse.Namespace, api_base: str) -> list[str]:
         "run",
         "--dataset",
         args.dataset,
-        "--agent",
-        "terminus-2",
+        "--agent-import-path",
+        args.agent_import_path,
         "--model",
         model_name,
         "--env",
@@ -70,6 +73,14 @@ def build_command(args: argparse.Namespace, api_base: str) -> list[str]:
         f"api_base={api_base}",
         "--agent-kwarg",
         f"temperature={args.temperature}",
+        "--agent-kwarg",
+        f"max_completion_tokens={args.max_completion_tokens}",
+        "--agent-kwarg",
+        f"rate_limit_max_retries={args.rate_limit_max_retries}",
+        "--agent-kwarg",
+        f"rate_limit_base_sleep={args.rate_limit_base_sleep}",
+        "--agent-kwarg",
+        f"request_timeout={args.request_timeout}",
         "--max-retries",
         str(args.max_retries),
         "--yes",
@@ -99,12 +110,52 @@ def build_command(args: argparse.Namespace, api_base: str) -> list[str]:
     return command
 
 
+def probe_laguna_chat(api_base: str, token: str, model_id: str) -> None:
+    request = Request(
+        f"{api_base}/chat/completions",
+        data=json.dumps(
+            {
+                "model": model_id,
+                "messages": [{"role": "user", "content": "Return exactly OK."}],
+                "max_completion_tokens": 8,
+            }
+        ).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
+    )
+    try:
+        with urlopen(request, timeout=60) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise SystemExit(
+            f"Poolside Laguna probe failed with HTTP {exc.code}: {detail}"
+        ) from exc
+    except URLError as exc:
+        raise SystemExit(f"Poolside Laguna probe failed: {exc}") from exc
+
+    content = payload["choices"][0]["message"].get("content")
+    if not content or "OK" not in content:
+        raise SystemExit(
+            f"Poolside Laguna probe returned an unexpected response: {content!r}"
+        )
+    usage = payload.get("usage") or {}
+    print(
+        "Poolside Laguna probe passed:",
+        f"prompt_tokens={usage.get('prompt_tokens')}",
+        f"completion_tokens={usage.get('completion_tokens')}",
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Run Terminal-Bench 2.0 with Harbor Terminus 2 and Poolside Laguna XS.2."
     )
     parser.add_argument("--dataset", default=DEFAULT_DATASET)
     parser.add_argument("--model-id", default=DEFAULT_MODEL_ID)
+    parser.add_argument("--agent-import-path", default=DEFAULT_AGENT_IMPORT_PATH)
     parser.add_argument(
         "--litellm-model",
         help="Override the LiteLLM model string. Defaults to openai/<model-id>.",
@@ -113,11 +164,15 @@ def main() -> int:
     parser.add_argument("--env", default="docker", choices=["docker", "daytona", "e2b", "modal", "runloop"])
     parser.add_argument("--jobs-dir", type=Path, default=Path("evals/tb2_laguna_pool"))
     parser.add_argument("--job-name")
-    parser.add_argument("--n-concurrent", type=int, default=4)
+    parser.add_argument("--n-concurrent", type=int, default=1)
     parser.add_argument("--n-tasks", type=int)
     parser.add_argument("--include-task-name", action="append", default=[])
     parser.add_argument("--exclude-task-name", action="append", default=[])
     parser.add_argument("--temperature", type=float, default=0.6)
+    parser.add_argument("--max-completion-tokens", type=int, default=2048)
+    parser.add_argument("--rate-limit-max-retries", type=int, default=8)
+    parser.add_argument("--rate-limit-base-sleep", type=float, default=5.0)
+    parser.add_argument("--request-timeout", type=float, default=120.0)
     parser.add_argument("--max-turns", type=int)
     parser.add_argument("--timeout-multiplier", type=float)
     parser.add_argument("--max-retries", type=int, default=0)
@@ -130,6 +185,16 @@ def main() -> int:
         help="Keep task containers/images after trials. Useful for local Docker smoke debugging.",
     )
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument(
+        "--skip-probe",
+        action="store_true",
+        help="Skip the small Poolside /v1/chat/completions probe before Harbor launch.",
+    )
+    parser.add_argument(
+        "--probe-only",
+        action="store_true",
+        help="Check Poolside Laguna /v1/chat/completions and exit without launching Harbor.",
+    )
     parser.add_argument(
         "--dry-run",
         action="store_true",
@@ -149,6 +214,10 @@ def main() -> int:
     print("Harbor command:", " ".join(redacted_command))
 
     if args.dry_run:
+        return 0
+    if not args.skip_probe:
+        probe_laguna_chat(api_base, token, args.model_id)
+    if args.probe_only:
         return 0
 
     env = os.environ.copy()

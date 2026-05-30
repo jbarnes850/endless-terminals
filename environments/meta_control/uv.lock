@@ -3428,8 +3428,8 @@ wheels = [
 
 [[package]]
 name = "tasksets"
-version = "0.1.1"
-source = { git = "https://github.com/PrimeIntellect-ai/verifiers.git?subdirectory=packages%2Ftasksets#4ca450a0c5bf2222e3864fed8ee5a6ffed00668f" }
+version = "0.1.4"
+source = { git = "https://github.com/PrimeIntellect-ai/verifiers.git?subdirectory=packages%2Ftasksets#82310b9c049b39d1eacb14c7c2b2ce0e76469899" }
 dependencies = [
     { name = "verifiers" },
 ]
@@ -3688,8 +3688,8 @@ wheels = [
 
 [[package]]
 name = "verifiers"
-version = "0.1.15.dev13"
-source = { git = "https://github.com/PrimeIntellect-ai/verifiers.git#4ca450a0c5bf2222e3864fed8ee5a6ffed00668f" }
+version = "0.1.15.dev14"
+source = { git = "https://github.com/PrimeIntellect-ai/verifiers.git#82310b9c049b39d1eacb14c7c2b2ce0e76469899" }
 dependencies = [
     { name = "aiolimiter" },
     { name = "anthropic" },

@@ -1,0 +1,32 @@
+schema_version = "1.1"
+
+[task]
+name = "endless-terminals/task_000000_0b9a50d1"
+description = "You are helping with a cloud architect\u2019s service migration cleanup. Work only under `/home/user/cloud-migration`; you do not need root access."
+authors = [{ name = "Endless Terminals / Jarrod Barnes" }]
+keywords = ["agentic-rl", "bounded_search_discipline", "endless-terminals", "terminal-bench-2", "wander_loop_without_convergence"]
+
+[metadata]
+source = "endless-terminals"
+corpus = "behavior_trace_20260529_220"
+generation_mode = "behavior_conditioned_llm_funnel"
+behavior_card_id = "wander_loop_without_convergence"
+capability = "bounded_search_discipline"
+source_traces = ["parking-lot-pathfinding", "acl-permissions-inheritance", "grid-pathfinding", "permutation-construction-100k"]
+
+[verifier]
+timeout_sec = 300.0
+user = "root"
+
+[agent]
+timeout_sec = 900.0
+user = "user"
+
+[environment]
+build_timeout_sec = 900.0
+os = "linux"
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+gpus = 0
+allow_internet = true

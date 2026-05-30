@@ -41,9 +41,17 @@ def trainable_count(report_path: Path) -> int:
     return int(report["calibration"]["trainable_band"])
 
 
-def assert_gpu_available() -> None:
+def assert_gpu_available(min_gpus: int) -> None:
     if shutil.which("nvidia-smi") is None:
         raise SystemExit("FAIL: nvidia-smi is not available; run self-managed Prime-RL on the GPU node.")
+    output = subprocess.check_output(
+        ["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], text=True
+    )
+    gpu_count = len([line for line in output.splitlines() if line.strip()])
+    if gpu_count < min_gpus:
+        raise SystemExit(
+            f"FAIL: self-managed Laguna Prime-RL configs require at least {min_gpus} visible GPUs; found {gpu_count}."
+        )
 
 
 def assert_wandb_online() -> None:
@@ -60,10 +68,20 @@ def weave_project() -> str:
     return f"{entity}/{project}" if entity else project
 
 
+def resolve_prime_rl_root() -> Path:
+    repo_local = Path("third_party/prime-rl")
+    if repo_local.exists():
+        return repo_local.resolve()
+    prime_rl_env = os.environ.get("PRIME_RL_ROOT")
+    if prime_rl_env:
+        return Path(prime_rl_env).resolve()
+    raise SystemExit("FAIL: check out Prime-RL at third_party/prime-rl or set PRIME_RL_ROOT explicitly.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Gate and launch the Laguna meta-control RL sweep.")
     parser.add_argument("--mode", choices=["hosted", "self-managed"], default="self-managed")
-    parser.add_argument("--calibration", type=Path, action="append", required=True)
+    parser.add_argument("--calibration", type=Path, action="append", default=[])
     parser.add_argument("--reward-groups", type=Path, action="append", default=[])
     parser.add_argument("--manifest", type=Path, default=Path("environments/meta_control/meta_control/manifest.json"))
     parser.add_argument("--require-manifest-exact", action="store_true")
@@ -71,45 +89,79 @@ def main() -> None:
     parser.add_argument("--runs", nargs="+", choices=["A", "B", "C"], default=["A", "B"])
     parser.add_argument("--include-c-if-trainable-at-least", type=int, default=64)
     parser.add_argument("--execute", action="store_true", help="Actually launch spend-bearing training.")
+    parser.add_argument("--probe", action="store_true", help="Allow a killable systems/reward probe before final gate artifacts exist.")
+    parser.add_argument("--min-gpus", type=int, default=8)
     parser.add_argument("--skip-live-endpoint", action="store_true")
     args = parser.parse_args()
 
     if "C" in args.runs:
         print("C requested explicitly; launch gate will still run before execution.", flush=True)
-    if args.execute and not args.reward_groups:
+    if not args.calibration and not args.probe:
+        raise SystemExit("FAIL: --calibration is required unless --probe is set")
+    if args.execute and not args.probe and not args.reward_groups:
         raise SystemExit("FAIL: --execute requires at least one --reward-groups artifact")
-    if args.execute and args.escape_audit is None:
+    if args.execute and not args.probe and args.escape_audit is None:
         raise SystemExit("FAIL: --execute requires --escape-audit")
     if args.execute and args.manifest is None:
         raise SystemExit("FAIL: --execute requires --manifest")
 
     gate_path = Path("/tmp/laguna-meta-control-launch-gates.json")
-    gate_cmd = [
-        sys.executable,
-        "scripts/check_training_launch_gates.py",
-        "--min-trainable-tasks",
-        "1",
-        "--out",
-        str(gate_path),
-    ]
-    for path in args.calibration:
-        gate_cmd.extend(["--calibration", str(path)])
-    for path in args.reward_groups:
-        gate_cmd.extend(["--reward-groups", str(path)])
-    if args.manifest is not None:
-        gate_cmd.extend(["--manifest", str(args.manifest)])
-    if args.require_manifest_exact:
-        gate_cmd.append("--require-manifest-exact")
-    run(gate_cmd, execute=True)
-    if args.escape_audit is not None:
-        run([sys.executable, "scripts/check_escape_trace_audit.py", "--audit", str(args.escape_audit)], execute=True)
+    if args.calibration:
+        gate_cmd = [
+            sys.executable,
+            "scripts/check_training_launch_gates.py",
+            "--min-trainable-tasks",
+            "1",
+            "--out",
+            str(gate_path),
+        ]
+        for path in args.calibration:
+            gate_cmd.extend(["--calibration", str(path)])
+        for path in args.reward_groups:
+            gate_cmd.extend(["--reward-groups", str(path)])
+        if args.manifest is not None and not args.probe:
+            gate_cmd.extend(["--manifest", str(args.manifest)])
+        if args.require_manifest_exact:
+            gate_cmd.append("--require-manifest-exact")
+        run(gate_cmd, execute=True)
+        if args.escape_audit is not None:
+            run([sys.executable, "scripts/check_escape_trace_audit.py", "--audit", str(args.escape_audit)], execute=True)
+    else:
+        gate_path.write_text(
+            json.dumps({"calibration": {"trainable_band": 0}, "status": "probe_without_calibration"}, indent=2),
+            encoding="utf-8",
+        )
 
     selected_runs = list(args.runs)
     if "C" in selected_runs and trainable_count(gate_path) < args.include_c_if_trainable_at_least:
         selected_runs.remove("C")
         print("Skipping C: trainable band is below configured threshold.", flush=True)
 
-    run([sys.executable, "scripts/smoke_training_contracts.py"], execute=True)
+    prime_rl_root = resolve_prime_rl_root()
+    meta_control_env = Path("environments/meta_control").resolve()
+    local_renderers = (prime_rl_root / "deps/renderers").resolve()
+    uv_group_args: list[str] = ["--no-default-groups"]
+    prime_pyproject = prime_rl_root / "pyproject.toml"
+    if prime_pyproject.exists() and "fp8-inference" in prime_pyproject.read_text(encoding="utf-8"):
+        uv_group_args.extend(["--no-group", "fp8-inference"])
+    uv_runtime_prefix = [
+        "uv",
+        "run",
+        "--project",
+        str(prime_rl_root),
+        *uv_group_args,
+        "--extra",
+        "flash-attn",
+        "--with",
+        f"meta-control @ file://{meta_control_env}",
+        "--with",
+        f"renderers @ file://{local_renderers}",
+        "--with",
+        "weave",
+        "python",
+    ]
+
+    run([*uv_runtime_prefix, "scripts/smoke_training_contracts.py", "--prime-rl-root", str(prime_rl_root)], execute=True)
     if not args.skip_live_endpoint:
         run([sys.executable, "scripts/smoke_live_endpoint.py"], execute=True)
     if args.execute:
@@ -147,46 +199,29 @@ def main() -> None:
         return
 
     if args.execute:
-        assert_gpu_available()
+        assert_gpu_available(args.min_gpus)
     common_prefix = [
-        "uv",
-        "run",
-        "--no-project",
-        "--python",
-        "3.12",
-        "--with",
-        "pydantic",
-        "--with",
-        "pydantic-config @ git+https://github.com/samsja/pydantic_config.git",
-        "--with",
-        "tomli",
-        "--with",
-        "tomli-w",
-        "--with",
-        "nvidia-ml-py",
-        "--with",
-        "torch",
-        "--with",
-        "wandb",
-        "--with",
-        "weave",
-        "--with",
-        "loguru",
-        "--with",
-        "rich",
-        "--with",
-        "tyro",
-        "python",
+        *uv_runtime_prefix,
         "-m",
         "prime_rl.entrypoints.rl",
     ]
     env = {
         **os.environ,
-        "PYTHONPATH": "/Users/jarrodbarnes/ai-scientist-training/prime-rl/src",
+        "PYTHONPATH": f"{prime_rl_root}/src",
+        "PYTORCH_ALLOC_CONF": os.environ.get("PYTORCH_ALLOC_CONF", "expandable_segments:True"),
+        "PYTORCH_CUDA_ALLOC_CONF": os.environ.get("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True"),
         "WEAVE_PROJECT": weave_project(),
         "WEAVE_REQUIRED": "1",
         "WANDB_PROJECT": os.environ.get("WANDB_PROJECT", "laguna-meta-control"),
     }
+    docker_deps = prime_rl_root / "docker_deps"
+    training_env_file = Path(".env.training").resolve()
+    if prime_rl_root.as_posix().startswith("/workspace/") and docker_deps.exists():
+        env.setdefault("PRIME_RL_INFERENCE_DOCKER_IMAGE", "vllm/vllm-openai:laguna")
+        env.setdefault("PRIME_RL_INFERENCE_DOCKER_PYTHONPATH", docker_deps.as_posix())
+        env.setdefault("PRIME_RL_DOCKER_WORKSPACE", "/workspace")
+        if training_env_file.exists():
+            env.setdefault("PRIME_RL_INFERENCE_DOCKER_ENV_FILE", training_env_file.as_posix())
     for run_id in selected_runs:
         run([*common_prefix, "@", str(SELF_MANAGED_CONFIGS[run_id])], execute=args.execute, env=env)
 

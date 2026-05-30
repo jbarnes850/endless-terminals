@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 161, in run
+    await self._run()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/single_step.py", line 40, in _run
+    await self._run_verifier()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/single_step.py", line 91, in _run_verifier
+    self.result.verifier_result = await self._run_shared_verifier(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 304, in _run_shared_verifier
+    return await asyncio.wait_for(verifier.verify(), timeout=timeout_sec)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/verifier/verifier.py", line 214, in verify
+    raise RewardFileNotFoundError(
+harbor.verifier.verifier.RewardFileNotFoundError: No reward file found at evals/tb2_laguna_pool/smoke/local-pool-native-laguna-xs2-gpt2-codegolf-required-tools-maxturn3/gpt2-codegolf__XbwbpD5/verifier/reward.txt or evals/tb2_laguna_pool/smoke/local-pool-native-laguna-xs2-gpt2-codegolf-required-tools-maxturn3/gpt2-codegolf__XbwbpD5/verifier/reward.json

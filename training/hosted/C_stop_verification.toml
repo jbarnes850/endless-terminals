@@ -2,7 +2,7 @@ name = "laguna-meta-control-C-stop-verification"
 model = "poolside/Laguna-XS.2"
 max_steps = 100
 batch_size = 64
-rollouts_per_example = 16
+group_size = 16
 max_inflight_rollouts = 64
 learning_rate = 3e-7
 max_async_level = 1
@@ -22,7 +22,7 @@ online_difficulty_filtering = true
 
 [val]
 num_examples = 16
-rollouts_per_example = 1
+group_size = 1
 interval = 5
 
 [checkpoints]

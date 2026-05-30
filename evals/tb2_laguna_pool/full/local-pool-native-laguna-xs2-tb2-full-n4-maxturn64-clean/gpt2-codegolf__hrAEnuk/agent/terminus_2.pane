@@ -1,0 +1,11 @@
+[?2004hroot@9dab863b7a61:/app# asciinema rec --stdin /logs/agent/recording.cast
+[?2004l[0;32masciinema: recording asciicast to /logs/agent/recording.cast[0m
+[0;32masciinema: press <ctrl-d> or type "exit" when you're done[0m
+[?2004hroot@9dab863b7a61:/app# clear
+[?2004l[H[J[3J[?2004hroot@9dab863b7a61:/app# ls -la /app/
+[?2004ltotal 486552
+drwxr-xr-x 1 root root      4096 Oct 28  2025 [0m[01;34m.[0m
+drwxr-xr-x 1 root root      4096 May 30 02:58 [01;34m..[0m
+-rw-r--r-- 1 root root 497759232 Oct 28  2025 gpt2-124M.ckpt
+-rw-r--r-- 1 root root    456318 Oct 28  2025 vocab.bpe
+[?2004hroot@9dab863b7a61:/app# 

@@ -1,0 +1,684 @@
+[?2004hroot@42e1c7aa2917:/app# asciinema rec --stdin /logs/agent/recording.cast
+[?2004l[0;32masciinema: recording asciicast to /logs/agent/recording.cast[0m
+[0;32masciinema: press <ctrl-d> or type "exit" when you're done[0m
+[?2004hroot@42e1c7aa2917:/app# clear
+[?2004l[H[J[3J[?2004hroot@42e1c7aa2917:/app# ls -la /app/
+[?2004ltotal 486552
+drwxr-xr-x 1 root root      4096 Oct 28  2025 [0m[01;34m.[0m
+drwxr-xr-x 1 root root      4096 May 30 03:14 [01;34m..[0m
+-rw-r--r-- 1 root root 497759232 Oct 28  2025 gpt2-124M.ckpt
+-rw-r--r-- 1 root root    456318 Oct 28  2025 vocab.bpe
+[?2004hroot@42e1c7aa2917:/app# head -50 /app/vocab.bpe
+[?2004l#version: 0.2
+Ġ t
+Ġ a
+h e
+i n
+r e
+o n
+Ġt he
+e r
+Ġ s
+a t
+Ġ w
+Ġ o
+e n
+Ġ c
+i t
+i s
+a n
+o r
+e s
+Ġ b
+e d
+Ġ f
+in g
+Ġ p
+o u
+Ġa n
+a l
+a r
+Ġt o
+Ġ m
+Ġo f
+Ġ in
+Ġ d
+Ġ h
+Ġan d
+i c
+a s
+l e
+Ġt h
+i on
+o m
+l l
+en t
+Ġ n
+Ġ l
+s t
+Ġ re
+v e
+Ġ e
+[?2004hroot@42e1c7aa2917:/app# wc -l /app/vocab.bpe && tail -20 /app/vocab.bpe
+[?2004l50001 /app/vocab.bpe
+ath lon
+Rev olution
+Ġsn ipers
+Ġre verted
+Ġconglomer ate
+T erry
+79 4
+Ġhars her
+Ġdes olate
+ĠHit man
+Comm ission
+Ġ( /
+âĢ¦ ."
+Com par
+Ġampl ification
+om inated
+Ġreg ress
+ĠColl ider
+Ġinform ants
+Ġg azed
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> import tensorflow as tf
+[?2004l[?2004h> import numpy as np
+[?2004l[?2004h> 
+[?2004l[?2004h> # Load checkpoint
+[?2004l[?2004h> ckpt = tf.train.load_checkpoint('/app/gpt2-124M.ckpt')
+[?2004l[?2004h> print('Checkpoint keys:')
+[?2004l[?2004h> for key in ckpt.get_variable_to_shape_map().keys():
+[?2004l[?2004h>     print(f'  {key}: {ckpt.get_variable_to_shape_map()[key]}')
+[?2004l[?2004h> "
+[?2004lTraceback (most recent call last):
+  File "<string>", line 2, in <module>
+ModuleNotFoundError: No module named 'tensorflow'
+[?2004hroot@42e1c7aa2917:/app# pip install tensorflow 2>&1 | tail -5
+[?2004lbash: pip: command not found
+[?2004hroot@42e1c7aa2917:/app# which python3 && python3 --version
+[?2004l/usr/bin/python3
+Python 3.12.3
+[?2004hroot@42e1c7aa2917:/app# python3 -c "import struct; f = open('/app/gpt2-124M.ckpt', 'rb'); print(f.read(100))"
+[?2004lb'\x03\xef\xf5>\xc0\x82\x06\xbf\x90\xc8\xdb\xbe6\xe5R\xbe\xa6\xcc\x02\xbeko\xc3\xbd+\xaa\xb4\xbe\xba\x98\x9c\xbd\xef\x04<\xbd}\xb7\x19\xbds\x84a\xbc\xb67=\xbe\xf6p\xf5\xbdc\x124=\xf1\x9d-=\xa9D\xa0\xbe\\\x1f\x88<&\xbc\xb2>\xe8\xdb\xc7\xbe\xfa\xd8\xf4\xbc~@\xa8>=Y\xed=G\xd4\x1f=\xb6\xce\x06>>\xb9B='
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> import struct
+[?2004l[?2004h> import numpy as np
+[?2004l[?2004h> 
+[?2004l[?2004h> # TensorFlow checkpoint format - let's try to read it
+[?2004l[?2004h> # The newer TF checkpoint format uses a header with magic number
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read first few bytes
+[?2004l[?2004h>     magic = f.read(8)
+[?2004l[?2004h>     print(f'Magic bytes: {magic.hex()}')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to read as TFRecord format
+[?2004l[?2004h>     f.seek(0)
+[?2004l[?2004h>     data = f.read(1000)
+[?2004l[?2004h>     print(f'First 1000 bytes (hex): {data[:100].hex()}')
+[?2004l[?2004h> "
+[?2004lTraceback (most recent call last):
+  File "<string>", line 3, in <module>
+ModuleNotFoundError: No module named 'numpy'
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Read checkpoint header
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     data = f.read(200)
+[?2004l[?2004h>     print('First 200 bytes as hex:')
+[?2004l[?2004h>     for i in range(0, len(data), 16):
+[?2004l[?2004h>         hex_str = ' '.join(f'{b:02x}' for b in data[i:i+16])
+[?2004l[?2004h>         print(f'{i:04x}: {hex_str}')
+[?2004l[?2004h> "
+[?2004lFirst 200 bytes as hex:
+0000: 03 ef f5 3e c0 82 06 bf 90 c8 db be 36 e5 52 be
+0010: a6 cc 02 be 6b 6f c3 bd 2b aa b4 be ba 98 9c bd
+0020: ef 04 3c bd 7d b7 19 bd 73 84 61 bc b6 37 3d be
+0030: f6 70 f5 bd 63 12 34 3d f1 9d 2d 3d a9 44 a0 be
+0040: 5c 1f 88 3c 26 bc b2 3e e8 db c7 be fa d8 f4 bc
+0050: 7e 40 a8 3e 3d 59 ed 3d 47 d4 1f 3d b6 ce 06 3e
+0060: 3e b9 42 3d a0 75 fe bd 31 f2 b7 bb a5 4b 11 be
+0070: 77 25 95 3d 43 31 05 3e b1 b0 ed 3e d1 36 03 3e
+0080: f0 7f 13 3f 9d 03 a1 bd f6 a8 11 bf a0 d1 cd 3c
+0090: d7 87 37 be f8 c7 53 be 32 e2 f3 3b 51 92 f3 3c
+00a0: 0a 8f 8c 3c dd 0f 5c be fb 17 80 bd 8c 74 9e be
+00b0: 7c b5 fc 3d 96 3a 5f 3e b5 9a 4e be d2 9e 82 3e
+00c0: c9 75 9a 3e 99 6f 94 be
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     import re
+[?2004l[?2004h>     # Look for common tensor names
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', etc.
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# sleep 1
+[?2004l[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# python3 -c "
+[?2004l[?2004h> # Try to read checkpoint using standard library
+[?2004l[?2004h> import struct
+[?2004l[?2004h> 
+[?2004l[?2004h> with open('/app/gpt2-124M.ckpt', 'rb') as f:
+[?2004l[?2004h>     # Read the entire file
+[?2004l[?2004h>     data = f.read()
+[?2004l[?2004h>     print(f'File size: {len(data)} bytes')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Try to find strings in the file
+[?2004l[?2004h>     text = data.decode('latin-1')
+[?2004l[?2004h>     
+[?2004l[?2004h>     # Find patterns like 'kernel', 'bias', 'embed', 'layer', 'norm', 'weight'
+[?2004l[?2004h>     patterns = ['kernel', 'bias', 'embed', 'layer', 'norm', 'weight']
+[?2004l[?2004h>     for p in patterns:
+[?2004l[?2004h>         if p in text:
+[?2004l[?2004h>             idx = text.find(p)
+[?2004l[?2004h>             print(f'Found {p} at position {idx}')
+[?2004l[?2004h>             print(f'Context: {text[max(0,idx-20):idx+50]}')
+[?2004l[?2004h> "
+[?2004lFile size: 497759232 bytes
+[?2004hroot@42e1c7aa2917:/app# 

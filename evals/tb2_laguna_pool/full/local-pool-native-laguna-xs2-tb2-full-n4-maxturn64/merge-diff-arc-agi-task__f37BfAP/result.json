@@ -1,0 +1,104 @@
+{
+    "id": "954bca52-4322-462b-94fb-8ba76121640d",
+    "task_name": "merge-diff-arc-agi-task",
+    "trial_name": "merge-diff-arc-agi-task__f37BfAP",
+    "trial_uri": "file:///Users/jarrodbarnes/endless-terminals/evals/tb2_laguna_pool/full/local-pool-native-laguna-xs2-tb2-full-n4-maxturn64/merge-diff-arc-agi-task__f37BfAP",
+    "task_id": {
+        "git_url": "https://github.com/laude-institute/terminal-bench-2.git",
+        "git_commit_id": "69671fbaac6d67a7ef0dfec016cc38a64ef7a77c",
+        "path": "merge-diff-arc-agi-task"
+    },
+    "source": "terminal-bench",
+    "task_checksum": "1e69376aa87a540b46c4dea3ba4f8507ed18aeeeef6f8786dab68eff71b0b58d",
+    "config": {
+        "task": {
+            "path": "merge-diff-arc-agi-task",
+            "git_url": "https://github.com/laude-institute/terminal-bench-2.git",
+            "git_commit_id": "69671fbaac6d67a7ef0dfec016cc38a64ef7a77c",
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "terminal-bench"
+        },
+        "trial_name": "merge-diff-arc-agi-task__f37BfAP",
+        "trials_dir": "evals/tb2_laguna_pool/full/local-pool-native-laguna-xs2-tb2-full-n4-maxturn64",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "endless_harbor.pool_laguna_agent:PoolLagunaTerminus2",
+            "model_name": "openai/poolside/laguna-xs.2",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {
+                "api_base": "https://inference.poolside.ai/v1",
+                "temperature": 0.6,
+                "max_turns": 64,
+                "suppress_max_turns_warning": true
+            },
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "e3f52240-d79d-44aa-a151-fb5f33eadc24"
+    },
+    "agent_info": {
+        "name": "pool-laguna-terminus-2",
+        "version": "2.0.0",
+        "model_info": {
+            "name": "poolside/laguna-xs.2",
+            "provider": "openai"
+        }
+    },
+    "agent_result": null,
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "RuntimeError",
+        "exception_message": "merge-diff-arc-agi-task__f37BfAP: failed to send non-blocking keys: command='tmux send-keys -t pool-laguna-terminus-2 -- clear Enter', return_code=128, stderr=None, stdout='OCI runtime exec failed: exec failed: unable to start container process: error writing config to pipe: write init-p: broken pipe\\r\\n'",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 160, in run\n    await self._prepare()\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 191, in _prepare\n    await self._setup_agent()\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 642, in _setup_agent\n    await asyncio.wait_for(\n  File \"/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py\", line 373, in setup\n    await self._session.start()\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/tmux_session.py\", line 472, in start\n    await self.send_keys(\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/tmux_session.py\", line 668, in send_keys\n    await self._send_non_blocking_keys(\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/tmux_session.py\", line 619, in _send_non_blocking_keys\n    raise RuntimeError(\nRuntimeError: merge-diff-arc-agi-task__f37BfAP: failed to send non-blocking keys: command='tmux send-keys -t pool-laguna-terminus-2 -- clear Enter', return_code=128, stderr=None, stdout='OCI runtime exec failed: exec failed: unable to start container process: error writing config to pipe: write init-p: broken pipe\\r\\n'\n",
+        "occurred_at": "2026-05-30T04:01:39.296571"
+    },
+    "started_at": "2026-05-30T02:59:07.246811Z",
+    "finished_at": "2026-05-30T03:01:40.020057Z",
+    "environment_setup": {
+        "started_at": "2026-05-30T02:59:07.248097Z",
+        "finished_at": "2026-05-30T02:59:08.266993Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-05-30T02:59:08.267037Z",
+        "finished_at": "2026-05-30T03:01:39.295851Z"
+    },
+    "agent_execution": null,
+    "verifier": null,
+    "step_results": null
+}

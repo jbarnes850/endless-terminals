@@ -1,0 +1,78 @@
+Traceback (most recent call last):
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 187, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 612, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 618, in _start_agent_environment
+    await asyncio.wait_for(
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker.py", line 537, in start
+    await self._run_docker_compose_command(["up", "--detach", "--wait"])
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker.py", line 417, in _run_docker_compose_command
+    raise RuntimeError(
+RuntimeError: Docker compose command failed for environment reshard-c4-data. Command: docker compose --project-name reshard-c4-data__ne6fxdr --project-directory /Users/jarrodbarnes/.cache/harbor/tasks/fDMeF8ncVH8hFRrdHUkDzM/reshard-c4-data/environment -f /private/var/folders/jf/cvplhbnj6435rjy9crnhgjh00000gn/T/tmpo1eq54gz/reshard-c4-data__NE6fxdr-docker-compose-resources.json -f /Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /private/var/folders/jf/cvplhbnj6435rjy9crnhgjh00000gn/T/tmpa78js2r9/docker-compose-mounts.json up --detach --wait. Return code: -9. Stdout:  Image alexgshaw/reshard-c4-data:20251031 Pulling 
+ 7353b0e32859 Pulling fs layer 0B
+ d837809709c4 Pulling fs layer 0B
+ d837809709c4 Downloading 590.3MB
+ 7353b0e32859 Already exists 0B
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 590.3MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 591.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+ d837809709c4 Downloading 592.4MB
+. Stderr: None. 

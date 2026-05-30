@@ -2,7 +2,7 @@
 set +e
 mkdir -p /logs/verifier
 cd /home/user
-cat > /tmp/et_checkpoint_plugin.py <<'PYPLUGIN'
+cat > /tmp/et_checkpoint_plugin.py <<'PY'
 import json
 import os
 
@@ -37,7 +37,7 @@ def pytest_sessionfinish(session, exitstatus):
     ]
     with open("/logs/verifier/checkpoints.json", "w", encoding="utf-8") as handle:
         json.dump({"exitstatus": int(exitstatus), "tests": tests}, handle, sort_keys=True)
-PYPLUGIN
+PY
 PYTHONPATH=/tmp python3 -m pytest -q -p et_checkpoint_plugin /tests/test_final_state.py
 rc=$?
 printf '\n__ET_CHECKPOINTS__\n'

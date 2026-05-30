@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 191, in _prepare
+    await self._setup_agent()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py", line 642, in _setup_agent
+    await asyncio.wait_for(
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 373, in setup
+    await self._session.start()
+  File "/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/tmux_session.py", line 448, in start
+    raise RuntimeError(
+RuntimeError: Failed to start tmux session. Error: None

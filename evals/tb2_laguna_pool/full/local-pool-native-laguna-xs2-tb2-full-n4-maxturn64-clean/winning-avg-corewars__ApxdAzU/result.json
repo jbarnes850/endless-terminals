@@ -1,0 +1,101 @@
+{
+    "id": "f6265ef0-321f-4a5f-9901-1903906037d9",
+    "task_name": "winning-avg-corewars",
+    "trial_name": "winning-avg-corewars__ApxdAzU",
+    "trial_uri": "file:///Users/jarrodbarnes/endless-terminals/evals/tb2_laguna_pool/full/local-pool-native-laguna-xs2-tb2-full-n4-maxturn64-clean/winning-avg-corewars__ApxdAzU",
+    "task_id": {
+        "git_url": "https://github.com/laude-institute/terminal-bench-2.git",
+        "git_commit_id": "69671fbaac6d67a7ef0dfec016cc38a64ef7a77c",
+        "path": "winning-avg-corewars"
+    },
+    "source": "terminal-bench",
+    "task_checksum": "693d17797b3d2920f9f0316b3f758aee6b228e816c78bab22b75eae684853f13",
+    "config": {
+        "task": {
+            "path": "winning-avg-corewars",
+            "git_url": "https://github.com/laude-institute/terminal-bench-2.git",
+            "git_commit_id": "69671fbaac6d67a7ef0dfec016cc38a64ef7a77c",
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "terminal-bench"
+        },
+        "trial_name": "winning-avg-corewars__ApxdAzU",
+        "trials_dir": "evals/tb2_laguna_pool/full/local-pool-native-laguna-xs2-tb2-full-n4-maxturn64-clean",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "endless_harbor.pool_laguna_agent:PoolLagunaTerminus2",
+            "model_name": "openai/poolside/laguna-xs.2",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {
+                "api_base": "https://inference.poolside.ai/v1",
+                "temperature": 0.6,
+                "max_turns": 64,
+                "suppress_max_turns_warning": true
+            },
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "f2dc7f7a-d046-449b-9169-f9ae0468c344"
+    },
+    "agent_info": {
+        "name": "pool-laguna-terminus-2",
+        "version": "2.0.0",
+        "model_info": {
+            "name": "poolside/laguna-xs.2",
+            "provider": "openai"
+        }
+    },
+    "agent_result": null,
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "RuntimeError",
+        "exception_message": "Docker compose command failed for environment winning-avg-corewars. Command: docker compose --project-name winning-avg-corewars__apxdazu --project-directory /Users/jarrodbarnes/.cache/harbor/tasks/dWGsQxJELwQFMvHVDc5zuS/winning-avg-corewars/environment -f /private/var/folders/jf/cvplhbnj6435rjy9crnhgjh00000gn/T/tmpqpj03mc5/winning-avg-corewars__ApxdAzU-docker-compose-resources.json -f /Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /private/var/folders/jf/cvplhbnj6435rjy9crnhgjh00000gn/T/tmpngxk6fst/docker-compose-mounts.json up --detach --wait. Return code: -9. Stdout:  Image alexgshaw/winning-avg-corewars:20251031 Pulling \n 83283a05835c Pulling fs layer 0B\n 9dd31a9fa299 Pulling fs layer 0B\n 4713e371e45e Pulling fs layer 0B\n d1d8ff3cf1c7 Pulling fs layer 0B\n f849e5b569f7 Pulling fs layer 0B\n b8bfa28af3cb Pulling fs layer 0B\n 9dd31a9fa299 Already exists 0B\n 4713e371e45e Already exists 0B\n d1d8ff3cf1c7 Already exists 0B\n f849e5b569f7 Downloading 159.4MB\n b8bfa28af3cb Already exists 0B\n 83283a05835c Already exists 0B\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n. Stderr: None. ",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 160, in run\n    await self._prepare()\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 187, in _prepare\n    await self._setup_agent_environment()\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 612, in _setup_agent_environment\n    await self._start_agent_environment()\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 618, in _start_agent_environment\n    await asyncio.wait_for(\n  File \"/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker.py\", line 537, in start\n    await self._run_docker_compose_command([\"up\", \"--detach\", \"--wait\"])\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker.py\", line 417, in _run_docker_compose_command\n    raise RuntimeError(\nRuntimeError: Docker compose command failed for environment winning-avg-corewars. Command: docker compose --project-name winning-avg-corewars__apxdazu --project-directory /Users/jarrodbarnes/.cache/harbor/tasks/dWGsQxJELwQFMvHVDc5zuS/winning-avg-corewars/environment -f /private/var/folders/jf/cvplhbnj6435rjy9crnhgjh00000gn/T/tmpqpj03mc5/winning-avg-corewars__ApxdAzU-docker-compose-resources.json -f /Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /private/var/folders/jf/cvplhbnj6435rjy9crnhgjh00000gn/T/tmpngxk6fst/docker-compose-mounts.json up --detach --wait. Return code: -9. Stdout:  Image alexgshaw/winning-avg-corewars:20251031 Pulling \n 83283a05835c Pulling fs layer 0B\n 9dd31a9fa299 Pulling fs layer 0B\n 4713e371e45e Pulling fs layer 0B\n d1d8ff3cf1c7 Pulling fs layer 0B\n f849e5b569f7 Pulling fs layer 0B\n b8bfa28af3cb Pulling fs layer 0B\n 9dd31a9fa299 Already exists 0B\n 4713e371e45e Already exists 0B\n d1d8ff3cf1c7 Already exists 0B\n f849e5b569f7 Downloading 159.4MB\n b8bfa28af3cb Already exists 0B\n 83283a05835c Already exists 0B\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 159.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 160.4MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n f849e5b569f7 Downloading 161.5MB\n. Stderr: None. \n",
+        "occurred_at": "2026-05-30T04:03:26.816162"
+    },
+    "started_at": "2026-05-30T03:03:19.977170Z",
+    "finished_at": "2026-05-30T03:03:27.320073Z",
+    "environment_setup": {
+        "started_at": "2026-05-30T03:03:19.980729Z",
+        "finished_at": "2026-05-30T03:03:26.815444Z"
+    },
+    "agent_setup": null,
+    "agent_execution": null,
+    "verifier": null,
+    "step_results": null
+}

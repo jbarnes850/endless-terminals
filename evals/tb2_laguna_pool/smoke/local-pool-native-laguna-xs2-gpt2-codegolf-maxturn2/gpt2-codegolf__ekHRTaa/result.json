@@ -1,0 +1,118 @@
+{
+    "id": "6abbb73c-a9d2-4bb5-a43c-b2f0d36fb594",
+    "task_name": "gpt2-codegolf",
+    "trial_name": "gpt2-codegolf__ekHRTaa",
+    "trial_uri": "file:///Users/jarrodbarnes/endless-terminals/evals/tb2_laguna_pool/smoke/local-pool-native-laguna-xs2-gpt2-codegolf-maxturn2/gpt2-codegolf__ekHRTaa",
+    "task_id": {
+        "git_url": "https://github.com/laude-institute/terminal-bench-2.git",
+        "git_commit_id": "69671fbaac6d67a7ef0dfec016cc38a64ef7a77c",
+        "path": "gpt2-codegolf"
+    },
+    "source": "terminal-bench",
+    "task_checksum": "c3dfea370953fe9b6cb53d368f1f242af2833cf1af623849bdaee8fe026b1cf1",
+    "config": {
+        "task": {
+            "path": "gpt2-codegolf",
+            "git_url": "https://github.com/laude-institute/terminal-bench-2.git",
+            "git_commit_id": "69671fbaac6d67a7ef0dfec016cc38a64ef7a77c",
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "terminal-bench"
+        },
+        "trial_name": "gpt2-codegolf__ekHRTaa",
+        "trials_dir": "evals/tb2_laguna_pool/smoke/local-pool-native-laguna-xs2-gpt2-codegolf-maxturn2",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "endless_harbor.pool_laguna_agent:PoolLagunaTerminus2",
+            "model_name": "openai/poolside/laguna-xs.2",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {
+                "api_base": "https://inference.poolside.ai/v1",
+                "temperature": 0.6,
+                "max_turns": 2,
+                "suppress_max_turns_warning": true
+            },
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "bad16f4f-42f1-4dc2-8747-2185c5f8448a"
+    },
+    "agent_info": {
+        "name": "pool-laguna-terminus-2",
+        "version": "2.0.0",
+        "model_info": {
+            "name": "poolside/laguna-xs.2",
+            "provider": "openai"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 0,
+        "cost_usd": null,
+        "rollout_details": [],
+        "metadata": {
+            "n_episodes": 1,
+            "api_request_times_msec": [],
+            "summarization_count": 0
+        }
+    },
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "AttributeError",
+        "exception_message": "'PromptTokensDetailsWrapper' object has no attribute 'get'",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 161, in run\n    await self._run()\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/single_step.py\", line 33, in _run\n    await self._run_agent()\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/single_step.py\", line 63, in _run_agent\n    await self._run_agent_phase(\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 238, in _run_agent_phase\n    await asyncio.wait_for(\n  File \"/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py\", line 1587, in run\n    await self._run_agent_loop(\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py\", line 1270, in _run_agent_loop\n    ) = await self._handle_llm_interaction(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py\", line 1148, in _handle_llm_interaction\n    llm_response = await self._query_llm(\n                   ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/tenacity/asyncio/__init__.py\", line 193, in async_wrapped\n    return await copy(fn, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/tenacity/asyncio/__init__.py\", line 112, in __call__\n    do = await self.iter(retry_state=retry_state)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/tenacity/asyncio/__init__.py\", line 157, in iter\n    result = await action(retry_state)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/tenacity/_utils.py\", line 111, in inner\n    return call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/tenacity/__init__.py\", line 413, in exc_check\n    raise retry_exc.reraise()\n          ^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/tenacity/__init__.py\", line 184, in reraise\n    raise self.last_attempt.result()\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/concurrent/futures/_base.py\", line 449, in result\n    return self.__get_result()\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/Cellar/python@3.12/3.12.13/Frameworks/Python.framework/Versions/3.12/lib/python3.12/concurrent/futures/_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/tenacity/asyncio/__init__.py\", line 116, in __call__\n    result = await fn(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py\", line 1139, in _query_llm\n    raise e\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py\", line 988, in _query_llm\n    llm_response = await chat.chat(\n                   ^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/harbor/llms/chat.py\", line 89, in chat\n    llm_response: LLMResponse = await self._model.call(\n                                ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/endless_harbor/pool_laguna_agent.py\", line 183, in call\n    cache_tokens=int(details.get(\"cached_tokens\") or 0),\n                     ^^^^^^^^^^^\n  File \"/Users/jarrodbarnes/endless-terminals/.venv/lib/python3.12/site-packages/pydantic/main.py\", line 1042, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'PromptTokensDetailsWrapper' object has no attribute 'get'\n",
+        "occurred_at": "2026-05-30T03:45:40.575699"
+    },
+    "started_at": "2026-05-30T02:45:07.820363Z",
+    "finished_at": "2026-05-30T02:45:42.308933Z",
+    "environment_setup": {
+        "started_at": "2026-05-30T02:45:07.875688Z",
+        "finished_at": "2026-05-30T02:45:08.900112Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-05-30T02:45:08.900180Z",
+        "finished_at": "2026-05-30T02:45:28.462462Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-05-30T02:45:28.462614Z",
+        "finished_at": "2026-05-30T02:45:40.218238Z"
+    },
+    "verifier": null,
+    "step_results": null
+}

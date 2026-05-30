@@ -1,0 +1,221 @@
+{
+    "id": "957f8662-c87e-4411-803f-ed25230b7f60",
+    "task_name": "gpt2-codegolf",
+    "trial_name": "gpt2-codegolf__Gy5k4NH",
+    "trial_uri": "file:///Users/jarrodbarnes/endless-terminals/evals/tb2_laguna_pool/smoke/local-pool-native-laguna-xs2-gpt2-codegolf-bash-tool-maxturn6/gpt2-codegolf__Gy5k4NH",
+    "task_id": {
+        "git_url": "https://github.com/laude-institute/terminal-bench-2.git",
+        "git_commit_id": "69671fbaac6d67a7ef0dfec016cc38a64ef7a77c",
+        "path": "gpt2-codegolf"
+    },
+    "source": "terminal-bench",
+    "task_checksum": "c3dfea370953fe9b6cb53d368f1f242af2833cf1af623849bdaee8fe026b1cf1",
+    "config": {
+        "task": {
+            "path": "gpt2-codegolf",
+            "git_url": "https://github.com/laude-institute/terminal-bench-2.git",
+            "git_commit_id": "69671fbaac6d67a7ef0dfec016cc38a64ef7a77c",
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "terminal-bench"
+        },
+        "trial_name": "gpt2-codegolf__Gy5k4NH",
+        "trials_dir": "evals/tb2_laguna_pool/smoke/local-pool-native-laguna-xs2-gpt2-codegolf-bash-tool-maxturn6",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "endless_harbor.pool_laguna_agent:PoolLagunaTerminus2",
+            "model_name": "openai/poolside/laguna-xs.2",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {
+                "api_base": "https://inference.poolside.ai/v1",
+                "temperature": 0.6,
+                "max_completion_tokens": 2048,
+                "rate_limit_max_retries": 8,
+                "rate_limit_base_sleep": 5.0,
+                "max_turns": 6,
+                "suppress_max_turns_warning": true
+            },
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "35490bab-fe9e-4d45-ba22-6faa3ab4397d"
+    },
+    "agent_info": {
+        "name": "pool-laguna-terminus-2",
+        "version": "2.0.0",
+        "model_info": {
+            "name": "poolside/laguna-xs.2",
+            "provider": "openai"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 24820,
+        "n_cache_tokens": 288,
+        "n_output_tokens": 924,
+        "cost_usd": null,
+        "rollout_details": [
+            {
+                "extra": {
+                    "finish_reason": [
+                        "tool_calls",
+                        "tool_calls",
+                        "tool_calls",
+                        "tool_calls",
+                        "tool_calls",
+                        "tool_calls"
+                    ],
+                    "raw_content": [
+                        "\nI'll analyze the task and create a dependency-free C program for GPT-2 inference. Let me start by exploring the environment and understanding the file formats.\n\n</assistant>",
+                        "\n\n</assistant>",
+                        "\n",
+                        "\n",
+                        "\n",
+                        "\n"
+                    ],
+                    "tool_calls": [
+                        [
+                            {
+                                "function": {
+                                    "arguments": "{\"command\": \"ls -la /app/\", \"duration\": 0.1}",
+                                    "name": "bash_command"
+                                },
+                                "id": "chatcmpl-tool-99fba0e35c3e819e",
+                                "type": "function"
+                            }
+                        ],
+                        [
+                            {
+                                "function": {
+                                    "arguments": "{\"command\": \"head -50 /app/vocab.bpe\", \"duration\": 0.5}",
+                                    "name": "bash_command"
+                                },
+                                "id": "chatcmpl-tool-8d87c896844d2bb6",
+                                "type": "function"
+                            }
+                        ],
+                        [
+                            {
+                                "function": {
+                                    "arguments": "{\"command\": \"xxd /app/gpt2-124M.ckpt | head -100\", \"duration\": 0.5}",
+                                    "name": "bash_command"
+                                },
+                                "id": "chatcmpl-tool-b407c70c7e12ba71",
+                                "type": "function"
+                            }
+                        ],
+                        [
+                            {
+                                "function": {
+                                    "arguments": "{\"command\": \"od -A x -t x1z -v /app/gpt2-124M.ckpt | head -100\"}",
+                                    "name": "bash_command"
+                                },
+                                "id": "chatcmpl-tool-b59c2c64f77ecf7a",
+                                "type": "function"
+                            }
+                        ],
+                        [
+                            {
+                                "function": {
+                                    "arguments": "{\"command\": \"python3 -c \\\"import tensorflow as tf; print(tf.train.list_variables('/app/gpt2-124M.ckpt'))\\\" 2>/dev/null || echo \\\"TensorFlow not available\\\"\", \"duration\": 2.0}",
+                                    "name": "bash_command"
+                                },
+                                "id": "chatcmpl-tool-b5b52e6420bd6a4b",
+                                "type": "function"
+                            }
+                        ],
+                        [
+                            {
+                                "function": {
+                                    "arguments": "{\"command\": \"python3 -c \\\"\\nimport struct\\nimport numpy as np\\n\\n# Read the checkpoint file header\\nwith open('/app/gpt2-124M.ckpt', 'rb') as f:\\n    # Read first few bytes to understand format\\n    header = f.read(100)\\n    print('First 100 bytes (hex):', header.hex())\\n    print('First 100 bytes (raw):', header)\\n\\\"\", \"duration\": 2.0}",
+                                    "name": "bash_command"
+                                },
+                                "id": "chatcmpl-tool-9cc48775593a4143",
+                                "type": "function"
+                            }
+                        ]
+                    ],
+                    "truncated": [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                    ]
+                }
+            }
+        ],
+        "metadata": {
+            "n_episodes": 6,
+            "api_request_times_msec": [
+                1810.4040622711182,
+                1124.262809753418,
+                2573.73309135437,
+                1612.1430397033691,
+                2840.5680656433105,
+                3600.083112716675
+            ],
+            "summarization_count": 0
+        }
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-05-30T03:12:42.505259Z",
+    "finished_at": "2026-05-30T03:13:57.825235Z",
+    "environment_setup": {
+        "started_at": "2026-05-30T03:12:42.553366Z",
+        "finished_at": "2026-05-30T03:12:43.517726Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-05-30T03:12:43.517807Z",
+        "finished_at": "2026-05-30T03:13:03.646321Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-05-30T03:13:03.646479Z",
+        "finished_at": "2026-05-30T03:13:25.168968Z"
+    },
+    "verifier": {
+        "started_at": "2026-05-30T03:13:25.503788Z",
+        "finished_at": "2026-05-30T03:13:55.985602Z"
+    },
+    "step_results": null
+}

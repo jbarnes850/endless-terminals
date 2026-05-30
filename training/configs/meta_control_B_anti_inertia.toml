@@ -1,23 +1,21 @@
 output_dir = "/workspace/laguna-meta-control/B_anti_inertia"
 clean_output_dir = true
 max_steps = 100
-seq_len = 8192
-max_async_level = 1
+seq_len = 4096
 
 [wandb]
 project = "laguna-meta-control"
 name = "B_anti_inertia"
 offline = false
-shared = true
 
 [model]
 name = "poolside/Laguna-XS.2"
 
 [deployment]
 type = "single_node"
-gpus_per_node = 4
-num_infer_gpus = 2
-num_train_gpus = 2
+gpus_per_node = 8
+num_infer_gpus = 4
+num_train_gpus = 4
 
 [weight_broadcast]
 type = "filesystem"
@@ -32,13 +30,25 @@ enable_router_replay = false
 [trainer.model]
 name = "poolside/Laguna-XS.2"
 trust_remote_code = true
-seq_len = 8192
+seq_len = 4096
 impl = "auto"
 optimization_dtype = "bfloat16"
 reduce_dtype = "bfloat16"
-tp = 2
 ep = 1
 cp = 1
+optim_cpu_offload = true
+
+[trainer.model.ac]
+freq = 1
+
+[trainer.model.ac_offloading]
+pin_memory = true
+max_inflight_activations = 1
+
+[trainer.model.lora]
+rank = 16
+alpha = 32.0
+dropout = 0.0
 
 [trainer.optim]
 type = "adamw"
@@ -47,16 +57,13 @@ weight_decay = 0.0
 
 [trainer.loss]
 type = "default"
-teacher_tau = 0.0
 
 [orchestrator]
-batch_size = 64
-rollouts_per_example = 16
-max_concurrent = 32
-max_inflight_rollouts = 64
+batch_size = 8
+group_size = 8
+tasks_per_minute = 6
+max_inflight_rollouts = 8
 max_off_policy_steps = 1
-max_async_level = 1
-use_token_client = false
 
 [orchestrator.advantage]
 type = "default"
@@ -68,26 +75,29 @@ online_difficulty_filtering = true
 name = "poolside/Laguna-XS.2"
 trust_remote_code = true
 
+[orchestrator.model.lora]
+rank = 16
+alpha = 32.0
+
 [orchestrator.client]
 base_url = ["http://localhost:8000/v1"]
 api_key_var = "VLLM_API_KEY"
 skip_model_check = false
 timeout = 1200
 
-[orchestrator.sampling]
-max_tokens = 4096
+[orchestrator.train]
+num_workers = 8
+max_retries = 0
+
+[orchestrator.train.sampling]
+max_completion_tokens = 2048
 temperature = 1.0
 
-[[orchestrator.env]]
+[[orchestrator.train.env]]
 id = "meta-control"
 name = "meta_control"
 args = { harness = { gated_progress_weight = 0.25, stop_success_reward = 0.20, stop_run_past_complete_penalty = 0.20, stop_early_penalty = 0.20, stop_very_early_penalty = 0.25, repeat_action_unit_penalty = 0.03, repeat_action_cap = 0.12, dominant_action_penalty = 0.05, malformed_tool_unit_penalty = 0.05, malformed_tool_cap = 0.10, turn_cost_unit = 0.01, turn_cost_cap = 0.02, success_turn_cost_cap = 0.01 } }
 max_retries = 0
-
-[orchestrator.wandb]
-project = "laguna-meta-control"
-name = "B_anti_inertia-orchestrator"
-offline = false
 
 [orchestrator.wandb.log_extras]
 samples = true
@@ -97,7 +107,6 @@ sample_ratio = 1.0
 
 [inference]
 enable_lora = true
-max_lora_rank = 64
 enable_prefix_caching = true
 gpu_memory_utilization = 0.9
 api_server_count = 1
@@ -109,11 +118,12 @@ port = 8000
 [inference.model]
 name = "poolside/Laguna-XS.2"
 trust_remote_code = true
-max_model_len = 258048
+dtype = "bfloat16"
+max_model_len = 65536
 enforce_eager = true
 
 [inference.parallel]
-tp = 2
+tp = 4
 dp = 1
 
 [inference.vllm_extra]

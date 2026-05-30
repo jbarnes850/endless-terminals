@@ -101,7 +101,8 @@ python3 scripts/check_training_launch_gates.py \
   --out /tmp/laguna-meta-control-launch-gates.json
 UV_PROJECT_ENVIRONMENT=/tmp/obs-smoke-venv uv run --no-project --with wandb --with weave \
   python scripts/smoke_observability.py --out /tmp/laguna-meta-control-observability.json
-PYTHONPATH=/Users/jarrodbarnes/ai-scientist-training/prime-rl/src \
+export PRIME_RL_ROOT=/Users/jarrodbarnes/endless-terminals/third_party/prime-rl
+PYTHONPATH="${PRIME_RL_ROOT}/src" \
   UV_PROJECT_ENVIRONMENT=/tmp/prime-rl-config-smoke \
   uv run --no-project --python 3.12 \
     --with pydantic --with 'pydantic-config @ git+https://github.com/samsja/pydantic_config.git' \
@@ -110,9 +111,9 @@ PYTHONPATH=/Users/jarrodbarnes/ai-scientist-training/prime-rl/src \
       --dry-run --output-dir /tmp/laguna-meta-control-dry
 ```
 
-The dry-run writes resolved Prime-RL subconfigs to `/tmp/laguna-meta-control-dry/configs`. Check that smoke keeps `rollouts_per_example = 4`, `batch_size = 4`, `use_token_client = false`, weak native `online_difficulty_filtering = true`, W&B sample/distribution logging, and `inference.toml` keeps `vllm_extra.renderer = "laguna-xs.2"`. The overnight A/B/C configs use `rollouts_per_example = 16`, `batch_size = 64`, default mean-baseline advantage with no length shaping, and `sample_ratio = 1.0` for all-rollout W&B logging.
+The dry-run writes resolved Prime-RL subconfigs to `/tmp/laguna-meta-control-dry/configs`. Check that smoke keeps `group_size = 4`, `batch_size = 4`, `use_token_client = false`, weak native `online_difficulty_filtering = true`, W&B sample/distribution logging, and `inference.toml` keeps `vllm_extra.renderer = "laguna-xs.2"`. The A/B/C configs currently use `group_size = 8`, `batch_size = 8`, default mean-baseline advantage with no length shaping, and `sample_ratio = 1.0` for all-rollout W&B sample logging.
 
-Native Prime-RL filtering only drops average-reward all-fail/all-pass groups. It does not catch constant shaped-reward groups, so `scripts/check_training_launch_gates.py` remains mandatory before launch. The installed Prime-RL fork is patched to honor `sample_ratio = 1.0` and to send full train rollout batches to Weave when `WEAVE_PROJECT` is set.
+Native Prime-RL filtering only drops average-reward all-fail/all-pass groups. It does not catch constant shaped-reward groups, so `scripts/check_training_launch_gates.py` remains mandatory before launch. Latest upstream Prime-RL honors W&B `sample_ratio`, but it does not provide native Weave rollout tracing in the repo-local checkout. Weave remains covered by `scripts/smoke_observability.py` and any post-run rollout sync path; do not claim full train-rollout Weave lineage until that path is exercised on the actual run artifacts.
 
 After calibration completes and the final executable train set has replaced the bootstrap package, launch through:
 

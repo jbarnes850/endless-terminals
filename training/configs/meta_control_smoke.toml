@@ -2,13 +2,11 @@ output_dir = "/tmp/laguna-meta-control-smoke"
 clean_output_dir = true
 max_steps = 1
 seq_len = 8192
-max_async_level = 1
 
 [wandb]
 project = "laguna-meta-control"
 name = "meta-control-smoke"
 offline = false
-shared = true
 
 [model]
 name = "poolside/Laguna-XS.2"
@@ -33,7 +31,6 @@ seq_len = 8192
 impl = "auto"
 optimization_dtype = "bfloat16"
 reduce_dtype = "bfloat16"
-tp = 2
 ep = 1
 cp = 1
 
@@ -44,16 +41,12 @@ weight_decay = 0.0
 
 [trainer.loss]
 type = "default"
-teacher_tau = 0.0
 
 [orchestrator]
 batch_size = 4
-rollouts_per_example = 4
-max_concurrent = 4
+group_size = 4
 max_inflight_rollouts = 4
 max_off_policy_steps = 1
-max_async_level = 1
-use_token_client = false
 
 [orchestrator.buffer]
 online_difficulty_filtering = true
@@ -68,20 +61,19 @@ api_key_var = "VLLM_API_KEY"
 skip_model_check = false
 timeout = 1200
 
-[orchestrator.sampling]
-max_tokens = 4096
+[orchestrator.train]
+num_workers = 4
+max_retries = 0
+
+[orchestrator.train.sampling]
+max_completion_tokens = 4096
 temperature = 1.0
 
-[[orchestrator.env]]
+[[orchestrator.train.env]]
 id = "meta-control"
 name = "meta_control"
 args = { harness = { gated_progress_weight = 0.30, stop_success_reward = 0.15, stop_run_past_complete_penalty = 0.10, stop_early_penalty = 0.15, stop_very_early_penalty = 0.20, repeat_action_unit_penalty = 0.02, repeat_action_cap = 0.05, dominant_action_penalty = 0.03, malformed_tool_unit_penalty = 0.05, malformed_tool_cap = 0.10, turn_cost_unit = 0.005, turn_cost_cap = 0.02, success_turn_cost_cap = 0.01 } }
 max_retries = 0
-
-[orchestrator.wandb]
-project = "laguna-meta-control"
-name = "meta-control-smoke-orchestrator"
-offline = false
 
 [orchestrator.wandb.log_extras]
 samples = true
@@ -90,8 +82,7 @@ interval = 1
 sample_ratio = 1.0
 
 [inference]
-enable_lora = true
-max_lora_rank = 64
+enable_lora = false
 enable_prefix_caching = true
 gpu_memory_utilization = 0.9
 api_server_count = 1

@@ -26,7 +26,7 @@ The local training smoke is now wired:
 - Latest observability artifact: `/tmp/laguna-meta-control-observability.json`
 - Latest Prime-RL dry-run subconfigs: `/tmp/laguna-meta-control-dry/configs`
 
-The smoke verifies `rollouts_per_example=4`, batch size one n=4 group, Verifiers trajectory/stop-condition metrics, hidden checkpoint prefix metadata, group reward std, W&B sample/distribution logging, full-rollout Weave tracing support, and Laguna renderer routing through `inference.vllm_extra.renderer = "laguna-xs.2"`. The A/B/C scale configs use `rollouts_per_example=16`, `batch_size=64`, default mean-baseline advantage, no length shaping, and Prime-RL's native default trainer loss.
+The smoke verifies `group_size=4`, batch size one n=4 group, Verifiers trajectory/stop-condition metrics, hidden checkpoint prefix metadata, group reward std, W&B sample/distribution logging, repo-local Prime-RL version pinning, and Laguna renderer routing through `inference.vllm_extra.renderer = "laguna-xs.2"`. The A/B/C scale configs currently use `group_size=8`, `batch_size=8`, default mean-baseline advantage, no length shaping, and Prime-RL's native default trainer loss.
 
 ## Required Evidence Inputs
 
