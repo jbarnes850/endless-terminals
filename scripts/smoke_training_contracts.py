@@ -117,14 +117,20 @@ def check_scale_configs(paths: list[Path]) -> dict[str, Any]:
         trainer_model = ((config.get("trainer") or {}).get("model") or {})
         inference = config.get("inference") or {}
         train = orchestrator.get("train") or {}
-        require(orchestrator.get("group_size") == 8, f"{path}: group_size must be 8")
-        require(orchestrator.get("batch_size") == 8, f"{path}: batch_size must be one n=8 group for long-horizon terminal rollouts")
+        require(orchestrator.get("group_size") in {4, 8}, f"{path}: group_size must be 4 or 8")
+        require(orchestrator.get("batch_size") in {4, 8}, f"{path}: batch_size must be one rollout group")
         require(orchestrator["batch_size"] % orchestrator["group_size"] == 0, f"{path}: batch_size must divide by n")
-        require(orchestrator.get("max_inflight_rollouts", 0) == 8, f"{path}: max_inflight_rollouts must match the n=8 tunnel-safe group")
-        require(orchestrator.get("tasks_per_minute") == 6, f"{path}: tasks_per_minute must rate-limit sandbox tunnel creation")
+        require(
+            orchestrator.get("max_inflight_rollouts", 0) <= orchestrator["group_size"],
+            f"{path}: max_inflight_rollouts must not exceed group_size",
+        )
+        require(orchestrator.get("tasks_per_minute", 0) <= 4, f"{path}: tasks_per_minute must rate-limit sandbox tunnel creation")
         envs = train.get("env") or []
         require(envs and envs[0].get("id") == "meta-control", f"{path}: meta_control train env must be configured")
-        require(train.get("num_workers") == 8, f"{path}: train.num_workers must match the n=8 rollout group")
+        require(
+            train.get("num_workers") <= orchestrator["group_size"],
+            f"{path}: train.num_workers must not exceed group_size after tunnel/bind collision",
+        )
         require(advantage.get("type") == "default", f"{path}: default mean-baseline advantage must be explicit")
         require("length_shaping_alpha" not in advantage, f"{path}: length shaping must stay disabled")
         require(loss.get("type") == "default", f"{path}: use Prime-RL native default trainer loss")

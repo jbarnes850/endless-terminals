@@ -61,7 +61,7 @@ type = "default"
 [orchestrator]
 batch_size = 8
 group_size = 8
-tasks_per_minute = 6
+tasks_per_minute = 4
 max_inflight_rollouts = 8
 max_off_policy_steps = 1
 
@@ -86,7 +86,7 @@ skip_model_check = false
 timeout = 1200
 
 [orchestrator.train]
-num_workers = 8
+num_workers = 4
 max_retries = 0
 
 [orchestrator.train.sampling]

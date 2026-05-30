@@ -124,3 +124,45 @@ That partial job completed 1 of 89 TB2 tasks and left the second task cancelled
 after the quota wall. Resume by rerunning the full command after quota reset or
 with an equivalent Poolside credential/project whose `/v1/chat/completions`
 probe succeeds for `poolside/laguna-xs.2`.
+
+## Non-Pool Terminus XML Fallback
+
+For a fallback that avoids Poolside native tools entirely, use Harbor's built-in
+`terminus-2` agent with `parser_name=xml` and route Laguna as a plain text
+completion model through an OpenAI-compatible provider such as OpenRouter. This
+is not the direct Poolside-authenticated run above; report it separately as
+`laguna-xs2-terminus-xml`.
+
+Probe:
+
+```bash
+OPENROUTER_API_KEY=<secret> \
+uv run --extra harbor python scripts/run_tb2_laguna_terminus_xml.py --probe-only
+```
+
+Smoke:
+
+```bash
+OPENROUTER_API_KEY=<secret> \
+uv run --extra harbor python scripts/run_tb2_laguna_terminus_xml.py \
+  --include-task-name gpt2-codegolf \
+  --n-concurrent 1 \
+  --max-turns 3 \
+  --no-delete \
+  --jobs-dir evals/tb2_laguna_terminus_xml/smoke \
+  --job-name laguna-xs2-openrouter-xml-smoke
+```
+
+Full run:
+
+```bash
+OPENROUTER_API_KEY=<secret> \
+uv run --extra harbor python scripts/run_tb2_laguna_terminus_xml.py \
+  --jobs-dir evals/tb2_laguna_terminus_xml/full \
+  --job-name laguna-xs2-openrouter-xml-full \
+  --n-concurrent 1 \
+  --max-turns 64 \
+  --max-retries 1 \
+  --request-timeout 120 \
+  --no-delete
+```
