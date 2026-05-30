@@ -9,8 +9,16 @@ from pathlib import Path
 from typing import Any
 
 
-def iter_tasks(root: Path) -> list[Path]:
-    return sorted(p for p in root.iterdir() if p.is_dir() and p.name.startswith("task_"))
+def iter_tasks(roots: list[Path]) -> list[Path]:
+    tasks: list[Path] = []
+    seen: set[str] = set()
+    for root in roots:
+        for path in sorted(p for p in root.iterdir() if p.is_dir() and p.name.startswith("task_")):
+            if path.name in seen:
+                continue
+            seen.add(path.name)
+            tasks.append(path)
+    return tasks
 
 
 def toml_string(value: str) -> str:
@@ -216,8 +224,8 @@ version = "0.1.0"
 description = "Behavior-conditioned Endless Terminals Harbor taskset for Prime Verifiers"
 requires-python = ">=3.10,<3.14"
 dependencies = [
-  "verifiers @ git+https://github.com/PrimeIntellect-ai/verifiers.git",
-  "tasksets[openenv,openreward,ta] @ git+https://github.com/PrimeIntellect-ai/verifiers.git#subdirectory=packages/tasksets",
+  "verifiers @ git+https://github.com/PrimeIntellect-ai/verifiers.git@82310b9c049b39d1eacb14c7c2b2ce0e76469899",
+  "tasksets[openenv,openreward,ta] @ git+https://github.com/PrimeIntellect-ai/verifiers.git@82310b9c049b39d1eacb14c7c2b2ce0e76469899#subdirectory=packages/tasksets",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -234,7 +242,7 @@ allow-direct-references = true
 
 Prime Verifiers wrapper for the behavior-conditioned Endless Terminals Harbor corpus.
 
-This package bundles the executable-admitted subset exported from the behavior-trace corpus. It is intentionally pre-calibration; Laguna pass@4 buckets, GPT-5.5 validity on Laguna-zero tasks, reward variance, and escape-trace review should update the task selection before scaled Prime-RL training.
+This package bundles an executable-admitted Endless Terminals subset selected by the provided eligible file. For training exports, that eligible file should be the calibrated Laguna pass-band task list, after GPT-5.5 reference pruning on Laguna-zero tasks.
 
 Local smoke:
 
@@ -280,7 +288,7 @@ def read_executable_tasks(path: Path) -> set[str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Export generated Endless tasks to Harbor and Prime Verifiers format.")
-    parser.add_argument("--tasks-dir", required=True)
+    parser.add_argument("--tasks-dir", required=True, action="append")
     parser.add_argument("--harbor-out", required=True)
     parser.add_argument("--prime-env-out", required=True)
     parser.add_argument("--eligible-file", required=True)
@@ -288,7 +296,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
 
-    tasks_dir = Path(args.tasks_dir).resolve()
+    tasks_dirs = [Path(path).resolve() for path in args.tasks_dir]
     harbor_out = Path(args.harbor_out).resolve()
     prime_env_out = Path(args.prime_env_out).resolve()
     write_prime_environment(prime_env_out, "meta_control")
@@ -311,7 +319,7 @@ def main() -> None:
 
     rows = []
     skipped = []
-    for task_dir in iter_tasks(tasks_dir)[: args.limit]:
+    for task_dir in iter_tasks(tasks_dirs)[: args.limit]:
         if task_dir.name not in eligible:
             skipped.append(
                 {
@@ -335,7 +343,7 @@ def main() -> None:
                 }
             )
     manifest = {
-        "source_tasks_dir": str(tasks_dir),
+        "source_tasks_dirs": [str(path) for path in tasks_dirs],
         "harbor_tasks_dir": str(harbor_out),
         "prime_env_dir": str(prime_env_out),
         "num_tasks": len(rows),
