@@ -35,6 +35,7 @@ class PipelineConfig:
     verbose: bool = False
     behavior_conditioned: bool = False
     behavior_seed: Optional[int] = None
+    behavior_card_ids: Optional[List[str]] = None
     skip_def_build_test: bool = False
 
 
@@ -105,6 +106,7 @@ def _generate_batch(cfg: AsyncBatchConfig, batch_count: int) -> List[Optional[Pa
         max_concurrency=cfg.max_concurrency,
         behavior_conditioned=cfg.behavior_conditioned,
         behavior_seed=cfg.behavior_seed,
+        behavior_card_ids=cfg.behavior_card_ids,
     )
 
     if not task_templates:
@@ -284,6 +286,8 @@ def parse_args(argv: Optional[List[str]] = None) -> AsyncBatchConfig:
                     help="Insert deterministic TRACE/TBLite behavior cards into the existing LLM task funnel")
     ap.add_argument("--behavior-seed", type=int, default=None,
                     help="Seed for deterministic behavior-card assignment")
+    ap.add_argument("--behavior-card-ids", type=str, default=None,
+                    help="Comma-separated behavior card ids to cycle when behavior conditioning is enabled")
     ap.add_argument("--skip-def-build-test", action="store_true",
                     help="Generate container.def files without local Apptainer build/test validation")
     ap.add_argument("--verbose", action="store_true")
@@ -291,6 +295,9 @@ def parse_args(argv: Optional[List[str]] = None) -> AsyncBatchConfig:
 
     args = ap.parse_args(argv)
     verbose = args.verbose and not args.quiet
+    behavior_card_ids = None
+    if args.behavior_card_ids:
+        behavior_card_ids = [card_id.strip() for card_id in args.behavior_card_ids.split(",") if card_id.strip()]
 
 
     return AsyncBatchConfig(
@@ -305,6 +312,7 @@ def parse_args(argv: Optional[List[str]] = None) -> AsyncBatchConfig:
         verbose=verbose,
         behavior_conditioned=args.behavior_conditioned,
         behavior_seed=args.behavior_seed,
+        behavior_card_ids=behavior_card_ids,
         skip_def_build_test=args.skip_def_build_test,
         batch_size=max(1, args.batch_size),
         max_concurrency=max(1, args.max_concurrency),

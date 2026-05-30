@@ -117,10 +117,16 @@ population to bucket. C1 and C5 directly reproduce two of the four observed loop
 4. For genuinely fresh instances (C5 variants), use the existing 4-stage generator
    with the GPT-5.5 reference now wired in.
 
-## Filtering (uses the two gates just built)
+## Filtering (uses the admission and band gates)
 
-- Build SIFs, run `generate_solutions.py --model laguna` to produce
-  `laguna_summary.json` per task (band gate, our Modal endpoint).
+- Build SIFs and admit only executable Apptainer environments: normalized
+  `container.def` builds to `container.sif`, the SIF starts with the same
+  interactive runtime used for rollouts, initial tests pass, the `/home/user`
+  shell accepts a benign command, and the final verifier can be invoked as a
+  valid pass/fail signal. Only that eligible manifest may feed Laguna
+  calibration.
+- Run `scripts/run_eligible_calibration.py --model laguna` to produce
+  `laguna_summary.json` per admitted task (band gate, our Modal endpoint).
 - `python -m generator.task_filters --tasks-dir <dir> --group-size <G> --max-zero-std-group-frac 0.5`
   -> keep the `trainable` bucket (0 < Laguna pass@k < 1), and drop band tasks whose
   expected zero-advantage group fraction exceeds the RLVR HARD-STOP threshold.

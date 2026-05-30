@@ -29,10 +29,13 @@ axes while preserving measurable control signals.
 - Treat `exit_code=0` as a weak signal. Final checks must inspect the required
   deliverable and semantic invariants.
 - Use Laguna for difficulty calibration, not just for demo smoke tests.
+- A task is not eligible for calibration, GPT-5.5 validity, reward-variance
+  analysis, Harbor export, Prime Verifiers export, or training unless its
+  Apptainer environment is executable.
 - Use GPT-5.5/reference sampling only for generation and validity on tasks
   Laguna never solves; do not spend frontier calls on tasks with adequate
   policy signal.
-- Do not launch training until build/initial-state tests, Laguna pass@k
+- Do not launch training until executable-environment admission, Laguna pass@k
   calibration, reward-variance filtering, and split hygiene are done.
 - Never commit `.env`, API keys, Modal tokens, raw SIFs, private session history,
   or local cache/state directories.
@@ -43,13 +46,13 @@ axes while preserving measurable control signals.
 - LLM task funnel: `generate_tasks.py`, `generator/task_template_gen.py`
 - Model routing: `generator/__init__.py`
 - Task selection gates: `generator/task_filters.py`
-- Build/initial-state gate: `scripts/apptainer_build_test_corpus.py`
+- Executable-environment gate: `scripts/apptainer_build_test_corpus.py`
 - Laguna calibration runner: `scripts/run_eligible_calibration.py`
 - Harbor/Prime export: `scripts/export_harbor_prime.py`
 - Design rationale: `docs/task_family_v1.md`
 - Generated local corpus snapshot: `tasks/behavior_trace_20260529_220`
 - Shareable Harbor/Prime subset: `exports/behavior_trace_20260529_220`,
-  `environments/endless_behavior_trace`
+  `environments/meta_control`
 
 The raw `tasks/` corpus may be ignored by git. Regenerate or copy it explicitly
 when a colleague needs the full local task tree.
@@ -100,7 +103,9 @@ The intended end-to-end funnel is:
    template, initial-state test, final-state test, and container definition.
 4. Static validation: compile generated pytest files and lint changed generator
    code.
-5. Apptainer build gate: build SIFs and run initial-state tests in containers.
+5. Executable-environment gate: build SIFs, start them with the interactive
+   Apptainer runtime, run initial tests, smoke the shell, and invoke the final
+   verifier.
 6. Laguna pass@k calibration: run multiple Laguna rollouts per eligible task.
 7. Reference validity gate: run GPT-5.5 only on Laguna-zero tasks.
 8. Band and reward-variance selection: keep tasks with `0 < Laguna pass@k < 1`
@@ -111,6 +116,9 @@ The intended end-to-end funnel is:
 
 Do not collapse these gates into a single "generated tasks look plausible"
 claim. Plausible task text is not an executable RL environment.
+
+Rubric/schema/task generation is not enough; executable environment admission
+is the bridge to calibration.
 
 ## Behavior Axes To Preserve
 
@@ -159,7 +167,7 @@ After generation, record:
 - behavior-card distribution
 - pytest compile result
 - model and endpoint used
-- whether Apptainer build/initial-state execution was actually run
+- whether executable-environment admission was actually run
 
 ## Static Validation
 
@@ -176,33 +184,46 @@ If generated tests fail to compile, fix the generator or regenerate. Do not
 manually patch individual generated tasks unless the edit is explicitly part of
 a controlled repair pass.
 
-## Apptainer Build And Initial-State Gate
+## Executable Environment Admission Gate
 
 On an Apptainer-capable worker:
 
 ```bash
 uv run python scripts/apptainer_build_test_corpus.py \
   --tasks-dir tasks/behavior_trace_<slug> \
-  --out tasks/behavior_trace_<slug>/apptainer_build_initial.json \
+  --out tasks/behavior_trace_<slug>/apptainer_executable_gate.json \
+  --eligible-out tasks/behavior_trace_<slug>/eligible.txt \
   --workers 4 \
   --base-sif /path/to/ubuntu_22.04.sif \
   --tmp-root /tmp/endless-apptainer-tmp \
   --cache-root /tmp/endless-apptainer-cache
 ```
 
-Only tasks with `build_ok=true` and `initial_tests_ok=true` are eligible for
-Laguna pass@k calibration.
+The calibration universe is exactly the Apptainer
+build+runtime-start+initial-pass+shell-smoke+final-verifier-invocation subset.
+Do not run Laguna pass@k on tasks that only have generated files, parse, export,
+or build under Docker/Harbor.
 
-Write the eligible list:
+Executable means all of these pass on the intended Apptainer substrate:
+
+1. `container.def` normalizes/builds into `container.sif`.
+2. The SIF starts successfully under the same runtime mode used by Endless
+   Terminals interactive rollouts.
+3. The initial-state verifier passes inside that running environment.
+4. The agent shell can execute at least one benign command in `/home/user`.
+5. The final-state verifier can be invoked and returns a valid pass/fail signal,
+   even if the task is unsolved.
+
+If writing the eligible list manually, filter only on `executable_ok=true`:
 
 ```bash
 python3 - <<'PY'
 import json
 from pathlib import Path
 
-report = json.loads(Path("tasks/behavior_trace_<slug>/apptainer_build_initial.json").read_text())
+report = json.loads(Path("tasks/behavior_trace_<slug>/apptainer_executable_gate.json").read_text())
 rows = report["rows"]
-eligible = [r["task_dir"] for r in rows if r.get("build_ok") and r.get("initial_tests_ok")]
+eligible = [r["task_dir"] for r in rows if r.get("executable_ok")]
 Path("tasks/behavior_trace_<slug>/eligible.txt").write_text("\n".join(eligible) + "\n")
 print(len(eligible))
 PY
@@ -210,11 +231,12 @@ PY
 
 ## Laguna Pass@k Calibration
 
-Run Laguna only on build-and-initial-pass eligible tasks:
+Run Laguna only after a clean executable-environment gate:
 
 ```bash
 uv run python scripts/run_eligible_calibration.py \
   --eligible-file tasks/behavior_trace_<slug>/eligible.txt \
+  --admission-report tasks/behavior_trace_<slug>/apptainer_executable_gate.json \
   --out tasks/behavior_trace_<slug>/laguna_calibration.json \
   --model laguna \
   --n 16 \
@@ -240,18 +262,26 @@ uv run python -m generator.task_filters \
   --pass-k 16 \
   --group-size 16 \
   --max-zero-std-group-frac 0.5 \
+  --min-policy-success 2 \
+  --max-policy-success 14 \
+  --preferred-min-policy-success 4 \
+  --preferred-max-policy-success 12 \
   --out tasks/behavior_trace_<slug>/band_manifest.json
 ```
 
 For tasks bucketed as `needs_reference`, run the reference solver and classify
 again. Keep:
 
-- `trainable`: primary RL set.
+- `trainable`: primary RL set. For the first serious corpus, target empirical
+  Laguna success `2/16..14/16`, with `4/16..12/16` preferred but not treated as
+  a rigid law.
 - `too_hard_valid`: curriculum or future capability climb.
 
 Drop:
 
 - `trivial`: no RL reward variance.
+- `low_signal` / `near_trivial`: outside the hard keep band for the current
+  corpus target.
 - `broken`: invalid or unsolved by both policy and reference.
 - tasks exceeding the zero-std group threshold.
 
@@ -288,32 +318,36 @@ high-diversity wander loops.
 
 ## Export To Harbor And Prime
 
-After eligibility and calibration gates, export the selected subset:
+After executable-environment admission and calibration gates, export the
+selected subset:
 
 ```bash
 uv run python scripts/export_harbor_prime.py \
   --tasks-dir tasks/behavior_trace_<slug> \
   --eligible-file tasks/behavior_trace_<slug>/eligible.txt \
+  --admission-report tasks/behavior_trace_<slug>/apptainer_executable_gate.json \
   --harbor-out exports/behavior_trace_<slug>/harbor_tasks \
-  --prime-env-out environments/endless_behavior_trace
+  --prime-env-out environments/meta_control
 ```
 
 Prime wrapper smoke:
 
 ```bash
-cd environments/endless_behavior_trace
-uv run vf-build endless-behavior-trace
-prime eval run endless-behavior-trace -m openai/gpt-5-nano
+cd environments/meta_control
+uv run vf-build meta-control
+prime eval run meta-control -m openai/gpt-5-nano
 ```
 
 Do not call a Prime/Harbor export training-ready until the underlying ET tasks
-have passed build, initial-state, Laguna calibration, and band filtering.
+have passed executable-environment admission, Laguna calibration, and band
+filtering.
 
 ## Review Checklist For A Colleague Agent
 
 Before handing back results, answer these directly:
 
-- How many tasks were requested, saved, build-passed, initial-state-passed, and
+- How many tasks were requested, saved, build-passed, runtime-started,
+  initial-state-passed, shell-smoked, final-verifier-invoked, executable, and
   Laguna-calibrated?
 - What is the distribution across behavior card and capability?
 - What are the band buckets: trainable, trivial, too-hard-valid, broken,
@@ -326,6 +360,15 @@ Before handing back results, answer these directly:
 
 If any answer is missing, say it is missing. Do not infer it from task text.
 
+## Success Criteria
+
+- Calibration runs only after a clean executable-environment gate, not merely
+  after task generation.
+- The eligible manifest contains only tasks that built, started, passed initial
+  tests, accepted a shell command, and exposed a callable final verifier.
+- First serious corpus target is 160 admitted/calibrated environments: 128 train
+  and 32 heldout, stratified by behavior axis and difficulty band.
+
 ## Common Failure Modes
 
 - Overengineering the pipeline instead of producing gated tasks.
@@ -336,6 +379,7 @@ If any answer is missing, say it is missing. Do not infer it from task text.
 - Letting Laguna-zero tasks into RL without reference validity separation.
 - Training on pass@k==0 or pass@k==1 tasks and expecting useful RL variance.
 - Hiding Apptainer unavailability behind `--skip-def-build-test`.
+- Treating Docker/Harbor exportability as calibration eligibility.
 - Mixing action protocols between generation, calibration, training, and eval.
 
 ## Done Definition
@@ -345,7 +389,10 @@ A task corpus is ready for RL only when:
 - generated task artifacts exist for every candidate,
 - generated pytest files compile,
 - SIFs build on an Apptainer-capable worker,
+- SIFs start with the same interactive runtime used by rollouts,
 - initial-state tests pass inside containers,
+- the agent shell executes a benign command in `/home/user`,
+- final-state verifiers are callable and return valid pass/fail signals,
 - Laguna pass@k summaries exist,
 - GPT-5.5/reference validity has resolved Laguna-zero tasks,
 - band manifest identifies a non-trivial trainable set,

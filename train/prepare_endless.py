@@ -46,10 +46,34 @@ def build_container_for_task(task_dir_name, task_dir, verbose=True):
         return task_dir_name, False
 
 
+def build_container_for_task_path(task_path, verbose=True):
+    task_path = Path(task_path)
+    if (task_path / "container.sif").exists():
+        return str(task_path), True
+    try:
+        env = InteractiveContainerEnvironment(
+            container_sif_path=task_path / "container.sif",
+            initial_test_path=task_path / "test_initial_state.py",
+            final_test_path=task_path / "test_final_state.py",
+            def_path=task_path / "container.def",
+            verbose=verbose,
+        )
+        ok = env.build_container()
+        if not ok:
+            print(f"Failed to build SIF for {task_path}")
+            return str(task_path), False
+        return str(task_path), True
+    except Exception as e:
+        print(f"Error building SIF for {task_path}: {e}")
+        return str(task_path), False
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-dir", default="./data")
     parser.add_argument("--task-dir", default="./tasks")
+    parser.add_argument("--eligible-file", default=None,
+                        help="Optional newline-delimited executable task dirs; allows combined corpora across roots")
     parser.add_argument("--difficulty", default="none")
     parser.add_argument("--max-time", default=300)
     parser.add_argument("--eval-count", type=int, default=100)
@@ -68,6 +92,8 @@ if __name__ == "__main__":
     parser.add_argument("--max-zero-std-group-frac", type=float, default=None,
                         help="Drop band tasks whose expected zero-advantage group fraction "
                              "exceeds this (e.g. 0.5 per the RLVR reward-variance HARD-STOP gate)")
+    parser.add_argument("--min-policy-success", type=int, default=1)
+    parser.add_argument("--max-policy-success", type=int, default=None)
 
     args = parser.parse_args()
     random.seed(args.seed)
@@ -81,26 +107,29 @@ if __name__ == "__main__":
         k=args.pass_k,
         max_zero_std_group_frac=args.max_zero_std_group_frac,
         group_size=args.group_size,
+        min_policy_success=args.min_policy_success,
+        max_policy_success=args.max_policy_success,
+        eligible_file=Path(args.eligible_file) if args.eligible_file else None,
     )
-    task_dir_names = sorted(p.name for p in selected)
-    print(f"Selected {len(task_dir_names)} task dirs via '{args.gate}' gate "
+    task_paths = sorted(Path(p).resolve() for p in selected)
+    print(f"Selected {len(task_paths)} task dirs via '{args.gate}' gate "
           f"(policy={args.policy_model}, reference={args.reference_model}, k={args.pass_k})")
-    random.shuffle(task_dir_names)
-    task_descriptions = [json.load(open(Path(args.task_dir) / f / "task.json"))["description"] for f in task_dir_names]
+    random.shuffle(task_paths)
+    task_descriptions = [json.load(open(path / "task.json"))["description"] for path in task_paths]
 
     # Build containers in parallel if requested
     failed_tasks = set()
     if args.build_sif:
         print(f"Building containers in parallel with {args.max_workers} workers...")
         completed = 0
-        total = len(task_dir_names)
+        total = len(task_paths)
         progress_lock = Lock()
         
         with ThreadPoolExecutor(max_workers=args.max_workers) as executor:
             # Submit all build tasks with verbose=False
             future_to_task = {
-                executor.submit(build_container_for_task, task_dir_name, args.task_dir, verbose=False): task_dir_name
-                for task_dir_name in task_dir_names
+                executor.submit(build_container_for_task_path, task_path, verbose=False): str(task_path)
+                for task_path in task_paths
             }
             
             # Process results as they complete
@@ -114,24 +143,24 @@ if __name__ == "__main__":
                     print(f"\rProgress: {completed}/{total} ({len(failed_tasks)} failed)", end='', flush=True)
         
         print()  # New line after progress
-        print(f"Container building complete. Failed: {len(failed_tasks)}/{len(task_dir_names)}")
+        print(f"Container building complete. Failed: {len(failed_tasks)}/{len(task_paths)}")
 
     # Prepare datasets
     train_dataset, val_dataset = [], []
-    for t, task_dir_name in enumerate(task_dir_names):
+    for t, task_path in enumerate(task_paths):
         # Skip failed tasks
-        if task_dir_name in failed_tasks:
+        if str(task_path) in failed_tasks:
             continue
             
         row = {}
         row["description"] = task_descriptions[t]
-        row["task_dir"] = task_dir_name
-        initial_test_path = Path(args.task_dir) / task_dir_name / "test_initial_state.py"
+        row["task_dir"] = str(task_path)
+        initial_test_path = task_path / "test_initial_state.py"
         
         with open(initial_test_path, "r") as f:
             test_py = f.read()
         
-        if t < len(task_dir_names) - args.eval_count:
+        if t < len(task_paths) - args.eval_count:
             train_dataset.append(row)
         else:
             val_dataset.append(row)
@@ -162,10 +191,10 @@ if __name__ == "__main__":
                 "env_class": "endless",
                 "reward_spec": {
                     "method": "rule",
-                    "ground_truth": os.path.join(args.task_dir, example["task_dir"]),
+                    "ground_truth": example["task_dir"],
                 },
                 "extra_info": {
-                    "task_dir": os.path.join(args.task_dir, example["task_dir"]),
+                    "task_dir": example["task_dir"],
                     "max_time": args.max_time,
                 },
             }

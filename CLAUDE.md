@@ -24,9 +24,11 @@ uv sync                                  # core deps
 # Generate tasks (4-stage pipeline; --model must match what vLLM is serving)
 python generate_tasks.py --num-tasks 100 --out-dir ./tasks --model Qwen/Qwen3-32B
 
-# Sample N solutions per task -> pass@k + trajectories under each task's solutions/
-python generate_solutions.py --tasks-dir ./tasks --num-solutions 16 --model Qwen/Qwen3-32B
-python generate_solutions.py --tasks-dir ./tasks --filter-solved   # only o3-solved tasks
+# Before sampling/calibration, admit executable Apptainer environments only:
+uv run python scripts/apptainer_build_test_corpus.py --tasks-dir ./tasks --out ./tasks/apptainer_executable_gate.json --eligible-out ./tasks/eligible.txt --base-sif ./ubuntu_22.04.sif
+
+# Sample/calibrate only admitted tasks -> pass@k + trajectories under solutions/
+uv run python scripts/run_eligible_calibration.py --eligible-file ./tasks/eligible.txt --admission-report ./tasks/apptainer_executable_gate.json --out ./tasks/calibration.json --model Qwen/Qwen3-32B
 
 # Training (SkyRL lives in its OWN venv, not .venv)
 python train/prepare_endless.py --task-dir ./tasks --output-dir ./data --build-sif
@@ -47,7 +49,7 @@ There is **no test suite for the package itself**. Every `*.py` named `test_init
 `InteractiveContainerEnvironment` manages a long-lived Apptainer **instance** with an interactive PTY-backed shell. It is reused by every other layer (solution sampling, RL training env, dataset prep, Harbor agent). Key design decisions that will bite you if unknown:
 
 - **No prompt parsing.** Each `exec()` wraps the command in a subshell that prints a unique marker `__CMD_DONE__<uuid>__:<exit_code>`. A background reader thread drains the PTY non-blocking into a queue; `_read_until_marker` scans for the marker to know the command finished and recover its exit code. PTY echo is disabled; ANSI escapes are stripped.
-- **Lifecycle:** `initialize()` starts an `apptainer instance` (`--containall --writable-tmpfs --cleanenv`), then a shell over the PTY, optionally running initial-state tests. `run_final_tests()` writes the final pytest into the container via heredoc and runs it. `cleanup()` stops shell + instance and removes the temp dir.
+- **Lifecycle:** `initialize()` starts an `apptainer instance` (`--containall --writable-tmpfs --cleanenv`), then a shell over the PTY, optionally running initial-state tests. Verifier files are staged through the host temp directory bound into the instance and copied into `/home/user`; avoid PTY heredocs for generated pytest files. `cleanup()` stops shell + instance and removes the temp dir.
 - Home is always `/home/user`; the agent has **no root**.
 
 ### Task generation: the 4-stage funnel (`generate_tasks.py` → `_generate_batch`)
@@ -57,7 +59,7 @@ Each stage is a batched LLM call; items that fail a stage are dropped before the
 1. **Task template** (`generator/task_template_gen.py`) — emits XML with `<task>` (public description) and `<truth>` (**privileged** ground-truth). Diversity comes from randomly composing `TASK_CATEGORIES × COMPLEXITY_LEVELS × SCENARIO_CONTEXTS` into the user prompt.
 2. **Initial-state test** (`generator/initial_state_test_gen.py`) — pytest asserting the container's *starting* state (files/dirs/processes that must exist before the agent acts). Generated from the truth.
 3. **Final-state test** (`generator/completion_test_gen.py`) — pytest asserting the *end* state after the task is solved. Generated from truth + the initial test.
-4. **Apptainer def** (`generator/apptainer_def_gen.py`) — LLM writes a `.def`; `iterate_def_template_batch` builds the SIF and runs the initial pytest, keeping only defs whose initial tests pass.
+4. **Apptainer def** (`generator/apptainer_def_gen.py`) — LLM writes a `.def`; generated files are candidates only. Calibration/export/training eligibility requires the separate executable-environment gate in `scripts/apptainer_build_test_corpus.py`.
 
 Output per task: `task.json` (`description`, `truth`, `name`), `test_initial_state.py`, `test_final_state.py`, `container.def`, `container.sif`, `solutions/`. Task dirs are named `task_<idx>_<8hexuuid>`.
 
@@ -73,7 +75,7 @@ System prompt forces the model to think in `<think>...</think>` then emit exactl
 
 ### Solution sampling & difficulty filtering (`generator/sample_solutions.py`)
 
-`run_n_solutions` spins up N identical containers in parallel, runs the agent loop with all envs stepping in parallel each turn, runs final tests, and reports an **unbiased pass@k** estimator. Difficulty is enforced downstream by keeping only tasks where a strong reference model (o3) achieves **pass@16 > 0**, read from `solutions/o3_summary.json`. `prepare_endless.py`, `convert_sif_docker.py`, and `generate_solutions.py --filter-solved` all hard-depend on that file existing.
+`run_n_solutions` spins up N identical containers in parallel, runs the agent loop with all envs stepping in parallel each turn, runs final tests, and reports an **unbiased pass@k** estimator. Do not run it on generated files alone: the task must first pass `scripts/apptainer_build_test_corpus.py` with `executable_ok=true` (build, runtime start, initial verifier, `/home/user` shell smoke, final verifier invocation). Difficulty is enforced downstream by keeping only tasks where a strong reference model (o3) achieves **pass@16 > 0**, read from `solutions/o3_summary.json`. `prepare_endless.py`, `convert_sif_docker.py`, and older `generate_solutions.py --filter-solved` flows hard-depend on that file existing.
 
 ### Training (`train/`) — SkyRL (Ray + vLLM + FSDP)
 
@@ -95,6 +97,7 @@ Because Harbor/terminal-bench run on **Docker**, `generator/convert_to_harbor/` 
 
 - **A local vLLM server on `localhost:8000` is a hard prerequisite** for `generate_tasks.py`, `generate_solutions.py`, and anything importing `chat_completion_batch`. Without it, every generation call fails (and is silently retried then dropped).
 - **Apptainer, not Docker**, for generation/solutions/training. Build needs `--fakeroot --userns`; def files `Bootstrap: localimage` from `./ubuntu_22.04.sif`, so that file must exist in CWD.
+- **Docker/Harbor exportability is not calibration eligibility.** The calibration universe is only the Apptainer `executable_ok=true` subset: SIF built, interactive runtime started, initial tests passed, `/home/user` shell smoked, final verifier callable.
 - **Author-machine absolute paths are hardcoded** in a couple of places and will break elsewhere: `generator/env.py` `build_container()` rewrites the def to `/data/v-kangandhi/endless/ubuntu_22.04.sif`; `convert_sif_docker.py --retry-failed` rewrites `/data/v-kangandhi/endless` → `/home/v-kangandhi`. Check/patch these before running on a new host.
 - **SIF building is commented out** in `generate_tasks.py`'s async path — generated tasks ship `container.def` but no `container.sif`. SIFs are built later by `generate_solutions.py` (`build_and_test`), `prepare_endless.py --build-sif`, or `env.build_container()`.
 - Generation parallelism is `ThreadPoolExecutor`-based; failures resolve to `None` and are filtered, so low yield usually means the vLLM server, Apptainer, or prompts are misconfigured rather than a crash.

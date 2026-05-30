@@ -40,8 +40,19 @@ TOO_HARD_VALID = "too_hard_valid"
 BROKEN = "broken"
 NEEDS_REFERENCE = "needs_reference"
 NO_POLICY_DATA = "no_policy_data"
+LOW_SIGNAL = "low_signal"
+NEAR_TRIVIAL = "near_trivial"
 
-BUCKETS = [TRAINABLE, TRIVIAL, TOO_HARD_VALID, BROKEN, NEEDS_REFERENCE, NO_POLICY_DATA]
+BUCKETS = [
+    TRAINABLE,
+    TRIVIAL,
+    TOO_HARD_VALID,
+    BROKEN,
+    NEEDS_REFERENCE,
+    NO_POLICY_DATA,
+    LOW_SIGNAL,
+    NEAR_TRIVIAL,
+]
 
 
 def load_summary(task_dir: Path, model: str) -> Optional[Dict[str, Any]]:
@@ -96,6 +107,10 @@ def classify_task(
     reference_model: str = REFERENCE_MODEL,
     k: int = 16,
     group_size: int = 16,
+    min_policy_success: int = 1,
+    max_policy_success: Optional[int] = None,
+    preferred_min_policy_success: Optional[int] = None,
+    preferred_max_policy_success: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Classify a single task directory into a training-selection bucket."""
     task_dir = Path(task_dir)
@@ -110,6 +125,11 @@ def classify_task(
         "policy_pass_at_k": pass_at_k(policy, k),
         "reference_pass_at_k": pass_at_k(load_summary(task_dir, reference_model), k),
         "zero_std_group_frac": None,
+        "min_policy_success": min_policy_success,
+        "max_policy_success": max_policy_success,
+        "preferred_min_policy_success": preferred_min_policy_success,
+        "preferred_max_policy_success": preferred_max_policy_success,
+        "preferred_band": False,
         "bucket": None,
     }
 
@@ -125,8 +145,15 @@ def classify_task(
         info["policy_success_frac"] = frac
         info["zero_std_group_frac"] = zero_std_group_fraction(frac, group_size)
 
-    if runs > 0 and 0 < succ < runs:
+    upper = max_policy_success if max_policy_success is not None else runs - 1
+    in_hard_band = runs > 0 and min_policy_success <= succ <= upper
+    if preferred_min_policy_success is not None and preferred_max_policy_success is not None:
+        info["preferred_band"] = preferred_min_policy_success <= succ <= preferred_max_policy_success
+
+    if in_hard_band:
         info["bucket"] = TRAINABLE
+    elif runs > 0 and 0 < succ < runs:
+        info["bucket"] = LOW_SIGNAL if succ < min_policy_success else NEAR_TRIVIAL
     elif runs > 0 and succ == runs:
         info["bucket"] = TRIVIAL
     else:  # succ == 0 (policy never solved it) -> consult the reference tie-breaker
@@ -140,10 +167,19 @@ def classify_task(
     return info
 
 
-def iter_task_dirs(tasks_root: Path) -> List[Path]:
+def read_eligible_file(path: Path) -> List[Path]:
+    """Read task dirs from an executable-environment admission eligible file."""
     return sorted(
-        d for d in Path(tasks_root).iterdir() if d.is_dir() and "task" in d.name
+        Path(line.strip()).resolve()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
     )
+
+
+def iter_task_dirs(tasks_root: Path, eligible_file: Optional[Path] = None) -> List[Path]:
+    if eligible_file is not None:
+        return read_eligible_file(Path(eligible_file))
+    return sorted(d for d in Path(tasks_root).iterdir() if d.is_dir() and "task" in d.name)
 
 
 def select_task_dirs(
@@ -154,6 +190,9 @@ def select_task_dirs(
     k: int = 16,
     max_zero_std_group_frac: Optional[float] = None,
     group_size: int = 16,
+    min_policy_success: int = 1,
+    max_policy_success: Optional[int] = None,
+    eligible_file: Optional[Path] = None,
 ) -> List[Path]:
     """Return task dirs that pass the selected gate.
 
@@ -167,13 +206,21 @@ def select_task_dirs(
     given ``group_size`` (guards the RLVR reward-variance HARD-STOP gate).
     """
     out: List[Path] = []
-    for d in iter_task_dirs(tasks_root):
+    for d in iter_task_dirs(tasks_root, eligible_file):
         if gate == "reference":
             if (pass_at_k(load_summary(d, reference_model), k) or 0.0) > 0:
                 out.append(d)
             continue
         # band gate
-        info = classify_task(d, policy_model, reference_model, k, group_size)
+        info = classify_task(
+            d,
+            policy_model,
+            reference_model,
+            k,
+            group_size,
+            min_policy_success=min_policy_success,
+            max_policy_success=max_policy_success,
+        )
         if info["bucket"] != TRAINABLE:
             continue
         if max_zero_std_group_frac is not None:
@@ -187,6 +234,8 @@ def select_task_dirs(
 def _main(argv: Optional[List[str]] = None) -> None:
     ap = argparse.ArgumentParser(description="Two-gate task selection (validity + trainable band).")
     ap.add_argument("--tasks-dir", required=True, help="Directory containing task_* dirs")
+    ap.add_argument("--eligible-file", default=None,
+                    help="Optional newline-delimited task dirs from executable-environment admission")
     ap.add_argument("--policy-model", default=POLICY_MODEL)
     ap.add_argument("--reference-model", default=REFERENCE_MODEL)
     ap.add_argument("--pass-k", type=int, default=16)
@@ -195,12 +244,30 @@ def _main(argv: Optional[List[str]] = None) -> None:
     ap.add_argument("--max-zero-std-group-frac", type=float, default=None,
                     help="Optionally drop band tasks whose expected zero-advantage "
                          "group fraction exceeds this (e.g. 0.5 per the HARD-STOP gate)")
+    ap.add_argument("--min-policy-success", type=int, default=1,
+                    help="Minimum empirical policy successes required for the trainable band")
+    ap.add_argument("--max-policy-success", type=int, default=None,
+                    help="Maximum empirical policy successes allowed for the trainable band")
+    ap.add_argument("--preferred-min-policy-success", type=int, default=None,
+                    help="Lower bound for the preferred training band annotation")
+    ap.add_argument("--preferred-max-policy-success", type=int, default=None,
+                    help="Upper bound for the preferred training band annotation")
     ap.add_argument("--out", default=None, help="Write the manifest json here (default: <tasks-dir>/band_manifest.json)")
     args = ap.parse_args(argv)
 
     rows = [
-        classify_task(d, args.policy_model, args.reference_model, args.pass_k, args.group_size)
-        for d in iter_task_dirs(args.tasks_dir)
+        classify_task(
+            d,
+            args.policy_model,
+            args.reference_model,
+            args.pass_k,
+            args.group_size,
+            min_policy_success=args.min_policy_success,
+            max_policy_success=args.max_policy_success,
+            preferred_min_policy_success=args.preferred_min_policy_success,
+            preferred_max_policy_success=args.preferred_max_policy_success,
+        )
+        for d in iter_task_dirs(args.tasks_dir, Path(args.eligible_file) if args.eligible_file else None)
     ]
     hist: Dict[str, int] = {b: 0 for b in BUCKETS}
     for r in rows:
@@ -210,6 +277,9 @@ def _main(argv: Optional[List[str]] = None) -> None:
     trainable = select_task_dirs(
         args.tasks_dir, "band", args.policy_model, args.reference_model,
         args.pass_k, args.max_zero_std_group_frac, args.group_size,
+        min_policy_success=args.min_policy_success,
+        max_policy_success=args.max_policy_success,
+        eligible_file=Path(args.eligible_file) if args.eligible_file else None,
     )
 
     out_path = Path(args.out) if args.out else Path(args.tasks_dir) / "band_manifest.json"
@@ -219,6 +289,11 @@ def _main(argv: Optional[List[str]] = None) -> None:
         "pass_k": args.pass_k,
         "group_size": args.group_size,
         "max_zero_std_group_frac": args.max_zero_std_group_frac,
+        "min_policy_success": args.min_policy_success,
+        "max_policy_success": args.max_policy_success,
+        "preferred_min_policy_success": args.preferred_min_policy_success,
+        "preferred_max_policy_success": args.preferred_max_policy_success,
+        "eligible_file": args.eligible_file,
         "histogram": hist,
         "trainable_task_dirs": [str(p) for p in trainable],
         "needs_reference_tasks": needs_ref,

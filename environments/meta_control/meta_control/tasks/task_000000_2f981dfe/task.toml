@@ -1,0 +1,32 @@
+schema_version = "1.1"
+
+[task]
+name = "endless-terminals/task_000000_2f981dfe"
+description = "You are helping maintain Kubernetes manifests for an operator bundle in a Linux container. Work only under `/home/user/operator-work`. The input manifests are in `/home/user/operator-work/manifests/raw/bundle.yaml`, a multi-document YAML fi"
+authors = [{ name = "Endless Terminals / Jarrod Barnes" }]
+keywords = ["agentic-rl", "endless-terminals", "recognition_to_action_coupling", "repeat_loop_after_dead_end", "terminal-bench-2"]
+
+[metadata]
+source = "endless-terminals"
+corpus = "behavior_trace_20260529_220"
+generation_mode = "behavior_conditioned_llm_funnel"
+behavior_card_id = "repeat_loop_after_dead_end"
+capability = "recognition_to_action_coupling"
+source_traces = ["pgn-chess-repair-puzzles", "book-portfolio-analysis", "bash-log-processor-fix"]
+
+[verifier]
+timeout_sec = 300.0
+user = "root"
+
+[agent]
+timeout_sec = 900.0
+user = "user"
+
+[environment]
+build_timeout_sec = 900.0
+os = "linux"
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+gpus = 0
+allow_internet = true

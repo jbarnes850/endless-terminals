@@ -5,15 +5,51 @@ import argparse
 import json
 import os
 import re
+import shlex
 import subprocess
+import sys
 import time
+import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from generator.env import InteractiveContainerEnvironment
+
 
 def iter_tasks(root: Path) -> list[Path]:
     return sorted(p for p in root.iterdir() if p.is_dir() and p.name.startswith("task_"))
+
+
+def write_report(
+    out_path: Path,
+    eligible_out: Path | None,
+    tasks_dir: Path,
+    selected_count: int,
+    rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    rows_sorted = sorted(rows, key=lambda row: row["task"])
+    summary = {
+        "tasks_dir": str(tasks_dir),
+        "selected": selected_count,
+        "build_ok": sum(1 for row in rows_sorted if row["build_ok"]),
+        "runtime_start_ok": sum(1 for row in rows_sorted if row["runtime_start_ok"]),
+        "initial_tests_ok": sum(1 for row in rows_sorted if row["initial_tests_ok"]),
+        "shell_smoke_ok": sum(1 for row in rows_sorted if row["shell_smoke_ok"]),
+        "final_verifier_invoked_ok": sum(1 for row in rows_sorted if row["final_verifier_invoked_ok"]),
+        "executable_ok": sum(1 for row in rows_sorted if row["executable_ok"]),
+        "failed": sum(1 for row in rows_sorted if not row["executable_ok"]),
+        "incomplete": selected_count - len(rows_sorted),
+    }
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps({"summary": summary, "rows": rows_sorted}, indent=2), encoding="utf-8")
+    if eligible_out:
+        eligible = [row["task_dir"] for row in rows_sorted if row["executable_ok"]]
+        eligible_out.parent.mkdir(parents=True, exist_ok=True)
+        eligible_out.write_text("\n".join(eligible) + ("\n" if eligible else ""), encoding="utf-8")
+    return summary
 
 
 MODE_SENSITIVE_PATTERNS = (
@@ -54,32 +90,6 @@ def append_to_post(text: str, block: str) -> str:
     return text[: match.end()] + "\n" + block + text[match.end() :]
 
 
-def runtime_user_alias_command(pytest_path: str) -> str:
-    return f"""python3 - <<'PY'
-from pathlib import Path
-import os
-
-passwd = Path("/etc/passwd")
-lines = passwd.read_text().splitlines()
-uid = os.getuid()
-gid = os.getgid()
-out = []
-seen = False
-for line in lines:
-    if line.startswith("user:") or line.startswith("ubuntu:"):
-        if not seen:
-            out.append(f"user:x:{{uid}}:{{gid}}:Agent User:/home/user:/bin/bash")
-            seen = True
-    else:
-        out.append(line)
-if not seen:
-    out.append(f"user:x:{{uid}}:{{gid}}:Agent User:/home/user:/bin/bash")
-passwd.write_text("\\n".join(out) + "\\n")
-PY
-python3 -m pytest -q {pytest_path}
-"""
-
-
 def write_normalized_def(
     task_dir: Path,
     base_sif: Path | None,
@@ -102,8 +112,9 @@ def write_normalized_def(
 
     text = text.replace("%post\n", "%post -c /bin/bash\n", 1)
 
-    if inject_pytest and "pytest" not in text:
+    if inject_pytest and "ENDLESS_TERMINALS_PYTEST_COMPAT" not in text:
         pytest_block = """\
+    # ENDLESS_TERMINALS_PYTEST_COMPAT: generated verifiers are pytest files.
     if ! command -v pytest >/dev/null 2>&1; then
         apt-get update
         DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3 python3-pytest
@@ -151,6 +162,43 @@ def run(cmd: list[str], timeout: int, env: dict[str, str] | None = None) -> dict
         }
 
 
+def tail_output(text: str, limit: int = 4000) -> str:
+    return text[-limit:]
+
+
+def write_text_into_running_env(env: InteractiveContainerEnvironment, path: str, text: str) -> tuple[bool, str]:
+    if env.temp_dir is None:
+        return False, "Container environment temp_dir is not initialized"
+    staged = env.temp_dir / f"gate_{uuid.uuid4().hex}.py"
+    staged.write_text(text, encoding="utf-8")
+    return env.exec(f"cp {shlex.quote(str(staged))} {shlex.quote(path)}")
+
+
+def invoke_final_verifier(env: InteractiveContainerEnvironment, final_test_path: Path) -> dict[str, Any]:
+    text = final_test_path.read_text(encoding="utf-8")
+    write_ok, write_output = write_text_into_running_env(env, "/home/user/test_final.py", text)
+    if not write_ok:
+        return {
+            "ok": False,
+            "write_ok": False,
+            "output_tail": tail_output(write_output),
+        }
+
+    command = (
+        "python3 -m pytest -q /home/user/test_final.py; "
+        "pytest_code=$?; "
+        "printf '__ENDLESS_FINAL_VERIFIER_EXIT__=%s\\n' \"$pytest_code\"; "
+        "rm -f /home/user/test_final.py; "
+        "test \"$pytest_code\" = \"0\" || test \"$pytest_code\" = \"1\""
+    )
+    ok, output = env.exec(command)
+    return {
+        "ok": ok and "__ENDLESS_FINAL_VERIFIER_EXIT__=" in output,
+        "write_ok": True,
+        "output_tail": tail_output(output),
+    }
+
+
 def build_and_test(
     task_dir: Path,
     build_timeout: int,
@@ -167,7 +215,12 @@ def build_and_test(
         "task": task_dir.name,
         "task_dir": str(task_dir),
         "build_ok": False,
+        "runtime_start_ok": False,
         "initial_tests_ok": False,
+        "shell_smoke_ok": False,
+        "final_verifier_invoked_ok": False,
+        "executable_ok": False,
+        "calibration_eligible": False,
         "error_stage": None,
     }
     try:
@@ -203,32 +256,79 @@ def build_and_test(
         row["error_stage"] = "build"
         return row
 
-    test = run(
-        [
-            "apptainer",
-            "exec",
-            "--containall",
-            "--writable-tmpfs",
-            "--cleanenv",
-            "--bind",
-            f"{task_dir}:/mnt",
-            str(sif_path),
-            "bash",
-            "-lc",
-            runtime_user_alias_command("/mnt/test_initial_state.py"),
-        ],
-        test_timeout,
-        env=env,
+    container_env = InteractiveContainerEnvironment(
+        container_sif_path=str(sif_path),
+        initial_test_path=str(task_dir / "test_initial_state.py"),
+        final_test_path=str(task_dir / "test_final_state.py"),
+        def_path=str(def_path),
+        verbose=False,
+        read_timeout=float(test_timeout),
     )
-    row["initial_tests"] = test
-    row["initial_tests_ok"] = test["returncode"] == 0
-    if not row["initial_tests_ok"]:
-        row["error_stage"] = "initial_tests"
+    try:
+        try:
+            runtime_start_ok = container_env.initialize(run_initial_tests=False)
+            row["runtime_start"] = {"ok": runtime_start_ok}
+            row["runtime_start_ok"] = runtime_start_ok
+            if not runtime_start_ok:
+                row["error_stage"] = "runtime_start"
+                return row
+
+            started = time.time()
+            initial_tests_ok = container_env.run_initial_tests()
+            row["initial_tests"] = {
+                "ok": initial_tests_ok,
+                "duration_sec": round(time.time() - started, 3),
+            }
+            row["initial_tests_ok"] = initial_tests_ok
+            if not initial_tests_ok:
+                row["error_stage"] = "initial_tests"
+                return row
+
+            shell_ok, shell_output = container_env.exec(
+                "test \"$PWD\" = /home/user && printf 'endless-shell-smoke\\n'",
+                timeout=float(test_timeout),
+            )
+            row["shell_smoke"] = {
+                "ok": shell_ok and "endless-shell-smoke" in shell_output,
+                "output_tail": tail_output(shell_output),
+            }
+            row["shell_smoke_ok"] = row["shell_smoke"]["ok"]
+            if not row["shell_smoke_ok"]:
+                row["error_stage"] = "shell_smoke"
+                return row
+
+            final_verifier = invoke_final_verifier(container_env, task_dir / "test_final_state.py")
+            row["final_verifier"] = final_verifier
+            row["final_verifier_invoked_ok"] = final_verifier["ok"]
+            if not row["final_verifier_invoked_ok"]:
+                row["error_stage"] = "final_verifier_invocation"
+                return row
+        except Exception as exc:
+            row["error_stage"] = row.get("error_stage") or "gate_exception"
+            row["gate_exception"] = f"{type(exc).__name__}: {exc}"
+            return row
+    finally:
+        try:
+            container_env.cleanup()
+        except Exception as exc:
+            row["cleanup_exception"] = f"{type(exc).__name__}: {exc}"
+
+    row["executable_ok"] = all(
+        bool(row[key])
+        for key in (
+            "build_ok",
+            "runtime_start_ok",
+            "initial_tests_ok",
+            "shell_smoke_ok",
+            "final_verifier_invoked_ok",
+        )
+    )
+    row["calibration_eligible"] = row["executable_ok"]
     return row
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build SIFs and run initial tests for generated ET tasks.")
+    parser = argparse.ArgumentParser(description="Admit executable Apptainer environments for generated ET tasks.")
     parser.add_argument("--tasks-dir", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--start-at", type=int, default=0)
@@ -243,6 +343,7 @@ def main() -> None:
     parser.add_argument("--agent-gid", type=int, default=None)
     parser.add_argument("--tmp-root", default=None)
     parser.add_argument("--cache-root", default=None)
+    parser.add_argument("--eligible-out", default=None)
     args = parser.parse_args()
 
     root = Path(args.tasks_dir).resolve()
@@ -254,6 +355,8 @@ def main() -> None:
     selected = tasks[args.start_at:end]
 
     rows: list[dict[str, Any]] = []
+    out_path = Path(args.out)
+    eligible_out = Path(args.eligible_out) if args.eligible_out else None
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = {
             pool.submit(
@@ -274,30 +377,24 @@ def main() -> None:
         for fut in as_completed(futures):
             row = fut.result()
             rows.append(row)
+            write_report(out_path, eligible_out, root, len(selected), rows)
             print(
                 json.dumps(
                     {
                         "task": row["task"],
                         "build_ok": row["build_ok"],
+                        "runtime_start_ok": row["runtime_start_ok"],
                         "initial_tests_ok": row["initial_tests_ok"],
+                        "shell_smoke_ok": row["shell_smoke_ok"],
+                        "final_verifier_invoked_ok": row["final_verifier_invoked_ok"],
+                        "executable_ok": row["executable_ok"],
                         "error_stage": row["error_stage"],
                     }
                 ),
                 flush=True,
             )
 
-    rows.sort(key=lambda r: r["task"])
-    summary = {
-        "tasks_dir": str(root),
-        "selected": len(selected),
-        "build_ok": sum(1 for row in rows if row["build_ok"]),
-        "initial_tests_ok": sum(1 for row in rows if row["initial_tests_ok"]),
-        "failed": sum(1 for row in rows if not row["initial_tests_ok"]),
-    }
-    out = {"summary": summary, "rows": rows}
-    out_path = Path(args.out)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(out, indent=2), encoding="utf-8")
+    summary = write_report(out_path, eligible_out, root, len(selected), rows)
     print(json.dumps(summary, indent=2), flush=True)
 
 

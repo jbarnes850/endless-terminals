@@ -227,6 +227,7 @@ def generate_templates_batch(
     max_concurrency: int = 128,
     behavior_conditioned: bool = False,
     behavior_seed: int | None = None,
+    behavior_card_ids: list[str] | None = None,
 ) -> list[dict]:
     """Generate multiple task templates in one batched LLM call set.
 
@@ -235,7 +236,11 @@ def generate_templates_batch(
     """
 
     messages: list[list[dict[str, str]]] = []
-    behavior_cards = sample_behavior_cards(batch_size, behavior_seed) if behavior_conditioned else [None] * batch_size
+    behavior_cards = (
+        sample_behavior_cards(batch_size, behavior_seed, behavior_card_ids)
+        if behavior_conditioned
+        else [None] * batch_size
+    )
     for card in behavior_cards:
         behavior_prompt = format_behavior_prompt(card) if card else None
         user_msg = random_user_msg(behavior_prompt)

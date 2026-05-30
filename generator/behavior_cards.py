@@ -196,10 +196,23 @@ def iter_behavior_cards() -> Iterable[Dict[str, Any]]:
     return tuple(BEHAVIOR_CARDS)
 
 
-def sample_behavior_cards(count: int, seed: int | None = None) -> List[Dict[str, Any]]:
+def sample_behavior_cards(
+    count: int,
+    seed: int | None = None,
+    card_ids: Iterable[str] | None = None,
+) -> List[Dict[str, Any]]:
     """Return a deterministic shuffled cycle of behavior cards."""
     rng = random.Random(seed)
     cards = list(BEHAVIOR_CARDS)
+    if card_ids is not None:
+        requested = list(card_ids)
+        by_id = {card["id"]: card for card in cards}
+        unknown = sorted(set(requested) - set(by_id))
+        if unknown:
+            raise ValueError(f"Unknown behavior card id(s): {', '.join(unknown)}")
+        cards = [by_id[card_id] for card_id in requested]
+    if not cards:
+        raise ValueError("At least one behavior card is required")
     out: List[Dict[str, Any]] = []
     while len(out) < count:
         shuffled = list(cards)

@@ -8,6 +8,7 @@ import os
 import pty
 import queue
 import re
+import shlex
 import shutil
 import subprocess
 import tempfile
@@ -354,11 +355,9 @@ class InteractiveContainerEnvironment:
 
     def _alias_runtime_user(self) -> None:
         """Make passwd's 'user' entry match the unprivileged Apptainer uid."""
-        self.exec(
-            """python3 - <<'PY'
+        code = r'''
 from pathlib import Path
 import os
-
 passwd = Path("/etc/passwd")
 lines = passwd.read_text().splitlines()
 uid = os.getuid()
@@ -374,9 +373,18 @@ for line in lines:
         out.append(line)
 if not seen:
     out.append(f"user:x:{uid}:{gid}:Agent User:/home/user:/bin/bash")
-passwd.write_text("\\n".join(out) + "\\n")
-PY"""
-        )
+passwd.write_text("\n".join(out) + "\n")
+'''
+        self.exec(f"python3 -c {shlex.quote(code)}")
+
+    def _stage_text_file(self, text: str, destination: str) -> Tuple[bool, str]:
+        """Stage a text file through the host temp dir bound into the instance."""
+        if self.temp_dir is None:
+            return False, "Container environment temp_dir is not initialized"
+        self.temp_dir.mkdir(parents=True, exist_ok=True)
+        staged = self.temp_dir / f"stage_{uuid.uuid4().hex}.py"
+        staged.write_text(text, encoding="utf-8")
+        return self.exec(f"cp {shlex.quote(str(staged))} {shlex.quote(destination)}")
 
     def exec(self, command: str, timeout: Optional[float] = None) -> Tuple[bool, str]:
         """
@@ -451,35 +459,14 @@ PY"""
 
         test_path_in_container = "/home/user/test_initial.py"
 
-        # Write test file with retry logic
-        max_retries = 1
-        retry_delay = 0.1
-
-        for attempt in range(max_retries):
-            marker = f"EOF_TEST_FILE_{uuid.uuid4().hex}"
-            write_cmd = (
-                f"cat <<'{marker}' > {test_path_in_container}\n"
-                f"{test_file_text}\n"
-                f"{marker}\n"
-            )
-
-            success, output = self.exec(write_cmd)
-            if success:
-                break
-
+        success, output = self._stage_text_file(test_file_text, test_path_in_container)
+        if not success:
             if self.verbose:
-                print(f"⚠️  Write attempt {attempt + 1}/{max_retries} failed: {output[:100]}")
-
-            if attempt < max_retries - 1:
-                time.sleep(retry_delay)
-                retry_delay *= 2
-            else:
-                if self.verbose:
-                    print(f"❌ Failed to write test file after {max_retries} attempts: {output}")
-                return False
+                print(f"❌ Failed to stage initial test file: {output}")
+            return False
 
         # Run pytest on the file inside the instance
-        test_success, test_output = self.exec(f"pytest -q {test_path_in_container}")
+        test_success, test_output = self.exec(f"python3 -m pytest -q {test_path_in_container}")
 
         # Clean up the test file from the instance
         self.exec(f"rm -f {test_path_in_container}")
@@ -503,35 +490,14 @@ PY"""
 
         test_path_in_container = "/home/user/test_final.py"
 
-        # Write test file with retry logic
-        max_retries = 1
-        retry_delay = 0.1
-
-        for attempt in range(max_retries):
-            marker = f"EOF_TEST_FILE_{uuid.uuid4().hex}"
-            write_cmd = (
-                f"cat <<'{marker}' > {test_path_in_container}\n"
-                f"{test_file_text}\n"
-                f"{marker}\n"
-            )
-            ok, write_out = self.exec(write_cmd)
-
-            if ok:
-                break
-
+        ok, write_out = self._stage_text_file(test_file_text, test_path_in_container)
+        if not ok:
             if self.verbose:
-                print(f"⚠️  Write attempt {attempt + 1}/{max_retries} failed: {write_out[:100]}")
-
-            if attempt < max_retries - 1:
-                time.sleep(retry_delay)
-                retry_delay *= 2
-            else:
-                if self.verbose:
-                    print(f"❌ Failed to write final test file after {max_retries} attempts: {write_out}")
-                return False, write_out
+                print(f"❌ Failed to stage final test file: {write_out}")
+            return False, write_out
 
         # Run pytest inside the instance
-        test_success, test_output = self.exec(f"pytest -q {test_path_in_container}")
+        test_success, test_output = self.exec(f"python3 -m pytest -q {test_path_in_container}")
 
         # Clean up test file
         self.exec(f"rm -f {test_path_in_container}")

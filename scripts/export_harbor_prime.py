@@ -115,8 +115,47 @@ def export_one(task_dir: Path, out_root: Path) -> dict[str, Any]:
 set +e
 mkdir -p /logs/verifier
 cd /home/user
-python3 -m pytest -q /tests/test_final_state.py
+cat > /tmp/et_checkpoint_plugin.py <<'PY'
+import json
+import os
+
+_items = []
+_outcomes = {}
+
+
+def pytest_collection_modifyitems(session, config, items):
+    global _items
+    _items = [item.nodeid for item in items]
+
+
+def pytest_runtest_logreport(report):
+    if report.when not in ("setup", "call", "teardown"):
+        return
+    current = _outcomes.get(report.nodeid)
+    if current == "failed":
+        return
+    if report.failed:
+        _outcomes[report.nodeid] = "failed"
+    elif report.skipped and current is None:
+        _outcomes[report.nodeid] = "skipped"
+    elif report.when == "call" and report.passed and current is None:
+        _outcomes[report.nodeid] = "passed"
+
+
+def pytest_sessionfinish(session, exitstatus):
+    os.makedirs("/logs/verifier", exist_ok=True)
+    tests = [
+        {"nodeid": nodeid, "outcome": _outcomes.get(nodeid, "notrun")}
+        for nodeid in _items
+    ]
+    with open("/logs/verifier/checkpoints.json", "w", encoding="utf-8") as handle:
+        json.dump({"exitstatus": int(exitstatus), "tests": tests}, handle, sort_keys=True)
+PY
+PYTHONPATH=/tmp python3 -m pytest -q -p et_checkpoint_plugin /tests/test_final_state.py
 rc=$?
+printf '\\n__ET_CHECKPOINTS__\\n'
+cat /logs/verifier/checkpoints.json 2>/dev/null || true
+printf '\\n__ET_CHECKPOINTS_END__\\n'
 if [ "$rc" -eq 0 ]; then
   echo 1 > /logs/verifier/reward.txt
 else
@@ -142,59 +181,42 @@ exit 0
 
 
 def write_prime_environment(env_dir: Path, package_name: str) -> None:
+    template_path = (
+        Path(__file__).resolve().parents[1]
+        / "environments"
+        / "meta_control"
+        / "meta_control"
+        / "environment.py"
+    )
+    environment_template = template_path.read_text(encoding="utf-8")
     if env_dir.exists():
         shutil.rmtree(env_dir)
     env_dir.mkdir(parents=True)
     (env_dir / package_name).mkdir()
     (env_dir / package_name / "__init__.py").write_text(
-        "from .environment import load_environment, load_taskset\n",
+        """from .environment import (
+    MetaControlHarness,
+    coerce_env_config,
+    load_environment,
+    load_harness,
+    load_taskset,
+)
+""",
         encoding="utf-8",
     )
-    (env_dir / package_name / "environment.py").write_text(
-        '''from __future__ import annotations
-
-import verifiers as vf
-from tasksets import HarborTaskset, HarborTasksetConfig
-
-
-class EndlessBehaviorTasksetConfig(HarborTasksetConfig):
-    split: str = "train"
-
-
-def load_taskset(config: EndlessBehaviorTasksetConfig | None = None):
-    config = config or EndlessBehaviorTasksetConfig(bundle_package=__name__)
-    if not getattr(config, "bundle_package", None):
-        config.bundle_package = __name__
-    return HarborTaskset(config=config)
-
-
-def load_environment(config: vf.EnvConfig | None = None) -> vf.Env:
-    from harnesses import OpenCode, OpenCodeConfig
-
-    taskset_config = None
-    harness_config = None
-    if config is not None:
-        taskset_config = config.taskset
-        harness_config = config.harness
-    taskset = load_taskset(taskset_config)
-    harness = OpenCode(config=harness_config or OpenCodeConfig())
-    return vf.Env(taskset=taskset, harness=harness)
-''',
-        encoding="utf-8",
-    )
+    (env_dir / package_name / "environment.py").write_text(environment_template, encoding="utf-8")
     (env_dir / "pyproject.toml").write_text(
         f'''[build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "endless-behavior-trace"
+name = "meta-control"
 version = "0.1.0"
 description = "Behavior-conditioned Endless Terminals Harbor taskset for Prime Verifiers"
 requires-python = ">=3.10,<3.14"
 dependencies = [
   "verifiers @ git+https://github.com/PrimeIntellect-ai/verifiers.git",
-  "harnesses @ git+https://github.com/PrimeIntellect-ai/verifiers.git#subdirectory=packages/harnesses",
   "tasksets[openenv,openreward,ta] @ git+https://github.com/PrimeIntellect-ai/verifiers.git#subdirectory=packages/tasksets",
 ]
 
@@ -208,16 +230,25 @@ allow-direct-references = true
         encoding="utf-8",
     )
     (env_dir / "README.md").write_text(
-        """# Endless Behavior Trace
+        """# Meta Control
 
 Prime Verifiers wrapper for the behavior-conditioned Endless Terminals Harbor corpus.
+
+This package bundles the executable-admitted subset exported from the behavior-trace corpus. It is intentionally pre-calibration; Laguna pass@4 buckets, GPT-5.5 validity on Laguna-zero tasks, reward variance, and escape-trace review should update the task selection before scaled Prime-RL training.
 
 Local smoke:
 
 ```bash
-uv run vf-build endless-behavior-trace
-prime eval run endless-behavior-trace -m openai/gpt-5-nano
+uv build
+prime --plain env install meta-control -p environments --no-upgrade
+uv run python - <<'PY'
+import verifiers as vf
+env = vf.load_environment("meta-control")
+print(type(env.harness).__name__, len(env.taskset.load_tasks()))
+PY
 ```
+
+For Prime-RL training with Laguna, use the `laguna-xs.2` renderer.
 """,
         encoding="utf-8",
     )
@@ -234,38 +265,59 @@ def copy_prime_tasks(harbor_out: Path, env_dir: Path, package_name: str, rows: l
         shutil.copytree(src, dst)
 
 
+def read_executable_tasks(path: Path) -> set[str]:
+    report = json.loads(path.read_text(encoding="utf-8"))
+    return {
+        Path(row["task_dir"]).resolve().name
+        for row in report.get("rows", [])
+        if (
+            row.get("executable_ok")
+            or row.get("calibration_eligible")
+            or (row.get("build_ok") and row.get("initial_tests_ok"))
+        )
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Export generated Endless tasks to Harbor and Prime Verifiers format.")
     parser.add_argument("--tasks-dir", required=True)
     parser.add_argument("--harbor-out", required=True)
     parser.add_argument("--prime-env-out", required=True)
-    parser.add_argument("--eligible-file", default=None)
+    parser.add_argument("--eligible-file", required=True)
+    parser.add_argument("--admission-report", required=True)
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
 
     tasks_dir = Path(args.tasks_dir).resolve()
     harbor_out = Path(args.harbor_out).resolve()
     prime_env_out = Path(args.prime_env_out).resolve()
-    write_prime_environment(prime_env_out, "endless_behavior_trace")
+    write_prime_environment(prime_env_out, "meta_control")
     harbor_out.mkdir(parents=True, exist_ok=True)
 
-    eligible: set[str] | None = None
-    if args.eligible_file:
-        eligible = set()
-        for line in Path(args.eligible_file).read_text(encoding="utf-8").splitlines():
-            text = line.strip()
-            if text:
-                eligible.add(Path(text).name)
+    executable = read_executable_tasks(Path(args.admission_report))
+    eligible: set[str] = set()
+    for line in Path(args.eligible_file).read_text(encoding="utf-8").splitlines():
+        text = line.strip()
+        if text:
+            eligible.add(Path(text).name)
+    ineligible = sorted(eligible - executable)
+    if ineligible:
+        preview = ", ".join(ineligible[:20])
+        extra = "" if len(ineligible) <= 20 else f", ... ({len(ineligible)} total)"
+        raise SystemExit(
+            "Eligible file contains tasks that did not pass executable-environment admission: "
+            f"{preview}{extra}"
+        )
 
     rows = []
     skipped = []
     for task_dir in iter_tasks(tasks_dir)[: args.limit]:
-        if eligible is not None and task_dir.name not in eligible:
+        if task_dir.name not in eligible:
             skipped.append(
                 {
                     "source_task_dir": str(task_dir),
                     "task": task_dir.name,
-                    "reason": "not_build_initial_pass_eligible",
+                    "reason": "not_executable_environment_admitted",
                 }
             )
             continue
@@ -292,8 +344,8 @@ def main() -> None:
         "skipped": skipped,
     }
     (harbor_out.parent / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    copy_prime_tasks(harbor_out, prime_env_out, "endless_behavior_trace", rows)
-    (prime_env_out / "endless_behavior_trace" / "manifest.json").write_text(
+    copy_prime_tasks(harbor_out, prime_env_out, "meta_control", rows)
+    (prime_env_out / "meta_control" / "manifest.json").write_text(
         json.dumps(manifest, indent=2),
         encoding="utf-8",
     )

@@ -1,15 +1,16 @@
-# Apptainer Gate Handoff
+# Executable Environment Gate Handoff
 
 ## Current substrate decision
 
-Use the Prime Intellect A6000 Ubuntu worker for Apptainer build and initial-test gating.
+Use the Prime Intellect A6000 Ubuntu worker for executable-environment gating.
 
 - Prime pod: `07c8725919c24923961607522b97917c`
 - Name: `endless-apptainer-a6000-gate`
 - Provider: `massedcompute`
 - SSH: `ubuntu@64.247.206.243`
 
-Do not use Modal functions for Apptainer build gating. Modal failed before task logic with user-namespace/setgroups errors:
+Do not use Modal functions for Apptainer executable-environment gating. Modal
+failed before task logic with user-namespace/setgroups errors:
 
 ```text
 Could not write info to setgroups: Permission denied
@@ -60,7 +61,11 @@ Initial-state failures had mixed causes:
 
 - Use `--base-sif` to point all tasks at one cached local Ubuntu SIF.
 - Rewrite `%post` to `%post -c /bin/bash`.
-- Run initial tests with `python3 -m pytest`.
+- Start the SIF through `InteractiveContainerEnvironment`, matching the
+  interactive Apptainer rollout substrate.
+- Run initial tests inside that running environment.
+- Smoke the `/home/user` shell with a benign command.
+- Invoke the final verifier and accept only pytest pass/fail return codes.
 - Use per-task `APPTAINER_TMPDIR` and `APPTAINER_CACHEDIR`.
 - Avoid global chmod by default.
 - Optional `--writable-compat auto` applies writability repair only to tasks with `os.access(..., W_OK)` checks and no obvious exact-mode assertions.
@@ -73,9 +78,10 @@ On the Prime A6000 worker:
 
 ```bash
 cd ~/endless-terminals
-python3 scripts_apptainer_build_test_corpus.py \
+python3 scripts/apptainer_build_test_corpus.py \
   --tasks-dir tasks/behavior_trace_20260529_220 \
-  --out tasks/behavior_trace_20260529_220/calibration/apptainer_build_test_clean.json \
+  --out tasks/behavior_trace_20260529_220/calibration/apptainer_executable_gate_clean.json \
+  --eligible-out tasks/behavior_trace_20260529_220/eligible.txt \
   --base-sif base/ubuntu_22.04.sif \
   --workers 4 \
   --build-timeout 900 \
@@ -85,5 +91,6 @@ python3 scripts_apptainer_build_test_corpus.py \
   --writable-compat auto
 ```
 
-After that rerun, interpret only the remaining build/test failures as generator defects.
-
+After that rerun, only rows with `executable_ok=true` are eligible for Laguna
+calibration, GPT-5.5 validity, reward-variance analysis, Harbor export, Prime
+Verifiers export, or training.

@@ -22,19 +22,19 @@ SYSTEM_MESSAGE = """You are a highly capable Linux terminal agent operating stri
 Goal: Complete the user's task.
 
 Detailed Instructions:
-- Output exactly one of the following per turn after you think in the <think> </think> tags:
+- Reasoning traces are not available in this environment. Decide internally; do not emit hidden-reasoning tags or prose analysis.
+- Output exactly one of the following per turn:
   1) <command>THE_SINGLE_SHELL_COMMAND</command>
   XOR (XOR means you can only respond with one of the two)
   2) <action>done</action>
+- Emit exactly one <command> block or exactly one <action>done</action> block.
 - Don't use interactive commands and confirmations; use non-interactive flags.
 - Prefer simple, robust CLI tools; write files explicitly when needed.
 - If you believe the task is solved, emit <action>done</action>.
-- You should run commands interactively to see the output and then write the command. Don't just pipe the commands.
-- Only your first command in command tags will be executed. So don't respond with multiple commands.
-- Verify your solution once you are done. Eg: you can use cat to see the input and the output.
+- Use command output from previous turns to decide the next command.
+- Verify the required artifact or final state before emitting <action>done</action>.
 - Do not just write long bash scripts. Write the commands that you would write in a terminal.
-- Only respond with one of <command>...</command> or <action>done</action> after you think in the <think> </think> tags.
-- Plan and simulate your actions in <think> </think> tags before you respond with <command>...</command>.
+- Only respond with one of <command>...</command> or <action>done</action>.
 """.strip()
 
 USER_TEMPLATE = """{task_description}"""
@@ -71,7 +71,8 @@ def run_n_solutions(
     save_dir: Optional[str] = None,
     verbose: bool = True,
     num_pool_workers: int = 128,
-    run_initial_tests: bool = True
+    run_initial_tests: bool = True,
+    max_model_concurrency: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Produce n interactive solutions sequentially for the given task."""
 
@@ -142,7 +143,7 @@ def run_n_solutions(
                 temperature=temperature,
                 max_tokens=max_tokens,
                 num_completions=1,
-                max_concurrency=len(prompt_messages),
+                max_concurrency=max(1, min(len(prompt_messages), max_model_concurrency or len(prompt_messages))),
             )
             end_time = time.time()
             print(f"solutions generated in {end_time - start_time} seconds")
