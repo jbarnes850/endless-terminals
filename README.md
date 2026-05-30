@@ -132,6 +132,11 @@ uv run python scripts/export_harbor_prime.py \
   --prime-env-out ./environments/meta_control
 ```
 
+For the exact ProcessRL release path, including the time-bounded Laguna `n=8`
+policy band, GPT-5.5 reference triage, train/heldout materialization, and
+Hugging Face packaging, see
+[`docs/processrl_reproduction.md`](docs/processrl_reproduction.md).
+
 ## Training
 
 Train only after executable admission, calibration, reference validity for
