@@ -1,7 +1,7 @@
 output_dir = "/tmp/laguna-meta-control-smoke"
 clean_output_dir = true
 max_steps = 1
-seq_len = 8192
+seq_len = 4096
 
 [wandb]
 project = "laguna-meta-control"
@@ -27,12 +27,25 @@ enable_router_replay = false
 [trainer.model]
 name = "poolside/Laguna-XS.2"
 trust_remote_code = true
-seq_len = 8192
+seq_len = 4096
 impl = "auto"
 optimization_dtype = "bfloat16"
 reduce_dtype = "bfloat16"
 ep = 1
 cp = 1
+optim_cpu_offload = true
+
+[trainer.model.ac]
+freq = 1
+
+[trainer.model.ac_offloading]
+pin_memory = true
+max_inflight_activations = 1
+
+[trainer.model.lora]
+rank = 16
+alpha = 32.0
+dropout = 0.0
 
 [trainer.optim]
 type = "adamw"
@@ -55,6 +68,10 @@ online_difficulty_filtering = true
 name = "poolside/Laguna-XS.2"
 trust_remote_code = true
 
+[orchestrator.model.lora]
+rank = 16
+alpha = 32.0
+
 [orchestrator.client]
 base_url = ["http://localhost:8000/v1"]
 api_key_var = "VLLM_API_KEY"
@@ -66,7 +83,7 @@ num_workers = 4
 max_retries = 0
 
 [orchestrator.train.sampling]
-max_completion_tokens = 4096
+max_completion_tokens = 2048
 temperature = 1.0
 
 [[orchestrator.train.env]]
@@ -82,7 +99,7 @@ interval = 1
 sample_ratio = 1.0
 
 [inference]
-enable_lora = false
+enable_lora = true
 enable_prefix_caching = true
 gpu_memory_utilization = 0.9
 api_server_count = 1

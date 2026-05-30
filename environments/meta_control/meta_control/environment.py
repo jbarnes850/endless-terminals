@@ -65,6 +65,7 @@ class MetaControlHarnessConfig(vf.HarnessConfig):
     success_repeat_penalty_cap: float = 0.02
     malformed_tool_unit_penalty: float = 0.05
     malformed_tool_cap: float = 0.10
+    context_budget_penalty: float = 0.20
     turn_cost_unit: float = 0.005
     turn_cost_cap: float = 0.02
     success_turn_cost_cap: float = 0.01
@@ -180,6 +181,26 @@ class MetaControlHarness(vf.Harness[MetaControlHarnessConfig]):
     async def tool_error_count(self, state: vf.State) -> float:
         return float(len(tool_error_messages(state)))
 
+    @vf.metric
+    async def raw_observation_tokens(self, state: vf.State) -> float:
+        return float(meta_control_rollout_metrics(state).get("raw_observation_tokens", 0.0) or 0.0)
+
+    @vf.metric
+    async def compacted_observation_tokens(self, state: vf.State) -> float:
+        return float(meta_control_rollout_metrics(state).get("compacted_observation_tokens", 0.0) or 0.0)
+
+    @vf.metric
+    async def truncated_bytes(self, state: vf.State) -> float:
+        return float(meta_control_rollout_metrics(state).get("truncated_bytes", 0.0) or 0.0)
+
+    @vf.metric
+    async def overlong_prompt_count(self, state: vf.State) -> float:
+        return float(meta_control_rollout_metrics(state).get("overlong_prompt_count", 0.0) or 0.0)
+
+    @vf.metric
+    async def max_prompt_estimated_tokens(self, state: vf.State) -> float:
+        return float(meta_control_rollout_metrics(state).get("max_prompt_estimated_tokens", 0.0) or 0.0)
+
     @vf.reward(priority=-5)
     async def gated_progress(self, state: vf.State) -> float:
         if harbor_success(state):
@@ -222,6 +243,12 @@ class MetaControlHarness(vf.Harness[MetaControlHarnessConfig]):
     @vf.reward(priority=-30)
     async def malformed_tool_penalty(self, state: vf.State) -> float:
         return -min(self.config.malformed_tool_cap, self.config.malformed_tool_unit_penalty * len(tool_error_messages(state)))
+
+    @vf.reward(priority=-35)
+    async def context_budget_penalty(self, state: vf.State) -> float:
+        if state.get("stop_condition") == "context_budget_exceeded":
+            return -self.config.context_budget_penalty
+        return 0.0
 
     @vf.reward(priority=-40)
     async def turn_cost(self, state: vf.State) -> float:
@@ -404,6 +431,8 @@ from openai import AsyncOpenAI
 STATE_INPUT_PATH = "/tmp/meta_control_laguna_state_in.json"
 STATE_OUTPUT_PATH = "/tmp/meta_control_laguna_state_out.json"
 TOOL_DEFS_PATH = "/tmp/meta_control_laguna_tool_defs.json"
+DEFAULT_TOOL_OBSERVATION_CHAR_LIMIT = 6000
+DEFAULT_PROMPT_TOKEN_BUDGET = 56000
 
 
 def endpoint_token():
@@ -463,6 +492,84 @@ def sampling_args(state):
     if not isinstance(raw, dict):
         raise RuntimeError("state.runtime.sampling_args must be a mapping.")
     return dict(raw)
+
+
+def tool_observation_char_limit():
+    raw = os.environ.get("META_CONTROL_TOOL_OBSERVATION_CHAR_LIMIT", str(DEFAULT_TOOL_OBSERVATION_CHAR_LIMIT))
+    try:
+        value = int(raw)
+    except ValueError:
+        value = DEFAULT_TOOL_OBSERVATION_CHAR_LIMIT
+    return max(512, value)
+
+
+def approx_tokens(text):
+    if not text:
+        return 0
+    return max(1, (len(str(text)) + 3) // 4)
+
+
+def rollout_metrics(state):
+    metrics = state.setdefault("meta_control_rollout_metrics", {})
+    metrics.setdefault("raw_observation_tokens", 0)
+    metrics.setdefault("compacted_observation_tokens", 0)
+    metrics.setdefault("truncated_bytes", 0)
+    metrics.setdefault("compaction_events", 0)
+    metrics.setdefault("overlong_prompt_count", 0)
+    metrics.setdefault("max_prompt_estimated_tokens", 0)
+    return metrics
+
+
+def record_observation_compaction(state, raw, compacted):
+    metrics = rollout_metrics(state)
+    metrics["raw_observation_tokens"] += approx_tokens(raw)
+    metrics["compacted_observation_tokens"] += approx_tokens(compacted)
+    truncated = max(0, len(str(raw).encode("utf-8")) - len(str(compacted).encode("utf-8")))
+    metrics["truncated_bytes"] += truncated
+    if truncated:
+        metrics["compaction_events"] += 1
+
+
+def compact_tool_observation(state, content):
+    text = str(content)
+    limit = tool_observation_char_limit()
+    if len(text) <= limit:
+        record_observation_compaction(state, text, text)
+        return text
+    marker = (
+        f"\n[meta_control: tool output truncated from {len(text)} to {limit} characters; "
+        "rerun a narrower command or inspect specific files if needed]\n"
+    )
+    if len(marker) >= limit:
+        compacted = marker[:limit]
+        record_observation_compaction(state, text, compacted)
+        return compacted
+    remaining = limit - len(marker)
+    head = remaining // 2
+    tail = remaining - head
+    compacted = text[:head] + marker + text[-tail:]
+    record_observation_compaction(state, text, compacted)
+    return compacted
+
+
+def prompt_token_budget():
+    raw = os.environ.get("META_CONTROL_PROMPT_TOKEN_BUDGET", str(DEFAULT_PROMPT_TOKEN_BUDGET))
+    try:
+        value = int(raw)
+    except ValueError:
+        value = DEFAULT_PROMPT_TOKEN_BUDGET
+    return max(4096, value)
+
+
+def estimated_prompt_tokens(messages):
+    return approx_tokens(json.dumps(messages, separators=(",", ":"), ensure_ascii=False))
+
+
+def record_prompt_size(state, messages):
+    tokens = estimated_prompt_tokens(messages)
+    metrics = rollout_metrics(state)
+    metrics["max_prompt_estimated_tokens"] = max(int(metrics.get("max_prompt_estimated_tokens") or 0), tokens)
+    return tokens
 
 
 def model_name(state):
@@ -667,6 +774,11 @@ async def main():
         while max_turns <= 0 or turn < max_turns:
             if await check_stop(state):
                 break
+            if record_prompt_size(state, messages) > prompt_token_budget():
+                rollout_metrics(state)["overlong_prompt_count"] += 1
+                state["stop_condition"] = "context_budget_exceeded"
+                state["is_truncated"] = True
+                break
             prompt = json.loads(json.dumps(messages))
             started = time.time()
             message = await create_model_message(state, messages, client, tools)
@@ -694,9 +806,9 @@ async def main():
             for tool_call in tool_calls:
                 try:
                     result = await execute_tool(state, remote_tool_names, tool_call)
-                    content = str(result)
+                    content = compact_tool_observation(state, str(result))
                 except Exception as exc:
-                    content = "Tool error: " + str(exc)
+                    content = compact_tool_observation(state, "Tool error: " + str(exc))
                 tool_message = {
                     "role": "tool",
                     "tool_call_id": tool_call["id"],
@@ -745,6 +857,11 @@ def harbor_success(state: vf.State) -> bool:
         return True
     tests = state.get("harbor_tests") or {}
     return isinstance(tests, Mapping) and int(tests.get("returncode", 1) or 1) == 0
+
+
+def meta_control_rollout_metrics(state: vf.State) -> Mapping[str, Any]:
+    metrics = state.get("meta_control_rollout_metrics") or {}
+    return metrics if isinstance(metrics, Mapping) else {}
 
 
 def checkpoint_outcomes(state: vf.State) -> list[str]:

@@ -75,7 +75,7 @@ def test_runner_executes_laguna_xml_shell_call_and_records_trajectory(tmp_path: 
     xml_content = """<tool_call>
 bash
 <arg_key>command</arg_key>
-<arg_value>echo ok > /tmp/xml_contract_passed</arg_value>
+<arg_value>echo ok > /tmp/xml_contract_passed; python3 -c 'print("x" * 10000)'</arg_value>
 </tool_call>"""
     fake_openai = tmp_path / "openai.py"
     fake_openai.write_text(
@@ -155,6 +155,7 @@ class AsyncOpenAI:
             **os.environ,
             "PYTHONPATH": str(tmp_path),
             "AGENT_WORKDIR": str(workdir),
+            "META_CONTROL_TOOL_OBSERVATION_CHAR_LIMIT": "600",
         }
 
         completed = subprocess.run(
@@ -179,12 +180,20 @@ class AsyncOpenAI:
         assert tool_message["role"] == "tool"
         assert tool_message["tool_call_id"] == "laguna_xml_call_0"
         assert "exit_code=0" in tool_message["content"]
+        assert "[meta_control: tool output truncated" in tool_message["content"]
+        assert len(tool_message["content"]) <= 600
 
         state = {"trajectory": trajectory}
-        assert action_fingerprints(state) == ['bash:{"command":"echo ok > /tmp/xml_contract_passed"}']
-        assert action_observation_fingerprints(state) == [
-            'bash:{"command":"echo ok > /tmp/xml_contract_passed"}->exit_code=0'
-        ]
+        expected_action = 'bash:{"command":"echo ok > /tmp/xml_contract_passed; python3 -c \'print(\\"x\\" * 10000)\'"}'
+        assert action_fingerprints(state) == [expected_action]
+        observation_fingerprints = action_observation_fingerprints(state)
+        assert len(observation_fingerprints) == 1
+        assert observation_fingerprints[0].startswith(expected_action + "->exit_code=0")
+        assert "[meta_control: tool output truncated" in observation_fingerprints[0]
+        rollout_metrics = patch["meta_control_rollout_metrics"]
+        assert rollout_metrics["raw_observation_tokens"] > rollout_metrics["compacted_observation_tokens"]
+        assert rollout_metrics["truncated_bytes"] > 0
+        assert rollout_metrics["compaction_events"] == 1
 
         harness = MetaControlHarness(config=MetaControlHarnessConfig())
         incomplete_state = {"trajectory": trajectory, "metrics": {"harbor_reward": 0.0}}

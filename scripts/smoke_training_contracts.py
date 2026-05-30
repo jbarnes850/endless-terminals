@@ -91,7 +91,12 @@ def check_config(config: dict[str, Any]) -> dict[str, Any]:
     require(vllm_extra.get("renderer") == "laguna-xs.2", "inference.vllm_extra.renderer must be laguna-xs.2")
     require(vllm_extra.get("enable_thinking") is False, "Laguna renderer should run with enable_thinking=false")
     require((inference.get("parallel") or {}).get("tp") == 2, "smoke inference TP should use 2 GPUs")
-    require(inference.get("enable_lora") is False, "inference LoRA must stay disabled unless trainer.model.lora is enabled")
+    trainer_model = ((config.get("trainer") or {}).get("model") or {})
+    trainer_has_lora = (trainer_model.get("lora") or {}).get("rank") is not None
+    require(
+        inference.get("enable_lora") is trainer_has_lora,
+        "inference LoRA must match trainer.model.lora so online adapter sync is exercised when LoRA training is enabled",
+    )
 
     return {
         "group_size": orchestrator["group_size"],
@@ -296,10 +301,16 @@ def check_verifiers_contract(env_dir: Path) -> dict[str, Any]:
         "checkpoint_count",
         "checkpoint_prefix_share",
         "tool_error_count",
+        "raw_observation_tokens",
+        "compacted_observation_tokens",
+        "truncated_bytes",
+        "overlong_prompt_count",
+        "max_prompt_estimated_tokens",
         "gated_progress",
         "stop_quality",
         "nonprogress_penalty",
         "malformed_tool_penalty",
+        "context_budget_penalty",
         "turn_cost",
         "reward_group_std",
         "low_reward_variance_group",
