@@ -366,3 +366,32 @@ Latest monitor sample at `2026-05-30 11:44:38Z`:
   `uv run ruff check endless_harbor/rate_limited_terminus.py scripts/run_tb2_laguna_terminus_xml.py scripts/launch_tb2_openrouter_key2_timeoutx20.py`
   and
   `uv run python -m py_compile endless_harbor/rate_limited_terminus.py scripts/run_tb2_laguna_terminus_xml.py scripts/launch_tb2_openrouter_key2_timeoutx20.py`.
+
+Latest monitor sample at `2026-05-30 11:49:55Z`:
+
+- The earlier full/key1-tail attempts are superseded diagnostics. They were
+  stopped early because the parser preserved Laguna shell keystrokes without a
+  trailing newline, causing commands to concatenate at the shell prompt.
+- Current candidate result is v3, split into two non-overlapping shards:
+  - `tb2_laguna_key2_front_v3`:
+    `laguna-xs2-openrouter-key2-native-toolcall-timeoutx20-front-half-v3`,
+    45 tasks from `gpt2-codegolf` through `kv-store-grpc`.
+  - `tb2_laguna_key1_tail_v3`:
+    `laguna-xs2-openrouter-key1-native-toolcall-timeoutx20-tail-half-v3`,
+    44 tasks from `install-windows-3.11` through `dna-assembly`.
+- Parser patch now normalizes parsed shell commands to include trailing
+  newlines while preserving control keys, and falls back to loose Laguna
+  `<arg_key>/<arg_value>` or `<keystrokes>` blocks when proper
+  `<commands>`/`<tool_call>` wrappers are malformed.
+- Parser smoke evidence:
+  `ls -la /app` parses to `ls -la /app\n`,
+  orphan `<arg_key>command</arg_key><arg_value>cat /app/filter.py</arg_value>`
+  parses to `cat /app/filter.py\n`, and `C-c` remains `C-c`.
+- v3 front shard status: 0 completed, 0 errors, 1 running, 44 pending;
+  first task `gpt2-codegolf__h6pBX2C` has 3 trajectory entries and log evidence
+  shows `ls -la /app\n` was parsed from a loose Laguna shell command.
+- v3 tail shard status: 0 completed, 0 errors, 1 running, 43 pending;
+  first task `install-windows-3.11__Qj3DEYR` has 3 trajectory entries and log
+  evidence shows multiple parsed shell commands with trailing newlines,
+  including `ls -la /app\n`, `qemu-system-i386 --version\n`, and
+  `apt-get update && apt-get install -y qemu-system-x86 qemu-kvm\n`.

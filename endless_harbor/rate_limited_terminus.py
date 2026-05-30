@@ -42,10 +42,12 @@ class LagunaToolCallXMLParser(TerminusXMLPlainParser):
 
         commands = self._extract_laguna_tool_calls(response)
         if not commands:
+            commands = self._extract_loose_laguna_commands(response)
+        if not commands:
             return result
 
         warning = self._combine_warnings(
-            "Parsed Laguna native <tool_call> shell command as Terminus keystrokes",
+            "Parsed Laguna shell command as Terminus keystrokes",
             result.warning,
         )
         return ParseResult(
@@ -108,6 +110,32 @@ class LagunaToolCallXMLParser(TerminusXMLPlainParser):
                     )
                 )
         return commands
+
+    def _extract_loose_laguna_commands(self, response: str) -> list[ParsedCommand]:
+        commands: list[ParsedCommand] = []
+        for match in re.finditer(
+            r"<keystrokes(?:\s+[^>]*)?>(.*?)</keystrokes>",
+            response,
+            flags=re.DOTALL | re.IGNORECASE,
+        ):
+            command = html.unescape(match.group(1)).strip()
+            if command:
+                commands.append(
+                    self._normalize_command(
+                        ParsedCommand(keystrokes=command, duration=0.1)
+                    )
+                )
+        if commands:
+            return commands
+
+        command = self._extract_command_value(response)
+        if command:
+            return [
+                self._normalize_command(
+                    ParsedCommand(keystrokes=command, duration=0.1)
+                )
+            ]
+        return []
 
     def _extract_command_value(self, block: str) -> str:
         keys = [
