@@ -12,7 +12,7 @@ reinforcement learning.
 
 ProcessRL is a concrete release built on this pipeline. See the
 [ProcessRL reproduction runbook](docs/processrl_reproduction.md), the
-[released environments](https://huggingface.co/datasets/Jarrodbarnes/processrl-terminal-environments),
+[released environments](https://huggingface.co/datasets/poolside-laguna-hackathon/processrl-terminal-environments),
 and the [rollout analysis site](https://process-rl-site.vercel.app).
 
 ## Installation
